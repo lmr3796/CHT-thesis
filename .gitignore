@@ -90,3 +90,5 @@ sympy-plots-for-*.tex/
 
 # temp file
 .*.swp
+
+build/*
