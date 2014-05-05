@@ -9,25 +9,28 @@
 
 \section{Background}
 
-Scalability is one of key characteristics of cloud
-computing.  To achieve this, lots of virtualization
-techniques\cite{secure_virt_for_cloud}\cite{cloud_issue} are applied to wrap
-applications, an perating systems and libraries into virtual machines (VMs) and
-deploy them on physical servers for execution.  The number of running virtual
-machines can be adjusted quickly according to user requests.  
+Scalability is one of key characteristics of cloud computing.  To
+achieve this, lots of virtualization
+techniques\cite{secure_virt_for_cloud}\cite{cloud_issue} are applied to
+wrap applications, an perating systems and libraries into virtual
+machines (VMs) and deploy them on physical servers for execution.  The
+number of running virtual machines can be adjusted quickly according to
+user requests.  
 
-Placing multiple virtual machines on a single physical machine may utilize its
-hardware resource better for the virtual machines will use the resource
-according to the allocation made by the hypervisor.  However, as the number of
-virtual machines within a single physical machine increases, the resource each
-virtual machine get would probably decrease\cite{resource_overbooking}.  For example, if four identical
+Placing multiple virtual machines on a single physical machine may
+utilize its hardware resource better for the virtual machines will use
+the resource according to the allocation made by the hypervisor.
+However, as the number of virtual machines within a single physical
+machine increases, the resource each virtual machine get would probably
+decrease\cite{resource_overbooking}.  For example, if four identical
 virtual machines with same priority deployed are deploy on a single-core
-physical machine, each of them would get only one-fourth of CPU time, which
-makes applications running on these virtual machines performs worse then
-expected.
+physical machine, each of them would get only one-fourth of CPU time,
+which makes applications running on these virtual machines perform
+worse then expected.
 
 
 \renewcommand\refname{Reference}
 \bibliographystyle{unsrt}
 \bibliography{citation}
+
 \end{document}
