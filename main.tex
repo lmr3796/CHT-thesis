@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
 
-\title{Job Dispatching and Scheduling Algorithms under Heterogenous
+\title{Job Dispatching and Scheduling Algorithms under Heterogeneous
   Clusters}
 
 \author{Ting-Chou Lin}
@@ -14,37 +14,38 @@
 \section{Introduction}
 
 Scalability is one of the key characteristics of cloud computing.
-Add example why this is the key???? Why is it important?
+% TODO: Add example why this is the key???? Why is it important?
 
-Virtualization wraps essential software components into virtual
-machines in order to make cloud systems scalable.  For exmaple,
-Lombardi and Di Pietro propose ACPS (add the name here) that wraps
-applications, operating systems and libraries into virtual machines,
-and deploy them on physical servers for
+Virtualization wraps essential software components into virtual machines
+in order to make cloud systems scalable.  For example, Lombardi and Di
+Pietro propose ACPS 
+%(add the name here)
+that wraps applications, operating systems and libraries into virtual
+machines, and deploy them on physical servers for
 execution~\cite{secure_virt_for_cloud, cloud_issue}.  After we wrap
-essential software components into virtual machines, we can delpoy
-them dynamcilly.  Consequently we can quickly adjust the number of
-running virtual machines to satisfy user demands.
+essential software components into virtual machines, we can deploy them
+dynamically.  Consequently we can quickly adjust the number of running
+virtual machines to satisfy user demands.
 
-Properly placing multiple virtual machines on a single physical
-machine will utilize its hardware resource more efficiently.  As a
-hypervisor deploys more virtual machines on a physical machine, and
-allocates resources for them, it improves system utilization by
-reducing the possiblity of resource sitting idle.  However, as the
-number of virtual machines in a physical machine increases, the
-resource each virtual machine receives will
-decrease~\cite{resource_overbooking}.  For example, if we deploy a
-single virtual machines on a physical machine, it can utilize all the
-physical resources.  However, if we deploy four virtual machines on
-the same physical machine, each of them will receive a quarter of the
-hardware resource, which makes applications running on these virtual
-machines perform worse.
+Properly placing multiple virtual machines on a single physical machine
+will utilize its hardware resource more efficiently.  As a hypervisor
+deploys more virtual machines on a physical machine, and allocates
+resources for them, it improves system utilization by reducing the
+possibility of resource sitting idle.  However, as the number of virtual
+machines in a physical machine increases, the resource each virtual
+machine receives will decrease~\cite{resource_overbooking}.  For
+example, if we deploy a single virtual machines on a physical machine,
+it can utilize all the physical resources.  However, if we deploy four
+virtual machines on the same physical machine, each of them will receive
+a quarter of the hardware resource, which makes applications running on
+these virtual machines perform worse.
 
 Run applications on dedicated servers can guarantee performance.  A
 dedicated server~\cite{dedicated_hosting} runs at most one virtual
 machine at a time, so that the performance of the virtual machine will
-not be interfered by other virtual mahcines.  More dedicate server and
-performance guarantee exmaples here. .... ... CHT exmaples here.
+not be interfered by other virtual machines. 
+%TODO: More dedicate server and performance guarantee examples here.
+%CHT exmaples here.
 
 The concept of dedicated server is feasible in data centers.  The
 number of physical servers of a data center is usually
@@ -60,7 +61,7 @@ center is fixed, determining how many dedicated servers should be
 allocated for each job or application becomes a critical problem:
 
 Matching application instances to dedicated servers is crucial to
-perfromance.
+performance.
 
 Jobs with different priority requiring different processing throughput
 will start and finish at different time; handling these varying
