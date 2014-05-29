@@ -92,3 +92,5 @@ sympy-plots-for-*.tex/
 .*.swp
 
 build/*
+main.pdf
+main.dvi
