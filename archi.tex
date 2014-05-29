@@ -1,0 +1,26 @@
+\chapter{Architecture}
+
+% TODO: There's a figure of their relationship. Should redraw it with
+% latex
+
+The architecture of this cloud management system consists of three
+components: the \emph{status checker}, the \emph{decision maker} and the
+\emph{dispatcher}:  The \emph{status checker} periodically collects the
+information about physical servers such as whether a node is down, busy
+or idle and its resource usage.  Such information is provided to the
+\emph{decision maker} as reference for making allocation adjustment.
+The \emph{decision maker} is in charge of making and adjusting resource
+allocation plans according to the specified policy that takes job
+deadline, priority, etc. into consideration; it is designed to be in
+\emph{passive mode}, which means it is invoked (by the
+\emph{dispatcher}) only under certain circumstances (which will be
+discussed later) rather than periodically.  The \emph{dispatcher} is the
+component that deal with the physical resource allocation adjustment
+according to the allocation plan made by the \emph{decision maker}.
+
+\section{Status Checker}
+
+\section{Decision Maker}
+
+\section{Dispatcher}
+
