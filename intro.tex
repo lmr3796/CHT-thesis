@@ -8,7 +8,7 @@ in order to make cloud systems scalable.  For example, Lombardi and Di
 Pietro proposed ACPS (Advanced Cloud Protection System) that wraps
 applications, operating systems and libraries into virtual machines, and
 deploy them on physical servers for
-execution~\cite{secure_virt_for_cloud, cloud_issue}.  After we wrap
+execution~\cite{cite:secure_virt_for_cloud, cite:cloud_issue}.  After we wrap
 essential software components into virtual machines, we can deploy them
 dynamically.  Consequently we can quickly adjust the number of running
 virtual machines to satisfy user demands.
@@ -19,7 +19,7 @@ deploys more virtual machines on a physical machine, and allocates
 resources for them, it improves system utilization by reducing the
 possibility of resource sitting idle.  However, as the number of virtual
 machines in a physical machine increases, the resource each virtual
-machine receives will decrease~\cite{resource_overbooking}.  For
+machine receives will decrease~\cite{cite:resource_overbooking}.  For
 example, if we deploy a single virtual machines on a physical machine,
 it can utilize all the physical resources.  However, if we deploy four
 virtual machines on the same physical machine, each of them will receive
@@ -27,7 +27,7 @@ a quarter of the hardware resource, which makes applications running on
 these virtual machines perform worse.
 
 Running applications on dedicated servers can guarantee performance.  A
-dedicated server~\cite{dedicated_hosting} runs at most one virtual
+dedicated server~\cite{cite:dedicated_hosting} runs at most one virtual
 machine at a time, so that the performance of the virtual machine will
 not be interfered by other virtual machines.
 %TODO : More dedicate server and performance guarantee examples here.
@@ -35,7 +35,7 @@ not be interfered by other virtual machines.
 
 The concept of dedicated server is feasible in data centers.  The
 number of physical servers of a data center is usually
-fixed~\cite{maintenance_framework}, and it only changes infrequently
+fixed~\cite{cite:maintenance_framework}, and it only changes infrequently
 when we add newly purchased servers, or remove obsolete ones, during
 equipment upgrade.  In other words, the number of physical servers
 within a data center is fixed between upgrades.  Since the server
@@ -48,8 +48,9 @@ allocated for each job or application becomes a critical problem:
 
 Matching application instances to dedicated servers is crucial to
 performance.
-% TODO :  examples
+% TODO  examples
 
+% TODO  Paragraph for bare-bone job dispatch
 
 % Not revised yet!!!
 Jobs with different priority requiring different processing throughput
