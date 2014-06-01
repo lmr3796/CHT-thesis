@@ -1,0 +1,51 @@
+\RequirePackage{tikz}
+\RequirePackage{url}
+\documentclass{ntuthesis}
+
+\usepackage{tikz}
+\usepackage{url}
+
+% Using the tex-text mapping for ligatures etc.
+\defaultfontfeatures{Mapping=tex-text}
+
+% Set the default fonts
+\setmainfont{Times New Roman}
+\setCJKmainfont{標楷體}
+
+% Your information goes here
+\input{ntuvars}
+
+\begin{document}
+
+\frontmatter
+
+\makecover
+
+\makecertification
+
+\input{acknowledgements}
+\input{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+% Your thesis goes here
+\input{introduction}
+\input{related-work}
+\input{architecture}
+\input{policy}
+
+\appendix
+
+\backmatter
+
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{plain}
+
+% Your bibliography goes here
+\bibliography{bibliography}
+
+\end{document}

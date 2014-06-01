@@ -52,11 +52,11 @@
     \begin{singlespace}
     \begin{center}
       \fontsize{18}{27}\selectfont
-      \@universityzh\@collagezh\@institutezh\par
+      \@universityzh\@collegezh\@institutezh\par
         \@typezh{}\@classzh\par
       {\fontsize{14}{21}\selectfont
         \@instituteen\par
-        \@collageen\par}
+        \@collegeen\par}
       {\fontsize{16}{24}\selectfont
         \@universityen\par
         \@typeen{} \@classen\par}
