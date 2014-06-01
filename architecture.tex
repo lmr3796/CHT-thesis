@@ -61,8 +61,8 @@ resources.
 \section{Status Checker}
 
 The status checker periodically collects the information about worker
-instances and physical servers.  Leveraging the collected information
-from the status checker, the decision maker can make resource allocation
+instances and physical servers.  Leveraging the information collected
+by the status checker, the decision maker can make resource allocation
 plans according to a policy specified by the user.
 
 The most essential information for the system is probably the status of
@@ -73,13 +73,14 @@ worker is assigned to a job but executing any task (e.g., waiting for
 necessary data); busy is the state that a worker is really executing a
 task; down shows that the worker instance is currently nonfunctional. 
 
-Aside from essential worker status, user can
-also specify other required information corresponding to their
-customized policy to collect.  For example, if the management system is
-deployed on a cluster is designed to
-utilize its I/O bandwidth, 
-
-Such information is provided to the 
+Aside from essential worker status, user can also specify other required
+information corresponding to their customized policy to collect.  For
+example, if someone deployed the management system on a cluster which
+focuses on utilizing its I/O bandwidth, they would probably specify a
+schedule policy with serious regard of I/O utilization of the physical
+server.  In this situation, the status checker must collect the
+information about not only the worker instances but the physical server
+as well.
 
 \section{Decision Maker}
 
