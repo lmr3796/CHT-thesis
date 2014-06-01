@@ -3,30 +3,29 @@
 
 \begin{figure}
   \centering
-  %\input{figures/manage-relation.tikz}
   \input{figures/manage-worker.tikz}
   \caption{System Architecture Overview}
   \label{fig:archi-overview}
 \end{figure}
 
 Figure~\ref{fig:archi-overview} shows the architecture of this cloud
-management system, which consists of three components: \emph{Status
-Checker}, \emph{Decision Maker} and \emph{Dispatcher}.  The management
+management system, which consists of three components: \emph{status
+checker}, \emph{decision maker} and \emph{dispatcher}.  The management
 system can form a complete cloud computing system by connecting with a
 number of \emph{workers} or work as a part of existent cloud systems.
 
-We implemented components and the worker as separate RPC (remote
-procedural call) servers.  Separate RPC server implementation makes each
-component \emph{pluggable}.  The pluggability gives the system
-administrator flexibility to choose the most suitable component
+We implemented the management components and the worker as separate RPC
+(remote procedural call) servers.  Separate RPC server implementation
+makes each component \emph{pluggable}.  The pluggability gives the
+system administrator flexibility to choose the most suitable component
 implementation to fit different needs.  Moreover, without shutting the
 whole system down, we can change system configurations, or even upgrade
 the system,  by substituting target components with feasible ones.
 Besides, this design allows us to easily integrate the management system
-with other cluster management systems like JPPF~\cite{cite:JPPF}.
+with other cluster management systems like JPPF~\cite{cite:JPPF} or
+cloud operating system like Roystonea~\cite{cite:roystonea}.
 Roystonea~\cite{cite:roystonea} also benefits from the RPC server
 implementation.
-
 
 
 
@@ -43,15 +42,17 @@ Deploying multiple worker instances on a powerful machine (e.g., with
 large number of cores) can gain better performance from
 multiprogramming, but in contrary, it might however cause resource
 contention on low-end machines.  We leave the choice to system
-administrators.  If the task execution performance of a machine running
-multiple worker instances is far worse than expected, it is very likely
-due to resource contention.  In that case, the system administrator
-should consider reducing the number of worker instances on that machine.
-Thanks to the pluggable implementation, this can be done \emph{online},
-without stopping any of other components, even running workers we'd like
-to keep on that machine, by simply stop several worker instances.
+administrators.  
 
-% Possibly move this to other section???
+If the task execution performance of a machine running multiple worker
+instances is far worse than expected, it is very likely due to resource
+contention.  In that case, the system administrator should consider
+reducing the number of worker instances on that machine.  Thanks to the
+pluggable implementation, this can be done \emph{online}, without
+stopping any of other components, even running workers we'd like to keep
+on that machine, by simply stop several worker instances.
+
+% TODO  Should I move this to another section???
 In fact, our management system can function without workers.  In the
 case that it is working as a part of other cluster management systems,
 the system in charge is instead responsible for manipulating physical
@@ -59,22 +60,38 @@ resources.
 
 \section{Status Checker}
 
-Status checker periodically collects the information about physical
-servers, including the server status and its resource usage.  A physical
-server can be in status of either \emph{available}, \emph{occupied},
-\emph{busy} or \emph{down}.
-% TODO  Talk about states
-Such information is provided to the decision maker as reference
-for making allocation adjustment.  
+The status checker periodically collects the information about worker
+instances and physical servers.  Leveraging the collected information
+from the status checker, the decision maker can make resource allocation
+plans according to a policy specified by the user.
+
+The most essential information for the system is probably the status of
+workers.  A worker can be in status of either \emph{available},
+\emph{occupied}, \emph{busy} or \emph{down}.  Available means the worker
+is idle and ready to accept task assignment; occupied indicates that the
+worker is assigned to a job but executing any task (e.g., waiting for
+necessary data); busy is the state that a worker is really executing a
+task; down shows that the worker instance is currently nonfunctional. 
+
+Aside from essential worker status, user can
+also specify other required information corresponding to their
+customized policy to collect.  For example, if the management system is
+deployed on a cluster is designed to
+utilize its I/O bandwidth, 
+
+Such information is provided to the 
 
 \section{Decision Maker}
 
-Decision maker is in charge of making and adjusting resource
-allocation plans according to the specified policy that takes different
-parameters such as job deadline and priority into consideration. It is
-designed to be in \emph{passive mode}, which means it is invoked (by the
-dispatcher) only under certain circumstances (which will be discussed
-later) rather than periodically schedules resources by itself.
+Decision maker is in charge of adjusting resource allocation plans.  It
+make allocation plans according to a specified \emph{policy} (we will
+discuss different policies it in next chapter) that takes different
+parameters, for example, job deadline and priority, into consideration. 
+
+Decision maker is designed to work in \emph{passive mode}, which means
+it is invoked (by the dispatcher) only under certain circumstances
+(which will be discussed later) rather than periodically schedules
+resources by itself.
 
 \section{Dispatcher}
 
