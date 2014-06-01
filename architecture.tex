@@ -22,7 +22,7 @@ implementation to fit different needs.  Moreover, without shutting the
 whole system down, we can change system configurations, or even upgrade
 the system,  by substituting target components with feasible ones.
 Besides, this design allows us to easily integrate the management system
-with other cluster management systems like JPPF~\cite{cite:JPPF} or
+with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
 cloud operating system like Roystonea~\cite{cite:roystonea}.
 Roystonea~\cite{cite:roystonea} also benefits from the RPC server
 implementation.
@@ -54,9 +54,9 @@ on that machine, by simply stop several worker instances.
 
 % TODO  Should I move this to another section???
 In fact, our management system can function without workers.  In the
-case that it is working as a part of other cluster management systems,
-the system in charge is instead responsible for manipulating physical
-resources.
+case that it is working as a part of other cluster management
+frameworks, the framework in charge should be responsible for
+manipulating physical resources instead.
 
 \section{Status Checker}
 
@@ -73,26 +73,32 @@ worker is assigned to a job but executing any task (e.g., waiting for
 necessary data); busy is the state that a worker is really executing a
 task; down shows that the worker instance is currently nonfunctional. 
 
-Aside from essential worker status, user can also specify other required
-information corresponding to their customized policy to collect.  For
-example, if someone deployed the management system on a cluster which
-focuses on utilizing its I/O bandwidth, they would probably specify a
-schedule policy with serious regard of I/O utilization of the physical
-server.  In this situation, the status checker must collect the
+Aside from essential worker status, user can also specify other kinds
+information to collect if it's essential to  their customized policy.
+For example, if someone deployed the management system on a cluster
+which focuses on utilizing its I/O bandwidth, they would probably
+specify a schedule policy with serious regard of I/O utilization of the
+physical server.  In this situation, the status checker must collect the
 information about not only the worker instances but the physical server
 as well.
+
+Necessary information will be written to a database for persistent
+storage.  This allows the status checker to recover its state and work
+normally after being plugged off.  Besides, writing to a external
+database makes integration with other framework easier since it's more
+general to access a database rather than depend on operating system IPC
+(Inter-process communication) mechanisms.
 
 \section{Decision Maker}
 
 Decision maker is in charge of adjusting resource allocation plans.  It
-make allocation plans according to a specified \emph{policy} (we will
-discuss different policies it in next chapter) that takes different
+makes allocation plans according to a specified \emph{policy} (we will
+discuss different policies in next chapter) that takes different
 parameters, for example, job deadline and priority, into consideration. 
 
-Decision maker is designed to work in \emph{passive mode}, which means
-it is invoked (by the dispatcher) only under certain circumstances
-(which will be discussed later) rather than periodically schedules
-resources by itself.
+Instead of making the decision maker periodically schedule resources, we
+decided to have it work in \emph{passive mode}, which means it is
+invoked only under certain circumstances.
 
 \section{Dispatcher}
 
