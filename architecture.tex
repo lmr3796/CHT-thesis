@@ -86,25 +86,31 @@ Necessary information will be written to a database for persistent
 storage.  This allows the status checker to recover its state and work
 normally after being plugged off.  Besides, writing to a external
 database makes integration with other framework easier since it's more
-general to access a database rather than depend on operating system IPC
-(Inter-process communication) mechanisms.
+general to access a database.
 
 \section{Decision Maker}
 
 Decision maker is in charge of adjusting resource allocation plans.  It
-makes allocation plans according to a specified \emph{policy} (we will
-discuss different policies in next chapter) that takes different
-parameters, for example, job deadline and priority, into consideration. 
+makes allocation plans according to a specified \emph{policy} that takes
+different parameters, for example, job deadline and priority, into
+consideration. 
 
-Instead of making the decision maker periodically schedule resources, we
+Instead of letting the decision maker schedule resources actively, we
 decided to have it work in \emph{passive mode}, which means it is
-invoked only under certain circumstances.
+invoked only under certain circumstances.  Normally, it is only invoked
+by the dispatcher whenever a job is submitted or finished.  By this
+design, the decision maker is only responsible for making allocation
+plans.  In other words, the only job this component do is to perform the
+schedule algorithm and give results.  
+
+Despite doing seemingly little work only, it is however the most
+critical part of the system, not only because the system acts according
+to the plan it makes, but also the flexibility that other frameworks can
+easily obtain the result of the scheduling algorithm by invoking the
+decision maker.
 
 \section{Dispatcher}
 
 Dispatcher is the component that deal with the physical resource
 allocation adjustment according to the allocation plan made by the
 decision maker.
-
-\section{Work Flow}
-
