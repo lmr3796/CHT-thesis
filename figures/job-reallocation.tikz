@@ -1,0 +1,43 @@
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{fit}
+\usetikzlibrary{shapes.arrows}
+
+\tikzstyle{worker-matrix}=[
+  row sep=0.7cm,column sep=0.7cm,
+  nodes={draw, minimum size=3em, circle, thick, fill=gray!20}
+]
+\tikzstyle{job-allocation}=[draw, thick, rectangle,rounded corners, inner sep=0.2cm,]
+\tikzstyle{job-1}=[job-allocation, fill=green!15, label=left:Job1]
+\tikzstyle{job-2}=[job-allocation, fill=blue!15, label=left:Job2]
+\tikzstyle{job-3}=[job-allocation, fill=red!15, label=right:Job3]
+\tikzstyle{invisible}=[draw=none, fill=none]
+
+\begin{tikzpicture}
+
+  % Workers on allocation 1
+  \matrix (wmtrx1)[worker-matrix]{
+	\node(w0){$w_0$};&	\node(w1){$w_1$};&	\node(w2){$w_2$};&	\node(w3){$w_3$};&	\node(w4){$w_4$};\\
+	\node(w5){$w_5$};&	\node(w6){$w_6$};&	\node(w7){$w_7$};&	\node(w8){$w_8$};&	\node(w9){$w_9$};\\
+  };
+  \path (wmtrx1.south) +(0,-2cm) node[single arrow,draw=black,very thick,fill=black!10,minimum height=9em,shape border rotate=270]  {Job3 submitted};
+
+  % Workers on allocation 2
+
+  \matrix [yshift=-9cm](wmtrx2)[worker-matrix]{
+	\node(w0_){$w_0$};&	\node(w1_){$w_1$};&	\node(w2_){$w_2$};&	\node(w3_){$w_3$};&	\node(w4_){$w_4$};\\
+	\node(w5_){$w_5$};&	\node(w6_){$w_6$};&	\node(w7_){$w_7$};&	\node(w8_){$w_8$};&	\node(w9_){$w_9$};\\
+  };
+
+  % Allocation 1
+  \begin{pgfonlayer}{background}
+	\node [job-1, fit=(w0) (w4)] {};
+	\node [job-2, fit=(w5) (w9)] {};
+  \end{pgfonlayer}
+
+  % Allocation 2
+  \begin{pgfonlayer}{background}
+	\node [job-1, fit=(w0_) (w2_)] {};
+	\node [job-2, fit=(w5_) (w7_)] {};
+	\node [job-3, fit=(w3_) (w9_)] {};
+  \end{pgfonlayer}
+\end{tikzpicture}
