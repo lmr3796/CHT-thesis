@@ -76,25 +76,18 @@ with our client library.
   \begin{lstlisting}[language=Ruby]
   j1 = Job.new('Job1')
   j1.add_task Task.new(...)
-  j1.add_task Task.new(...)
+  ... # Add more tasks
   j2 = Job.new('Job2')
   j2.add_task Task.new(...)
-  j2.add_task Task.new(...)
-  j2.add_task Task.new(...)
-
+  ... # Add more tasks
   # 200-second deadline
-  deadline =  Time.now + 200.0
-  j1.deadline = j2.deadline = deadline
-
+  j1.deadline = j2.deadline = Time.now + 200.0
   # Submit j1 and j2 together
   c12 = Client.new([j1,j2]
-
   # Background execution
   c12.start
-
   # Do other time consuming computation
   ...
-
   j3 = Job.new('Job3')
   j3.add_task Task.new(...)
   j3.add_task Task.new(...)
@@ -102,13 +95,10 @@ with our client library.
   c3.start
   # Remaining part can't run until j3 is done
   c3.wait_all
-
   # Some more things to do
   ...
-
   # Wait until j1 and j2 is done.
   c12.wait_all
-
   # Combning j1, j2 and j3
   ...
 
