@@ -7,16 +7,18 @@
   \label{fig:archi-overview}
 \end{figure}
 
-
+% Overview
 Figure~\ref{fig:archi-overview} shows the architecture of this cloud
-management system, which consists of three components: \emph{status
-checker}, \emph{decision maker} and \emph{dispatcher}.  The management
-system can form a complete cloud computing system or work as a part of
-existent cloud systems.  In the former case, the management system
-connects with several \emph{workers}, which leverage physical resources
-directly, and interacts with instances of \emph{client}, the interface
-end users submit jobs from.
+management framework.  The core part is the management system, which
+consists of three components: \emph{status checker}, \emph{decision
+maker} and \emph{dispatcher}.  The whole framework can form a complete
+cloud computing system or work as a part of existent cloud systems.  In
+the former case, the management system connects with several
+\emph{workers}, which leverage physical resources directly, and
+interacts with instances of \emph{client} -- the interface end users
+submit jobs from.
 
+% RPC server design
 We implemented the management components and the worker as separate RPC
 (remote procedural call) servers.  Separate RPC server implementation
 makes each component \emph{pluggable}.  The pluggability gives the
@@ -31,6 +33,100 @@ Roystonea~\cite{cite:roystonea}.  Roystonea~\cite{cite:roystonea} also
 benefits from the RPC server implementation.
 
 \section{Client}
+
+% Job and task
+In our framework, a user will submit \emph{jobs} to the system via a
+client instance created using the provided library.  Each job consists
+of several \emph{tasks}, which is the minimum unit to schedule.  Since
+it is a cluster management framework, submitted jobs are meant to be
+expected to be processed in parallel. It is end user's responsibility to
+split their jobs into balanced tasks.  Just like all of other parallel
+computing systems, more balanced the tasks are, the better the system
+schedules.
+
+% attributes
+Users specify several attributes to jobs before submission, such as
+deadline, priority and execution profile from previous experience.
+These attributes are later passed to the decision maker for reference so
+that it can schedule the jobs.
+
+% Library features: batch submission and background execution
+The client library also provides several features to end users to
+satisfy their varying programming needs.  First, we support background
+task execution, which means users can specify the synchronization point
+that waits all the submitted task to be done as they like, without
+blocking the code before it.  Besides, user can submit multiple jobs at
+a time.  Combining these two features, user can easily program the
+synchronization model they like.  Here's an example on how to program
+with our client library.
+
+% Programming example
+\newfloat{Code}{H}{myc}
+\begin{Code}
+  \lstloadlanguages{Ruby}
+  \lstloadlanguages{Ruby}
+  \lstset{
+	frame=LRBT,
+	basicstyle=\ttfamily\color{black},
+	commentstyle = \ttfamily\color{blue!50},
+	keywordstyle=\ttfamily\color{green},
+	stringstyle=\color{red!80},
+  }
+
+  \begin{lstlisting}[language=Ruby]
+  j1 = Job.new('Job1')
+  j1.add_task Task.new(...)
+  j1.add_task Task.new(...)
+  j2 = Job.new('Job2')
+  j2.add_task Task.new(...)
+  j2.add_task Task.new(...)
+  j2.add_task Task.new(...)
+
+  # 200-second deadline
+  deadline =  Time.now + 200.0
+  j1.deadline = j2.deadline = deadline
+
+  # Submit j1 and j2 together
+  c12 = Client.new([j1,j2]
+
+  # Background execution
+  c12.start
+
+  # Do other time consuming computation
+  ...
+
+  j3 = Job.new('Job3')
+  j3.add_task Task.new(...)
+  j3.add_task Task.new(...)
+  c3 = Client.new(j3)
+  c3.start
+  # Remaining part can't run until j3 is done
+  c3.wait_all
+
+  # Some more things to do
+  ...
+
+  # Wait until j1 and j2 is done.
+  c12.wait_all
+
+  # Combning j1, j2 and j3
+  ...
+
+  \end{lstlisting}
+  \caption{Sample code of client usage}
+\end{Code}
+
+Assume that the user has 3 jobs -- $j_1$, $j_2$ and $j_3$ -- to be done
+separately and their result to be aggregated:  $j_1$ and $j_2$ takes
+long time to run on the cluster can be submitted directly; $j_3$ takes
+shorter time on remote clusters if separated into parallel tasks but
+requires time consuming local pre-processing and post-processing.  Since
+$j_1$, $j_2$ and pre-processing of $j_3$ is costive, it's better to do
+them in parallel.  As a result, we submit $j_1$ and $j_2$ at first and
+wait for their results in the background then start pre-processing
+$j_3$. Not needing post-processing, results of $j_1$ and $j_2$ are
+synchronized after $j_3$.  Finally, as all of the results come back, we
+can do the final aggregation.
 
 \section{Worker}
 
@@ -108,10 +204,11 @@ plans.  In other words, the only job this component do is to perform the
 schedule algorithm and give results.  
 
 Doing seemingly little work only, the decision maker is however the most
-critical part of the system. This is not only because the system acts
-according to the plan the decision maker makes, but also because it
-provides the flexibility that other frameworks can easily obtain the
-result of the scheduling algorithm by invoking the decision maker.
+critical part of the management system. This is not only because the
+whole system acts according to the plan the decision maker makes, but
+also because it provides the flexibility that other frameworks can
+easily obtain the result of the scheduling algorithm by invoking the
+decision maker.
 
 \section{Dispatcher}
 
