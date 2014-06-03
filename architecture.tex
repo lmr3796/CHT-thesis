@@ -11,8 +11,11 @@
 Figure~\ref{fig:archi-overview} shows the architecture of this cloud
 management system, which consists of three components: \emph{status
 checker}, \emph{decision maker} and \emph{dispatcher}.  The management
-system can form a complete cloud computing system by connecting with a
-number of \emph{workers} or work as a part of existent cloud systems.
+system can form a complete cloud computing system or work as a part of
+existent cloud systems.  In the former case, the management system
+connects with several \emph{workers}, which leverage physical resources
+directly, and interacts with instances of \emph{client}, the interface
+end users submit jobs from.
 
 We implemented the management components and the worker as separate RPC
 (remote procedural call) servers.  Separate RPC server implementation
@@ -27,6 +30,7 @@ JPPF~\cite{cite:JPPF} or cloud operating system like
 Roystonea~\cite{cite:roystonea}.  Roystonea~\cite{cite:roystonea} also
 benefits from the RPC server implementation.
 
+\section{Client}
 
 \section{Worker}
 
@@ -63,7 +67,7 @@ manipulating physical resources instead.
 The status checker periodically collects the information about worker
 instances and physical servers.  Leveraging the information collected
 by the status checker, the decision maker can make resource allocation
-plans according to a policy specified by the user.
+plans according to a policy specified by the system administration.
 
 The most essential information for the system is probably the status of
 workers.  A worker can be in status of either \emph{available},
@@ -73,14 +77,14 @@ worker is assigned to a job but executing any task (e.g., waiting for
 necessary data); busy is the state that a worker is really executing a
 task; down shows that the worker instance is currently nonfunctional. 
 
-Aside from essential worker status, user can also specify other kinds
-information to collect if it's essential to  their customized policy.
-For example, if someone deployed the management system on a cluster
-which focuses on utilizing its I/O bandwidth, they would probably
-specify a schedule policy in regard to I/O utilization of the
-physical server.  In this situation, the status checker must collect the
-information about not only the worker instances but the physical server
-as well.
+Aside from essential worker status, system administrators can also
+specify other kinds information to collect if it's essential to  their
+customized policy.  For example, if someone deployed the management
+system on a cluster which focuses on utilizing its I/O bandwidth, they
+would probably specify a schedule policy in regard to I/O utilization of
+the physical server.  In this situation, the status checker must collect
+the information about not only the worker instances but the physical
+server as well.
 
 Necessary information will be written to a database for persistent
 storage.  This allows the status checker to recover its state and work
@@ -115,16 +119,18 @@ Dispatcher is the component that deal with the physical resource
 allocation adjustment according to the allocation plan made by the
 decision maker.  Figure~\ref{fig:allocation-adjustment} is a nice
 example of adjusting resource allocation: There were 10 workers
-($w_{1\sim10}$) managed by the system.  In the beginning, $J_1$ and
-$J_2$ had been allocated with 5 workers respectively.  After $J_3$,
-which had been specified with higher priority than $J_1$ and $J_2$, had
-been submitted, the decision maker computed a new allocation plan
-according to a specified policy.  In the example, the new allocation
-plan was 3 workers for $J_1$ and $J_2$ each ($w_{0\sim2}$, $w_{5\sim7}$)
-and 4 workers ($w_{3,4,8,9}$) for $J_3$.  Therefore, after $w_3$, $w_4$,
-$w_8$ and $ w_9$ had finished there task on hand, the dispatcher told
-them to run tasks of $J_3$ and the allocation plan became the lower half
-of figure~\ref{fig:allocation-adjustment}.
+($w_{1\sim10}$) managed by the system.  In the beginning, two jobs $J_1$
+and $J_2$ had been allocated with 5 workers respectively ($w_{0\sim4}$,
+$w_{5\sim9}$), as shown in the upper half of
+figure~\ref{fig:allocation-adjustment}.  After $J_3$, with which higher
+priority had been specified than $J_1$ and $J_2$, had been submitted,
+the decision maker computed a new allocation plan according to a
+specified policy.  In the example, the new allocation plan was 3 workers
+for $J_1$ and $J_2$ each ($w_{0\sim2}$, $w_{5\sim7}$) and 4 workers
+($w_{3,4,8,9}$) for $J_3$.  Therefore, after $w_3$, $w_4$, $w_8$ and $
+w_9$ had finished there task on hand, the dispatcher would told them to
+run tasks of $J_3$ and the allocation plan became the lower half of
+figure~\ref{fig:allocation-adjustment}.
 
 \begin{figure}
   \centering
@@ -132,5 +138,3 @@ of figure~\ref{fig:allocation-adjustment}.
   \caption{Job allocation adjustment}
   \label{fig:allocation-adjustment}
 \end{figure}
-
-\section{Client}
