@@ -15,20 +15,23 @@
 \pgfdeclarelayer{background}
 \pgfsetlayers{background,main}
 \begin{tikzpicture}
+
   % Workers on allocation 1
-  \matrix (wmtrx1)[worker-matrix]{
+  \matrix (wmtrx1)[worker-matrix,anchor=south]{
 	\node(w0){$w_0$};&	\node(w1){$w_1$};&	\node(w2){$w_2$};&	\node(w3){$w_3$};&	\node(w4){$w_4$};\\
 	\node(w5){$w_5$};&	\node(w6){$w_6$};&	\node(w7){$w_7$};&	\node(w8){$w_8$};&	\node(w9){$w_9$};\\
   };
-  \path (wmtrx1.south) +(0,-2cm) node[single arrow,draw=black,very thick,fill=black!10,minimum height=9em,shape border rotate=270]  {Job3 submitted};
+
+  % Job submission arrow
+  \path (wmtrx1.south) +(0,-2cm) node[single arrow,draw=black,thick,fill=black!10,minimum height=9em,shape border rotate=270]  {Job3 submitted};
 
   % Workers on allocation 2
-
-  \matrix [yshift=-9cm](wmtrx2)[worker-matrix]{
+  \matrix [yshift=-5.5cm](wmtrx2)[worker-matrix,anchor=north]{
 	\node(w0_){$w_0$};&	\node(w1_){$w_1$};&	\node(w2_){$w_2$};&	\node(w3_){$w_3$};&	\node(w4_){$w_4$};\\
 	\node(w5_){$w_5$};&	\node(w6_){$w_6$};&	\node(w7_){$w_7$};&	\node(w8_){$w_8$};&	\node(w9_){$w_9$};\\
   };
 
+  % Job allocations
   \begin{pgfonlayer}{background}
     % Allocation 1
 	\node [job-1, fit=(w0) (w4)] {};
