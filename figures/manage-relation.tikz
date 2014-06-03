@@ -7,18 +7,20 @@
   ]
   \tikzstyle{component} = [draw,text centered,rounded corners,drop
   shadow,text width=8em,fill=red!20,minimum height=6em]
-  \tikzstyle{dispatcher} = [component,minimum height=20em]
+  \tikzstyle{dispatcher} = [component,minimum height=19.3em]
 
   % Define distances for bordering
   \def\blockdist{2.3}
   \def\edgedist{2.5}
 
+  % Draw components
   \node[component](status-checker){Status Checker};
   \path (status-checker.north east)+(\blockdist,0) node[dispatcher, anchor=north west](dispatcher){Dispatcher};
   \path (status-checker.south)+(0,-4.2) node[component](decision-maker){Decision Maker};
   \draw[vecArrow] ([xshift=-10]status-checker.south) to ([xshift=-10]decision-maker.north);
   \draw[vecArrow] ([xshift=10]decision-maker.north) to ([xshift=10]status-checker.south);
 
+  %Draw interaction arrows
   \def\composhift{50}
   \draw[vecArrow] ([yshift=-10]status-checker.east) to ([yshift=-10+\composhift]dispatcher.west);
   \draw[vecArrow] ([yshift=10+\composhift]dispatcher.west) to([yshift=10]status-checker.east);

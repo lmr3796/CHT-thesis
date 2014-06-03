@@ -1,4 +1,6 @@
 \usetikzlibrary[backgrounds]
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
 \begin{tikzpicture}
   \node[](key-comp){\input{figures/manage-relation.tikz}};
   \begin{pgfonlayer}{background}
