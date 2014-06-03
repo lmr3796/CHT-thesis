@@ -25,14 +25,13 @@ We implemented the management components and the worker as separate RPC
 makes each component \emph{pluggable}.  The pluggability gives the
 system administrator flexibility to choose the most suitable component
 implementation to fit different needs.  Moreover, without shutting the
-whole system down, we can change system configurations, or even upgrade
-the system,  by substituting target components with feasible ones.
-Besides, this design allows us to easily integrate the management system
-with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
-cloud operating system like Roystonea~\cite{cite:roystonea}.
-Roystonea~\cite{cite:roystonea} also benefits from the RPC server
-implementation.
-
+whole system down, it is possible to change system configurations -- or
+even upgrade the system -- by substituting target components with
+feasible ones.  Besides, this design allows us to easily integrate the
+management system with other cluster management frameworks like
+JPPF~\cite{cite:JPPF} or cloud operating system like
+Roystonea~\cite{cite:roystonea}.  Roystonea~\cite{cite:roystonea} also
+benefits from the RPC server implementation.
 
 
 \section{Worker}
@@ -55,8 +54,9 @@ instances is far worse than expected, it is very likely due to resource
 contention.  In that case, the system administrator should consider
 reducing the number of worker instances on that machine.  Thanks to the
 pluggable implementation, this can be done \emph{online}, without
-stopping any of other components, even running workers we'd like to keep
-on that machine, by simply stop several worker instances.
+stopping any of other components, even running workers which is
+preferred to keep on that machine, by simply stop several worker
+instances.
 
 % TODO  Should I move this to another section???
 In fact, our management system can function without workers.  In the

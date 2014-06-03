@@ -15,7 +15,6 @@
 \pgfdeclarelayer{background}
 \pgfsetlayers{background,main}
 \begin{tikzpicture}
-
   % Workers on allocation 1
   \matrix (wmtrx1)[worker-matrix,anchor=south]{
 	\node(w0){$w_0$};&	\node(w1){$w_1$};&	\node(w2){$w_2$};&	\node(w3){$w_3$};&	\node(w4){$w_4$};\\
