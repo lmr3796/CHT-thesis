@@ -9,13 +9,14 @@
 
 
 Figure~\ref{fig:archi-overview} shows the architecture of this cloud
-management system, which consists of three components: \emph{status
-checker}, \emph{decision maker} and \emph{dispatcher}.  The management
-system can form a complete cloud computing system or work as a part of
-existent cloud systems.  In the former case, the management system
-connects with several \emph{workers}, which leverage physical resources
-directly, and interacts with instances of \emph{client}, the interface
-end users submit jobs from.
+management framework.  The core part is the management system, which
+consists of three components: \emph{status checker}, \emph{decision
+maker} and \emph{dispatcher}.  The whole framework can form a complete
+cloud computing system or work as a part of existent cloud systems.  In
+the former case, the management system connects with several
+\emph{workers}, which leverage physical resources directly, and
+interacts with instances of \emph{client} -- the interface end users
+submit jobs from.
 
 We implemented the management components and the worker as separate RPC
 (remote procedural call) servers.  Separate RPC server implementation
@@ -108,10 +109,11 @@ plans.  In other words, the only job this component do is to perform the
 schedule algorithm and give results.  
 
 Doing seemingly little work only, the decision maker is however the most
-critical part of the system. This is not only because the system acts
-according to the plan the decision maker makes, but also because it
-provides the flexibility that other frameworks can easily obtain the
-result of the scheduling algorithm by invoking the decision maker.
+critical part of the management system. This is not only because the
+whole system acts according to the plan the decision maker makes, but
+also because it provides the flexibility that other frameworks can
+easily obtain the result of the scheduling algorithm by invoking the
+decision maker.
 
 \section{Dispatcher}
 
