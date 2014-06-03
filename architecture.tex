@@ -7,12 +7,6 @@
   \label{fig:archi-overview}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \input{figures/job-reallocation.tikz}
-  \caption{Job allocation adjustment}
-  \label{fig:allocation-adjustment}
-\end{figure}
 
 Figure~\ref{fig:archi-overview} shows the architecture of this cloud
 management system, which consists of three components: \emph{status
@@ -119,6 +113,24 @@ result of the scheduling algorithm by invoking the decision maker.
 
 Dispatcher is the component that deal with the physical resource
 allocation adjustment according to the allocation plan made by the
-decision maker.
+decision maker.  Figure~\ref{fig:allocation-adjustment} is a nice
+example of adjusting resource allocation: There were 10 workers
+($w_{1\sim10}$) managed by the system.  In the beginning, $J_1$ and
+$J_2$ had been allocated with 5 workers respectively.  After $J_3$,
+which had been specified with higher priority than $J_1$ and $J_2$, had
+been submitted, the decision maker computed a new allocation plan
+according to a specified policy.  In the example, the new allocation
+plan was 3 workers for $J_1$ and $J_2$ each ($w_{0\sim2}$, $w_{5\sim7}$)
+and 4 workers ($w_{3,4,8,9}$) for $J_3$.  Therefore, after $w_3$, $w_4$,
+$w_8$ and $ w_9$ had finished there task on hand, the dispatcher told
+them to run tasks of $J_3$ and the allocation plan became the lower half
+of figure~\ref{fig:allocation-adjustment}.
+
+\begin{figure}
+  \centering
+  \input{figures/job-reallocation.tikz}
+  \caption{Job allocation adjustment}
+  \label{fig:allocation-adjustment}
+\end{figure}
 
 \section{Client}

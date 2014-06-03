@@ -7,9 +7,9 @@
   nodes={draw, minimum size=3em, circle, thick, fill=gray!20}
 ]
 \tikzstyle{job-allocation}=[draw, thick, rectangle,rounded corners, inner sep=0.2cm,]
-\tikzstyle{job-1}=[job-allocation, fill=green!15, label=left:Job1]
-\tikzstyle{job-2}=[job-allocation, fill=blue!15, label=left:Job2]
-\tikzstyle{job-3}=[job-allocation, fill=red!15, label=right:Job3]
+\tikzstyle{job-1}=[job-allocation, fill=green!15, label=left:$J_1$]
+\tikzstyle{job-2}=[job-allocation, fill=blue!15, label=left:$J_2$]
+\tikzstyle{job-3}=[job-allocation, fill=red!15, label=right:$J_3$]
 \tikzstyle{invisible}=[draw=none, fill=none]
 
 \pgfdeclarelayer{background}
