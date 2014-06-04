@@ -61,8 +61,8 @@ synchronization model they like.  Here's an example on how to program
 with our client library.
 
 % Programming example
-\newfloat{Code}{H}{myc}
-\begin{Code}
+\newfloat{Example Code}{H}{myc}
+\begin{Example Code}
   \lstloadlanguages{Ruby}
   \lstloadlanguages{Ruby}
   \lstset{
@@ -90,7 +90,7 @@ with our client library.
   ...
   j3 = Job.new('Job3')
   j3.add_task Task.new(...)
-  j3.add_task Task.new(...)
+  ... # Add more tasks
   c3 = Client.new(j3)
   c3.start
   # Remaining part can't run until j3 is done
@@ -104,7 +104,7 @@ with our client library.
 
   \end{lstlisting}
   \caption{Sample code of client usage}
-\end{Code}
+\end{Example Code}
 
 Assume that the user has 3 jobs -- $j_1$, $j_2$ and $j_3$ -- to be done
 separately and their result to be aggregated:  $j_1$ and $j_2$ takes
