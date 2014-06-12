@@ -48,8 +48,12 @@ The algorithm is shown as algorithm~\ref{algo:priority-based}.
 
 In contrast to priority-based, this policy is takes job priorities into
 consideration very little; instead, the main concern of this policy is
-the workload proportion of a job to all the others.  The algorithm is
-simple as shown in algorithm~\ref{algo:proportion-based}:
+the workload proportion of a job to all the others.
+The algorithm, as shown in algorithm~\ref{algo:proportion-based}, is
+also known as fair share scheduling: the workers assigned to a job is as
+many as $\text{total workers} * the workload ratio of the job to all
+jobs$.
+
 \begin{algorithm}
   \DontPrintSemicolon % Some LaTeX compilers require you to use
   \KwIn{
@@ -72,7 +76,5 @@ simple as shown in algorithm~\ref{algo:proportion-based}:
   \caption{Proportion-based policy}
   \label{algo:proportion-based}
 \end{algorithm}
-
-
 
 \section{Deadline-based Policy}
