@@ -1,6 +1,6 @@
 \chapter{Policy}
 
-Here we are going to discuss three dispatching policies --
+Here we are going to introduce three dispatching policies --
 \emph{priority-based}, \emph{proportion-based} and
 \emph{deadline-based}.
 Each of them requires different parameters such as job priority,
@@ -8,9 +8,73 @@ execution efficiency per different server and execution deadline.
 The decision maker will make dispatching plans to according to the
 specified policy.
 
+
 \section{Priority-based Policy}
+
+The idea behind this policy is to make the job with highest priority
+runs as fast as possible.
+Intuitively, we can sort the jobs according to their priority then
+greedily schedule as many workers as possible to each job in that order.
+However, this might cause \emph{starvation} that lower priority jobs
+never get executed.
+To solve this, we preserve a portion $r \in [0,1]$ of workers for low
+priority jobs and job with the highest priority can use only the
+unpreserved workers.
+The algorithm is shown as algorithm~\ref{algo:priority-based}.
+
+\begin{algorithm}
+  \DontPrintSemicolon % Some LaTeX compilers require you to use
+  \KwIn{
+    $workerSet=\{w_1, w_2, \ldots, w_m\}$,
+    $jobSet=\{j_1, j_2, \ldots, j_n\}$,
+    preserving rate $r\in[0,1]$
+  }
+  \KwOut{A mapping of each job to scheduled workers}
+  $result \gets$
+  KeyValueMap(key $\to \{\}$ for all key $\in jobSet$)\;
+  $jobSet \gets$ $sortByPriority(jobSet)$\;
+  $c \gets$ $min(jobSet[0]$.totalTask, $workerSet$.size$-floor((1-r) *
+      workerSet.$size$)$\;
+  $result[jobSet[0]] \gets$ $\{w_1, ..., w_c\}$\;
+  \For{$i=1$ to $min(m-c, n)$}{
+    $result[jobSet[i]]$ $\gets$ $\{w_{c+i}\}$\;
+  }
+  \Return{result}\;
+  \caption{Priority-based policy}
+  \label{algo:priority-based}
+\end{algorithm}
 
 \section{Proportion-based Policy}
 
-\section{Deadline-based Policy}
+In contrast to priority-based, this policy is takes job priorities into
+consideration very little; instead, the main concern of this policy is
+the workload proportion of a job to all the others.
+The algorithm, as shown in algorithm~\ref{algo:proportion-based}, is
+also known as fair share scheduling: the workers assigned to a job is as
+many as $\text{total workers} * the workload ratio of the job to all
+jobs$.
 
+\begin{algorithm}
+  \DontPrintSemicolon % Some LaTeX compilers require you to use
+  \KwIn{
+    $workerSet=\{w_1, w_2, \ldots, w_m\}$,
+    $jobSet=\{j_1, j_2, \ldots, j_n\}$,
+  }
+  $result \gets$ KeyValueMap(key $\to \{\}$ for all key $\in$
+  $jobSet$)\;
+  $jobSet \gets$ $sortByPriority(jobSet)$\;
+  \For{$i=1$ to $m$}{
+    break if $workerSet$.size equals to 0 \;
+    $c \gets$
+    $min(ceil(\frac{jobSet[i].\text{workload}}{\text{total
+        workload}})), workerSet.\text{size})$ \;
+    $result[jobSet[i]] \gets \{\text{first $c$ element of
+    $workerSet$}\}$\;
+    $workerSet \setminus result[jobSet[i]]$\;
+  }
+  \Return{result}\;
+  \caption{Proportion-based policy}
+  \label{algo:proportion-based}
+\end{algorithm}
+
+\section{Deadline-based Policy}
