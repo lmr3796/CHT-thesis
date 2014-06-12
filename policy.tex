@@ -5,6 +5,7 @@ Here we are going to introduce three dispatching policies --
 \emph{deadline-based}.
 Each of them requires different parameters such as job priority,
 execution efficiency per different server and execution deadline.
+Users can specify a feasible policy for their need.
 The decision maker will make dispatching plans to according to the
 specified policy.
 
@@ -77,3 +78,30 @@ is in proportion to its workload proportion to all jobs.
 \end{algorithm}
 
 \section{Deadline-based Policy}
+
+Plenty kinds of jobs are required to be finished within a given
+deadline.
+For example, as a Internet service provider, settling monthly bills of
+millions of users within few days after the monthly charge-off day is
+very critical to their business.
+\emph{Computing resource allocated this kind of job should increase as
+their deadline approaches}.
+However, policies introduced in previous sections can't adapt to this
+need; hence, we introduce another policy designed for
+\emph{deadline-aware} scenarios.
+
+\subsection{Model Definition}
+
+
+\begin{algorithm}[H]
+  \DontPrintSemicolon % Some LaTeX compilers require you to use
+  \KwIn{
+    $workerSet=\{w_1, w_2, \ldots, w_m\}$,
+    $jobSet=\{j_1, j_2, \ldots, j_n\}$,
+  }
+  % TODO Implement the algorithm
+
+  \Return{result}\;
+  \caption{Deadline-based policy}
+  \label{algo:deadline-based}
+\end{algorithm}
