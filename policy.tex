@@ -22,7 +22,7 @@ priority jobs and job with the highest priority can use only the
 unpreserved workers.
 The algorithm is shown as algorithm~\ref{algo:priority-based}.
 
-\begin{algorithm}
+\begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
   \KwIn{
     $workerSet=\{w_1, w_2, \ldots, w_m\}$,
@@ -49,12 +49,11 @@ The algorithm is shown as algorithm~\ref{algo:priority-based}.
 In contrast to priority-based, this policy is takes job priorities into
 consideration very little; instead, the main concern of this policy is
 the workload proportion of a job to all the others.
-The algorithm, as shown in algorithm~\ref{algo:proportion-based}, is
-also known as fair share scheduling: the workers assigned to a job is as
-many as $\text{total workers} * the workload ratio of the job to all
-jobs$.
+This algorithm, as shown in algorithm~\ref{algo:proportion-based}, is
+also known as fair share scheduling: workers a job should be allocated
+is in proportion to its workload proportion to all jobs. 
 
-\begin{algorithm}
+\begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
   \KwIn{
     $workerSet=\{w_1, w_2, \ldots, w_m\}$,
