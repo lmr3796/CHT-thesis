@@ -60,6 +60,7 @@ is in proportion to its workload proportion to all jobs.
     $workerSet=\{w_1, w_2, \ldots, w_m\}$,
     $jobSet=\{j_1, j_2, \ldots, j_n\}$,
   }
+  \KwOut{A mapping of each job to scheduled workers}
   $result \gets$ KeyValueMap(key $\to \{\}$ for all key $\in$
   $jobSet$)\;
   $jobSet \gets$ $sortByPriority(jobSet)$\;
@@ -79,26 +80,29 @@ is in proportion to its workload proportion to all jobs.
 
 \section{Deadline-based Policy}
 
-Plenty kinds of jobs are required to be finished within a given
-deadline.
+Plenty kinds of jobs must be finished before a given deadline.
 For example, as a Internet service provider, settling monthly bills of
 millions of users within few days after the monthly charge-off day is
 very critical to their business.
-\emph{Computing resource allocated this kind of job should increase as
-their deadline approaches}.
-However, policies introduced in previous sections can't adapt to this
-need; hence, we introduce another policy designed for
+It it obvious that computing resource allocated this kind of job should
+increase as their deadline approaches -- the closer the deadline is, the
+more worker a job should get.
+% TODO should I use "introduce"? It's the most critical idea we proposed
+Unfortunately, policies introduced in previous sections can't adapt to
+this need; hence, we introduce another policy designed for
 \emph{deadline-aware} scenarios.
 
 \subsection{Model Definition}
 
 
+\subsection{Algorithm}
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
   \KwIn{
     $workerSet=\{w_1, w_2, \ldots, w_m\}$,
     $jobSet=\{j_1, j_2, \ldots, j_n\}$,
   }
+  \KwOut{A mapping of each job to scheduled workers}
   % TODO Implement the algorithm
 
   \Return{result}\;
