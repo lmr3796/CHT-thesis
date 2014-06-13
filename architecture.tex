@@ -41,9 +41,8 @@ interacts with instances of \emph{client} -- the interface end users
 submit jobs from.
 
 % RPC server design
-%%% TODO Cite RPC
 We implemented the management components and the worker as separate RPC
-(remote procedural call)~\cite{} servers.
+(remote procedural call)~\cite{cite:RPC} servers.
 Separate RPC server implementation makes each component
 \emph{pluggable}.
 The pluggability gives the system administrator flexibility to choose
@@ -61,23 +60,28 @@ implementation.
 The rest of the chapter is organized as followed.  
 First we introduce the \emph{client}, which is ...
 Then we define the \emph{Worker} in our system, ...
-The three components, { \emph{status checker}, \emph{decision maker} and \emph{dispatcher}, are described after that.
+The three components, { \emph{status checker}, \emph{decision maker} and
+\emph{dispatcher}, are described after that.
 
-% TODO add a section for jobs
+\section{Job and Tasks}
+
+Before discussing our system architecture, we have to introduce the
+representation of workload in our system.
+Users will submit \emph{jobs} each of which consists of several
+\emph{tasks}, the minimum unit of scheduling, to the system.
+As a cluster management framework, submitted jobs are meant to be
+expected to be processed in parallel.
+It is end user's responsibility to split their jobs into balanced tasks.
+Just like all of other parallel computing systems, more balanced the
+tasks are, the better the system schedules.
 
 \section{Client}
 
-% Job and task
+% Client is the interface of submission
+The client is the programming interface for users to submit jobs to our
+system.
 In our framework, a user will submit \emph{jobs} to the system via a
 client instance created using the provided library.
-% TODO Fix topic sentence of client: start with 'Client is....'
-Each job consists of several \emph{tasks}, which is the minimum unit to
-schedule.
-Since it is a cluster management framework, submitted jobs are meant to
-be expected to be processed in parallel. It is end user's responsibility
-to split their jobs into balanced tasks.
-Just like all of other parallel computing systems, more balanced the
-tasks are, the better the system schedules.
 
 % attributes
 Users specify several attributes to jobs before submission, such as
