@@ -1,13 +1,16 @@
 \chapter{Introduction}
 
-%%% Starts with introduction of cloud computing
-%%% Add one or two paragraphs about cloud computing before going to scalability
-%%% Something like "cloud computing has become a popular issue in recent year" etc.
+%%% TODO Starts with introduction of cloud computing
+%%% TODO Add one or two paragraphs about cloud computing before going to scalability
+%%% TODO Something like "cloud computing has become a popular issue in recent year" etc.
 
 %%% Followed by scalability
 Scalability is one of the key characteristics of cloud computing.
 %%% Define/explain scalability and its importance before the example
-% TODO: Add example why this is the key???? Why is it important?
+% TODO Add example why this is the key???? Why is it important?
+
+% TODO Comment out virtualization...
+% TODO But must replace with workloads in cloud computing/data center
 
 %%% How to achieve scalability: virtualization
 Virtualization wraps essential software components into virtual machines
@@ -21,8 +24,10 @@ can deploy them dynamically.
 Consequently we can quickly adjust the number of running virtual
 machines to satisfy user demands.
 
-%%% virtualization: VM deployment
+%%% TODO why is job deployment so important
 
+
+%%% TODO Rewrite virtual machines into jobs
 %%% Gap: too many VMs on a single server cause resource competition
 Properly placing multiple virtual machines on a single physical machine
 will utilize its hardware resource more efficiently.
@@ -39,6 +44,7 @@ machine, each of them will receive a quarter of the hardware resource,
 which makes applications running on these virtual machines perform
 worse.
 
+% TODO Fuck off those VMs, change it into a "for example"
 %%% One solution: dedicated VM
 Running applications on dedicated servers can guarantee performance.
 A dedicated server~\cite{cite:dedicated_hosting} runs at most one
@@ -47,7 +53,7 @@ machine will not be interfered by other virtual machines.
 %TODO : More dedicate server and performance guarantee examples here.
 %CHT examples here.
 
-%%% describe target environment: CHT datacenter, heterogeneous
+%%% TODO Emphasize 'heterogeneous'
 The concept of dedicated server is feasible in data centers.
 The number of physical servers of a data center is usually
 fixed~\cite{cite:maintenance_framework}, and it only changes
@@ -71,6 +77,7 @@ performance.
 
 %%% The goal of this work: develop a system that dynamically distributes workloads to physical servers according to some policies.
 
+% TODO Merge this sentence into the CHT application description
 % Not revised yet!!!
 Jobs with different priority requiring different processing throughput
 will start and finish at different time; handling these varying

@@ -16,10 +16,12 @@ The idea behind this policy is to make the job with highest priority runs as
 fast as possible.
 Intuitively, we can sort the jobs according to their priority then greedily
 schedule as many workers as possible to each job in that order.
-
-%%% Starvation, and how we avoid it from happening
 However, this might cause \emph{starvation} that lower priority jobs never get
 executed.
+
+% TODO try to say more...
+% TODO Dissemble the topic sentence
+%%% How we avoid starvation from happening
 To avoid \emph{starvation}, we preserve a portion $r \in [0,1]$ of workers for
 low priority jobs and job with the highest priority can use only the
 unpreserved workers.
