@@ -1,26 +1,29 @@
 \chapter{Policy}
 
-Here we are going to introduce three dispatching policies --
-\emph{priority-based}, \emph{proportion-based} and
-\emph{deadline-based}.
-Each of them requires different parameters such as job priority,
-execution efficiency per different server and execution deadline.
-The decision maker will make dispatching plans to according to the
-specified policy.
+In this chapter, we introduce the policies in our system. 
+There are three dispatching policies -- \emph{priority-based},
+\emph{proportion-based} and \emph{deadline-based}.
+Each policy requires different parameters such as job priority, execution
+efficiency per different server and execution deadline.
+The decision maker makes dispatching plans to according to a specified policy.
 
 
 \section{Priority-based Policy}
 
-The idea behind this policy is to make the job with highest priority
-runs as fast as possible.
-Intuitively, we can sort the jobs according to their priority then
-greedily schedule as many workers as possible to each job in that order.
-However, this might cause \emph{starvation} that lower priority jobs
-never get executed.
-To solve this, we preserve a portion $r \in [0,1]$ of workers for low
-priority jobs and job with the highest priority can use only the
+%%% Introduce Priority-based
+\emph{Priority-based} distributes workloads according to job priority. 
+The idea behind this policy is to make the job with highest priority runs as
+fast as possible.
+Intuitively, we can sort the jobs according to their priority then greedily
+schedule as many workers as possible to each job in that order.
+
+%%% Starvation, and how we avoid it from happening
+However, this might cause \emph{starvation} that lower priority jobs never get
+executed.
+To avoid \emph{starvation}, we preserve a portion $r \in [0,1]$ of workers for
+low priority jobs and job with the highest priority can use only the
 unpreserved workers.
-The algorithm is shown as algorithm~\ref{algo:priority-based}.
+The algorithm is shown as Algorithm~\ref{algo:priority-based}.
 
 \begin{algorithm}
   \DontPrintSemicolon % Some LaTeX compilers require you to use
