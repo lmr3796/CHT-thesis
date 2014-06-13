@@ -1,5 +1,18 @@
 \chapter{System Architecture}
 
+\section{Overview}
+
+%%% begins with introducing the system and what is does again as a reminding 
+We propose a cloud resource management framework to dynamically adjusts the
+number of physical server for a single job.
+The framework make decisions according to some specified policies.
+The policies takes the remaining workload, priority and deadline of each job
+into consideration, and generates a scheduling plan that satisfies the job
+requirements.
+%%% 
+This framework can work as a cloud computing system individually, or as
+extended components of an existent cloud system.
+
 \begin{figure}
   \centering
   \input{figures/manage-worker.tikz}
@@ -7,22 +20,28 @@
   \label{fig:archi-overview}
 \end{figure}
 
+
 % Overview
-Figure~\ref{fig:archi-overview} shows the architecture of this cloud
+Figure~\ref{fig:archi-overview} shows the architecture of our cloud
 management framework.
 The core part is the management system, which consists of three
 components: \emph{status checker}, \emph{decision maker} and
 \emph{dispatcher}.
+%%% move this sentence to the previous paragraph
+\comment{
 The whole framework can form a complete cloud computing system or work
 as a part of existent cloud systems.
+}
+%%% change this sentence into work flows, how worker and client interactive with our system
 In the former case, the management system connects with several
 \emph{workers}, which leverage physical resources directly, and
 interacts with instances of \emph{client} -- the interface end users
 submit jobs from.
 
 % RPC server design
+%%% Cite RPC
 We implemented the management components and the worker as separate RPC
-(remote procedural call) servers.
+(remote procedural call)~\cite{} servers.
 Separate RPC server implementation makes each component
 \emph{pluggable}.
 The pluggability gives the system administrator flexibility to choose
@@ -35,6 +54,12 @@ with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
 cloud operating system like Roystonea~\cite{cite:roystonea}.
 Roystonea~\cite{cite:roystonea} also benefits from the RPC server
 implementation.
+
+%%% Not sure if we need this, but anyway...
+The rest of the chapter is organized as followed.  
+First we introduce the \emph{client}, which is ...
+Then we define the \emph{Worker} in our system, ...
+The three components, { \emph{status checker}, \emph{decision maker} and \emph{dispatcher}, are described after that.
 
 \section{Client}
 
