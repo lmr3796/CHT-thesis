@@ -17,12 +17,43 @@
 
 \begin{frame}
   \titlepage
+  \label{title-page}
 \end{frame}
 \begin{frame}
-  \frametitle{Slide Title}
+  \frametitle{Background -- Job Characteristics}
+  \setbeamercovered{transparent}
+  \begin{itemize}[<+->]
+    \item In data centers, jobs come with different characteristics
+      \begin{itemize}
+        \item Importance/Priority
+        \item Computation resource demand
+          \begin{itemize}
+            \item CPU $\leftrightarrow$ I/O bound
+            \item <.-> Requires large RAM
+            \item <.-> Leveraging GPGPU
+          \end{itemize}
+        \item <.(2)->{\alert<.(2)->{Deadline}}
+      \end{itemize}
+    \item Moreover, some of them should be completed before time
+      constraints
+      \begin{itemize}
+        \item <.-> Billing jobs should be done within days after charge-off
+        \item <.-> Research experiments are not that urgent
+      \end{itemize}
+  \end{itemize}
 \end{frame}
-\begin{frame}
-  \frametitle{Slide Title}
+\begin{frame} [<+->]
+  \frametitle{Background -- Server Characteristics}
+  \begin{itemize}
+    \item Resources in data centers are usually \emph{limited} and
+      \emph{fixed}
+      \begin{itemize}
+        \item <.-> Purchase new ones and remove obsolete ones only on
+          periodic equipment upgrades
+      \end{itemize}
+    \item
+    \item
+  \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{Slide Title}
