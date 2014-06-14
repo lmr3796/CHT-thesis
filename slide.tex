@@ -44,15 +44,22 @@
 \end{frame}
 \begin{frame} [<+->]
   \frametitle{Background -- Server Characteristics}
+  \setbeamercovered{transparent}
   \begin{itemize}
     \item Resources in data centers are usually \emph{limited} and
       \emph{fixed}
       \begin{itemize}
-        \item <.-> Purchase new ones and remove obsolete ones only on
+        \item Purchase new ones and remove obsolete ones only on
           periodic equipment upgrades
+        \item \textbf{We can view the number of workers as fixed between
+          upgrades}
       \end{itemize}
-    \item
-    \item
+    \item <.(-2)-> Servers in the cluster are \alert{heterogeneous}
+      \begin{itemize}
+        \item Old servers coexist with new servers
+        \item <.-> Few servers have special capabilities, like Giga-LAN
+          or GPGPU
+      \end{itemize}
   \end{itemize}
 \end{frame}
 \begin{frame}
