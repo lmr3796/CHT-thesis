@@ -20,6 +20,18 @@
   \label{title-page}
 \end{frame}
 \begin{frame}
+  \frametitle{Background}
+  \setbeamercovered{transparent}
+  % TODO Describe jobs
+  \begin{itemize}[<+->]
+    \item As the amount of data and computing demand increases, more and
+      more company tend to build their own data centers -- Private cloud
+    % Deploying all applications to the cluster
+    \item For elasticity, rather than dedicating servers for particular
+      applications, %TODO finish this!!!!!!
+  \end{itemize}
+\end{frame}
+\begin{frame}
   \frametitle{Background -- Job Characteristics}
   \setbeamercovered{transparent}
   \begin{itemize}[<+->]
@@ -42,10 +54,10 @@
       \end{itemize}
   \end{itemize}
 \end{frame}
-\begin{frame} [<+->]
+\begin{frame}
   \frametitle{Background -- Server Characteristics}
   \setbeamercovered{transparent}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Resources in data centers are usually \emph{limited} and
       \emph{fixed}
       \begin{itemize}
@@ -63,19 +75,70 @@
   \end{itemize}
 \end{frame}
 \begin{frame}
-  \frametitle{Slide Title}
+  \frametitle{Goal}
+  \begin{itemize}
+    \item Implement a resource management component that \emph{dynamically}
+      adjust resource for each job
+    \item System administrator can easily specify different policy to
+      adapt to their needs
+    \item The system should take server heterogeneity into consideration
+  \end{itemize}
 \end{frame}
 \begin{frame}
-  \frametitle{Slide Title}
+  \frametitle{Target Environment -- CHT's Data Center}
+  \begin{itemize}
+    \item Old and new servers coexists -- heterogeneous environment
+    \item Jobs are mainly about processing files (billing accountant)
+    \item Jobs are split into many tasks each of which can be processed
+      in parallel
+    \item Data are shared via NFS
+    \item Servers may fail
+  \end{itemize}
 \end{frame}
 \begin{frame}
-  \frametitle{Slide Title}
+  \frametitle{System Overview}
+  % TODO use the figure
+  % TODO add workers to the figure
+  % TODO RPC implementation
+  % TODO emphasize that it can work "standalone" or become a part of
+  % other system
 \end{frame}
 \begin{frame}
-  \frametitle{Slide Title}
+  \frametitle{System Architecture}
+  % TODO Hurray!!!!!! I like this part!!!!!
 \end{frame}
 \begin{frame}
-  \frametitle{Slide Title}
+  \frametitle{Work flow -- Standalone Mode}
+\end{frame}
+\begin{frame}
+  \frametitle{Work flow -- Case study: Integration with JPPF}
+\end{frame}
+\begin{frame}
+  \frametitle{Policy}
+  %TODO for different needs, use different policies
+\end{frame}
+\begin{frame}
+  \frametitle{Policy -- Priority-based}
+  %TODO for different needs, use different policies
+  %If no deadline, only priority is specified. e.g., research experiment
+\end{frame}
+\begin{frame}
+  \frametitle{Policy -- Proportion-based}
+  %TODO For streaming jobs, workloads may varies: For streaming jobs dependent on
+  %others, if they don't have anything to process, its workload is low
+  %so no workers needed, but as results come out, we should give it
+  %servers
+\end{frame}
+\begin{frame}
+  \frametitle{Policy -- Deadline-based}
+  %TODO for different needs, use different policies
+  %TODO If we have workload and deadline
+  %TODO Tell this is the main focus of CHT's request, so our experiments
+  %focus on this
+\end{frame}
+\begin{frame}
+  \frametitle{Experiment}
+  % TODO FUCKKKKKKKKKKKKKK!!!
 \end{frame}
 
 \end{document}
