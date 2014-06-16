@@ -116,6 +116,36 @@
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture -- Client}
+  \only<1>{
+    \begin{itemize}
+      \item The programming interface users sends jobs to the system for execution
+      \item Users can specify attributes for jobs
+        \begin{itemize}
+          \item Deadline
+          \item Priority
+          \item \ldots
+        \end{itemize}
+      \item Supports background execution
+
+    \end{itemize}
+  }
+  \only<2>{
+    \newfloat{Example Code}{H}{myc}
+    \begin{Example Code}
+      \lstset{
+        frame=LRBT,
+        basicstyle=\ttfamily\tiny\color{black},
+        commentstyle = \ttfamily\color{blue!50},
+        keywordstyle=\ttfamily\color{green},
+        stringstyle=\color{red!80},
+      }
+      \input{snippets/client-sample-code}
+      \caption{Sample code of client usage}
+    \end{Example Code}
+  }
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Worker}
   % TODO Hurray!!!!!! I like this part!!!!!
 \end{frame}
 \begin{frame}
