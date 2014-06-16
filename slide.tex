@@ -210,7 +210,7 @@
     \begin{itemize}
       \item Make the job with highest priority done as fast as possbile
       \item Preserve some workers to relieve starvation
-      \item Doesn't cares about deadline
+      \item Only priority is considered
       \item e.g. research experiment
     \end{itemize}
   }
@@ -225,10 +225,26 @@
 \end{frame}
 \begin{frame}
   \frametitle{Policy -- Proportion-based}
-  %TODO For streaming jobs, workloads may varies: For streaming jobs dependent on
+  %For streaming jobs, workloads may varies: For streaming jobs dependent on
   %others, if they don't have anything to process, its workload is low
   %so no workers needed, but as results come out, we should give it
   %servers
+  \only<1>{
+    \begin{itemize}
+      \item Take workload as main concern
+      \item "Fair sharing"
+      \item Considers only workload
+      \item e.g. streaming jobs with dependency
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/proportion-based-policy}
+      \caption{Proportion-based policy}
+      \label{algo:proportion-based}
+    \end{algorithm}
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Policy -- Deadline-based}
@@ -236,6 +252,28 @@
   %TODO If we have workload and deadline
   %TODO Tell this is the main focus of CHT's request, so our experiments
   %focus on this
+  \only<1>{
+    \begin{itemize}
+      \item Deadline is the main focus
+      \item Takes priority, workload and deadline into consideration
+      \item Greedy: meet high priority deadlines, give up low priority
+        ones
+      \item Don't over schedule resource: give resource just enough to
+        make deadline
+      \item Schedule jobs on those fit the most -- node difference
+        (\emph{heterogeneity}) aware
+      \item CHT's main concern
+      \item e.g. billing accountant
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+      \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/deadline-based-policy}
+      \caption{Deadline-based policy}
+      \label{algo:deadline-based}
+    \end{algorithm}
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Experiment}
