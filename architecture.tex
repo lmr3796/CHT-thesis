@@ -1,20 +1,37 @@
 \chapter{System Architecture}
 
-\begin{figure}
+\section{Overview}
+
+\begin{figure}[h]
   \centering
-  \input{figures/manage-worker.tikz}
+  \input{figures/manage-standalone.tikz}
   \caption{System Architecture Overview}
   \label{fig:archi-overview}
 \end{figure}
 
+%%% begins with introducing the system and what is does again as a reminding
+We proposed a cloud resource management framework to dynamically adjust
+the number of physical servers for a single job.
+The framework make decisions according to some specified policies.
+The policies take the remaining workload, priority and deadline of each
+job into consideration, and generate a scheduling plan that satisfies
+the job requirements.
+%%%
+This framework can work as an individual cloud computing system, or as
+extension components of an existent cloud system.
+
 % Overview
-Figure~\ref{fig:archi-overview} shows the architecture of this cloud
+Figure~\ref{fig:archi-overview} shows the architecture of our cloud
 management framework.
 The core part is the management system, which consists of three
 components: \emph{status checker}, \emph{decision maker} and
 \emph{dispatcher}.
-The whole framework can form a complete cloud computing system or work
-as a part of existent cloud systems.
+%%% move this sentence to the previous paragraph
+%The whole framework can form a complete cloud computing system or work
+%as a part of existent cloud systems.
+
+%%% TODO change this sentence into work flows, how worker and client interactive with our system
+% TODO use the topic sentence of each component to briefly describe it.
 In the former case, the management system connects with several
 \emph{workers}, which leverage physical resources directly, and
 interacts with instances of \emph{client} -- the interface end users
@@ -22,7 +39,7 @@ submit jobs from.
 
 % RPC server design
 We implemented the management components and the worker as separate RPC
-(remote procedural call) servers.
+(remote procedural call)~\cite{cite:RPC} servers.
 Separate RPC server implementation makes each component
 \emph{pluggable}.
 The pluggability gives the system administrator flexibility to choose
@@ -36,18 +53,32 @@ cloud operating system like Roystonea~\cite{cite:roystonea}.
 Roystonea~\cite{cite:roystonea} also benefits from the RPC server
 implementation.
 
-\section{Client}
+%%% Not sure if we need this, but anyway...
+The rest of the chapter is organized as followed.  
+First we introduce the \emph{client}, which is ...
+Then we define the \emph{Worker} in our system, ...
+The three components, { \emph{status checker}, \emph{decision maker} and
+\emph{dispatcher}, are described after that.
 
-% Job and task
-In our framework, a user will submit \emph{jobs} to the system via a
-client instance created using the provided library.
-Each job consists of several \emph{tasks}, which is the minimum unit to
-schedule.
-Since it is a cluster management framework, submitted jobs are meant to
-be expected to be processed in parallel. It is end user's responsibility
-to split their jobs into balanced tasks.
+\section{Job and Tasks}
+
+Before discussing our system architecture, we have to introduce the
+representation of workload in our system.
+Users will submit \emph{jobs} each of which consists of several
+\emph{tasks}, the minimum unit of scheduling, to the system.
+As a cluster management framework, submitted jobs are meant to be
+expected to be processed in parallel.
+It is end user's responsibility to split their jobs into balanced tasks.
 Just like all of other parallel computing systems, more balanced the
 tasks are, the better the system schedules.
+
+\section{Client}
+
+% Client is the interface of submission
+The client is the programming interface for users to submit jobs to our
+system.
+In our framework, a user will submit \emph{jobs} to the system via a
+client instance created using the provided library.
 
 % attributes
 Users specify several attributes to jobs before submission, such as
@@ -67,52 +98,14 @@ synchronization model they like.
 Here's an example on how to program with our client library.
 
 % Programming example
-\newfloat{Example Code}{H}{myc}
-\begin{Example Code}
+\begin{spacing}{1.0}
+  \newfloat{Example Code}{H}{myc}
   \lstloadlanguages{Ruby}
-  \lstloadlanguages{Ruby}
-  \lstset{
-    frame=LRBT,
-    basicstyle=\ttfamily\color{black},
-    commentstyle = \ttfamily\color{blue!50},
-    keywordstyle=\ttfamily\color{green},
-    stringstyle=\color{red!80},
-  }
-
-  \begin{spacing}{1.0}
-    \begin{lstlisting}[language=Ruby]
-    j1 = Job.new('Job1')
-    j1.add_task Task.new(...)
-    ... # Add more tasks
-    j2 = Job.new('Job2')
-    j2.add_task Task.new(...)
-    ... # Add more tasks
-    # 200-second deadline
-    j1.deadline = j2.deadline = Time.now + 200.0
-    # Submit j1 and j2 together
-    c12 = Client.new([j1,j2]
-    # Background execution
-    c12.start
-    # Do other time consuming computation
-    ...
-    j3 = Job.new('Job3')
-    j3.add_task Task.new(...)
-    ... # Add more tasks
-    c3 = Client.new(j3)
-    c3.start
-    # Remaining part can't run until j3 is done
-    c3.wait_all
-    # Some more things to do
-    ...
-    # Wait until j1 and j2 is done.
-    c12.wait_all
-    # Combning j1, j2 and j3
-    ...
-
-    \end{lstlisting}
-  \end{spacing}
-  \caption{Sample code of client usage}
-\end{Example Code}
+  \begin{Example Code}
+    \input{snippets/client-sample-code}
+    \caption{Sample code of client usage}
+  \end{Example Code}
+\end{spacing}
 
 Assume that the user has 3 jobs -- $j_1$, $j_2$ and $j_3$ -- to be done
 separately and their result to be aggregated:  $j_1$ and $j_2$ takes
@@ -243,7 +236,7 @@ on hand, the dispatcher would told them to run tasks of $J_3$ and the
 allocation plan became the lower half of
 figure~\ref{fig:allocation-adjustment}.
 
-\begin{figure}
+\begin{figure}]
   \centering
   \input{figures/job-reallocation.tikz}
   \caption{Job allocation adjustment}

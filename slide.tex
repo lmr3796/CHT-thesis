@@ -1,0 +1,283 @@
+\documentclass{beamer}
+
+% Put required libraries into library.tex
+\input{library}
+
+% Tikz figure styls
+\input{figures/architecture.styles.tikz}
+
+\usetheme{Warsaw}
+
+\title{Job Dispatching and Scheduling under Heterogeneous Clusters}
+\author{Ting-Chou Lin}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+  \label{title-page}
+\end{frame}
+\begin{frame}
+  \frametitle{Background}
+  \setbeamercovered{transparent}
+  % TODO Describe jobs
+  \begin{itemize}[<+->]
+    \item As the amount of data and computing demand increases, more and
+      more company tend to build their own data centers -- Private cloud
+    % Deploying all applications to the cluster
+    \item For elasticity, rather than dedicating servers for particular
+      applications, %TODO finish this!!!!!!
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Background -- Job Characteristics}
+  \setbeamercovered{transparent}
+  \begin{itemize}[<+->]
+    \item In data centers, jobs come with different characteristics
+      \begin{itemize}
+        \item Importance/Priority
+        \item Computation resource demand
+          \begin{itemize}
+            \item CPU $\leftrightarrow$ I/O bound
+            \item <.-> Requires large RAM
+            \item <.-> Leveraging GPGPU
+          \end{itemize}
+        \item <.(2)->{\alert<.(2)->{Deadline}}
+      \end{itemize}
+    \item Moreover, some of them should be completed before time
+      constraints
+      \begin{itemize}
+        \item <.-> Billing jobs should be done within days after charge-off
+        \item <.-> Research experiments are not that urgent
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Background -- Server Characteristics}
+  \setbeamercovered{transparent}
+  \begin{itemize}[<+->]
+    \item Resources in data centers are usually \emph{limited} and
+      \emph{fixed}
+      \begin{itemize}
+        \item Purchase new ones and remove obsolete ones only on
+          periodic equipment upgrades
+        \item \textbf{We can view the number of workers as fixed between
+          upgrades}
+      \end{itemize}
+    \item <.(-2)-> Servers in the cluster are \alert{heterogeneous}
+      \begin{itemize}
+        \item Old servers coexist with new servers
+        \item <.-> Only few servers have special capabilities, like Giga-LAN
+          or GPGPU
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Goal}
+  \begin{itemize}
+    \item Implement a resource management component that \emph{dynamically}
+      adjust resource for each job
+    \item System administrator can easily specify different policy to
+      adapt to their needs
+    \item The system should take server heterogeneity into consideration
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Target Environment -- CHT's Data Center}
+  \begin{itemize}
+    \item Old and new servers coexists -- heterogeneous environment
+    \item Jobs are mainly about processing files (billing accountant)
+    \item Jobs are split into many \emph{tasks}, each of which can be processed
+      in parallel
+    \item Data are shared via NFS
+    \item Servers may fail
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Overview}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \resizebox{\linewidth}{!}{
+          \input{figures/manage-standalone.tikz}
+        }
+        \caption{Architecture Overview}
+        \label{fig:archi-overview}
+      \end{figure}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item Each component is a RPC server
+        \item As a cluster management system or extension
+          components of existent cloud systems
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Client}
+  \only<1>{
+    \begin{itemize}
+      \item The programming interface users sends jobs to the system for execution
+      \item Users can specify attributes for jobs
+        \begin{itemize}
+          \item Deadline
+          \item Priority
+          \item \ldots
+        \end{itemize}
+      \item Supports background execution
+
+    \end{itemize}
+  }
+  \only<2>{
+    \newfloat{Example Code}{H}{myc}
+    \begin{Example Code}
+      \lstset{
+        frame=LRBT,
+        basicstyle=\ttfamily\tiny\color{black},
+        commentstyle = \ttfamily\color{blue!50},
+        keywordstyle=\ttfamily\color{green},
+        stringstyle=\color{red!80},
+      }
+      \input{snippets/client-sample-code}
+      \caption{Sample code of client usage}
+    \end{Example Code}
+  }
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Worker}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Decision Maker}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Status Checker}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture -- Dispatcher}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+\begin{frame}
+  \frametitle{Work flow -- Standalone Mode}
+\end{frame}
+\begin{frame}
+  \frametitle{Work flow -- Case study: Integration with JPPF}
+  \begin{itemize}[<+->]
+      \only<1-2>{
+      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
+        framework
+        \begin{itemize}
+          \item <.->Very easy to deploy
+          \item <.->GUI monitoring tools
+          \item <.->Active development
+        \end{itemize}
+      \item Doesn't support \emph{centralized} and
+        \emph{node-aware} scheduling
+      }
+      \only<3->{
+      \item Provides API for jobs set "filters" for a job -- to reject a
+        node of from running that job
+      \item Leveraging this API, we can somehow implement node-aware
+        scheduling by \pause
+        \begin{enumerate}
+          \item Contact the system for scheduling information
+          \item Get scheduled worker of the job
+          \item Reject if this node is not scheduled
+        \end{enumerate}
+      }
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Policy}
+  \begin{itemize}
+    \item Basically, the scheduling algorithm used by the system
+    \item Each of them requires different parameters
+      \begin{itemize}
+        \item User provided
+        \item System statistics
+      \end{itemize}
+    \item Administrators can select different policies for their need
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Policy -- Priority-based}
+  %TODO for different needs, use different policies
+  %If no deadline, only priority is specified. e.g., research experiment
+  \only<1>{
+    \begin{itemize}
+      \item Make the job with highest priority done as fast as possbile
+      \item Preserve some workers to relieve starvation
+      \item Only priority is considered
+      \item e.g. research experiment
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/priority-based-policy}
+      \caption{Priority-based policy}
+      \label{algo:priority-based}
+    \end{algorithm}
+  }
+\end{frame}
+\begin{frame}
+  \frametitle{Policy -- Proportion-based}
+  %For streaming jobs, workloads may varies: For streaming jobs dependent on
+  %others, if they don't have anything to process, its workload is low
+  %so no workers needed, but as results come out, we should give it
+  %servers
+  \only<1>{
+    \begin{itemize}
+      \item Take workload as main concern
+      \item "Fair sharing"
+      \item Considers only workload
+      \item e.g. streaming jobs with dependency
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/proportion-based-policy}
+      \caption{Proportion-based policy}
+      \label{algo:proportion-based}
+    \end{algorithm}
+  }
+\end{frame}
+\begin{frame}
+  \frametitle{Policy -- Deadline-based}
+  %TODO for different needs, use different policies
+  %TODO If we have workload and deadline
+  %TODO Tell this is the main focus of CHT's request, so our experiments
+  %focus on this
+  \only<1>{
+    \begin{itemize}
+      \item Deadline is the main focus
+      \item Takes priority, workload and deadline into consideration
+      \item Greedy: meet high priority deadlines, give up low priority
+        ones
+      \item Don't over schedule resource: give resource just enough to
+        make deadline
+      \item Schedule jobs on those fit the most -- node difference
+        (\emph{heterogeneity}) aware
+      \item CHT's main concern
+      \item e.g. billing accountant
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+      \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/deadline-based-policy}
+      \caption{Deadline-based policy}
+      \label{algo:deadline-based}
+    \end{algorithm}
+  }
+\end{frame}
+\begin{frame}
+  \frametitle{Experiment}
+  % TODO FUCKKKKKKKKKKKKKK!!!
+\end{frame}
+
+\end{document}

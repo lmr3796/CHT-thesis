@@ -1,6 +1,6 @@
 BUILD_DIR?=build
 COMPILE_CMD=latexmk -xelatex -outdir=$(BUILD_DIR)
-TARGETS=main thesis 
+TARGETS=main thesis slide
 
 
 .PHONY: clean

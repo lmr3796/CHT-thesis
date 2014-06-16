@@ -1,0 +1,8 @@
+\pgfdeclarelayer{background}
+\begin{tikzpicture}
+  \node[](key-comp){\input{figures/manage-compo-relation.tikz}};
+  \path (key-comp.south) + (0, -0.5) node(comp-caption){Management System};
+  \begin{pgfonlayer}{background}
+    \node[system,fit=(key-comp) (comp-caption)]{} ;
+  \end{pgfonlayer}
+\end{tikzpicture}
