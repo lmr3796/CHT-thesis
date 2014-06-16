@@ -1,0 +1,10 @@
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+  1 with {\arrow[semithick]{open triangle 60}}},
+  double distance=1.4pt, shorten >= 5.5pt, preaction = {decorate},
+  postaction = {draw,line width=2pt, white,shorten >= 4.5pt}
+]
+\tikzstyle{component} = [draw,text centered,rounded corners,drop
+  shadow,text width=8em,fill=red!20,minimum height=6em
+]
+\tikzstyle{dispatcher} = [component,minimum height=19.3em]
+\tikzstyle{system}=[draw,dashed,rounded corners,fill=yellow!30]
