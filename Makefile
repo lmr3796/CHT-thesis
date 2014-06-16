@@ -1,4 +1,4 @@
-BUILD_DIR?=build/
+BUILD_DIR?=build
 COMPILE_CMD=latexmk -xelatex -outdir=$(BUILD_DIR)
 TARGETS=main thesis 
 

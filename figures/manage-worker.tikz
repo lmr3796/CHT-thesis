@@ -1,4 +1,3 @@
-\usetikzlibrary[backgrounds]
 \pgfdeclarelayer{background}
 \pgfsetlayers{background,main}
 \begin{tikzpicture}
