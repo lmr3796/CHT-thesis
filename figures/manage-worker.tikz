@@ -1,11 +1,12 @@
 \pgfdeclarelayer{background}
-\pgfsetlayers{background,main}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
 \tikzstyle{system}=[draw,dashed,rounded corners,fill=yellow!30]
 \begin{tikzpicture}
-  \node[](key-comp){\input{figures/manage-relation.tikz}};
-  \begin{pgfonlayer}{background}
-    \node[system,fit=(key-comp)](management) {Management System} ;
-    %(key-comp.north west) rectangle (key-comp.south east);
+  \begin{pgfonlayer}{foreground}
+    \node[](key-comp){\input{figures/manage-relation.tikz}};
+    \path (key-comp.south) + (0, -0.5) node(comp-caption){Management System};
   \end{pgfonlayer}
+  \node[system,fit=(key-comp) (comp-caption)](management) {} ;
 \end{tikzpicture}
 
