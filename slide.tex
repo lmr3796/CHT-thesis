@@ -1,9 +1,10 @@
-\RequirePackage{tikz}
-\RequirePackage{url}
 \documentclass{beamer}
 
 % Put required libraries into library.tex
 \input{library}
+
+% Tikz figure styls
+\input{figures/architecture.styles.tikz}
 
 \usetheme{Warsaw}
 
@@ -102,9 +103,8 @@
   \begin{columns}
     \begin{column}{.5\textwidth}
       \begin{figure}
-        \hspace*{-5.1cm}
-        \scalebox{0.5}{
-          \input{figures/manage-worker.tikz}
+        \resizebox{\linewidth}{!}{
+          \input{figures/manage-standalone.tikz}
         }
         \caption{Architecture Overview}
         \label{fig:archi-overview}
