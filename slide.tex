@@ -206,6 +206,22 @@
   \frametitle{Policy -- Priority-based}
   %TODO for different needs, use different policies
   %If no deadline, only priority is specified. e.g., research experiment
+  \only<1>{
+    \begin{itemize}
+      \item Make the job with highest priority done as fast as possbile
+      \item Preserve some workers to relieve starvation
+      \item Doesn't cares about deadline
+      \item e.g. research experiment
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/priority-based-policy}
+      \caption{Priority-based policy}
+      \label{algo:priority-based}
+    \end{algorithm}
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Policy -- Proportion-based}
