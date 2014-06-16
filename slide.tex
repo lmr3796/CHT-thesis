@@ -95,8 +95,8 @@
     \item Servers may fail
   \end{itemize}
 \end{frame}
-\begin{frame}
-  \frametitle{System Overview}
+\begin{frame}[label=my-frame]
+  \frametitle{System Architecture -- Overview}
   % TODO use the figure
   % TODO add workers to the figure
   % TODO RPC implementation
@@ -104,27 +104,23 @@
   % other system
   \begin{columns}
     \begin{column}{.5\textwidth}
+      \begin{figure}
+        \hspace*{-5.1cm}
+        \scalebox{0.5}{
+          \input{figures/manage-worker.tikz}
+        }
+        \caption{Architecture Overview}
+        \label{fig:archi-overview}
+      \end{figure}
+    \end{column}
+    \begin{column}{.5\textwidth}
       \begin{itemize}
-
         \item Each component is a RPC server
         \item As a cluster management system or extension
           components of existent cloud systems
       \end{itemize}
     \end{column}
-    \begin{column}{.5\textwidth}
-      \begin{figure}
-        \centering
-        \scalebox{0.4}{
-          \input{figures/manage-worker.tikz}
-        }
-        \caption{System Architecture Overview}
-        \label{fig:archi-overview}
-      \end{figure}
-    \end{column}
   \end{columns}
-\end{frame}
-\begin{frame}
-  \frametitle{System Architecture}
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture -- Client}
