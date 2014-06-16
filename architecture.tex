@@ -98,52 +98,14 @@ synchronization model they like.
 Here's an example on how to program with our client library.
 
 % Programming example
-\newfloat{Example Code}{H}{myc}
-\begin{Example Code}
+\begin{spacing}{1.0}
+  \newfloat{Example Code}{H}{myc}
   \lstloadlanguages{Ruby}
-  \lstloadlanguages{Ruby}
-  \lstset{
-    frame=LRBT,
-    basicstyle=\ttfamily\color{black},
-    commentstyle = \ttfamily\color{blue!50},
-    keywordstyle=\ttfamily\color{green},
-    stringstyle=\color{red!80},
-  }
-
-  \begin{spacing}{1.0}
-    \begin{lstlisting}[language=Ruby]
-    j1 = Job.new('Job1')
-    j1.add_task Task.new(...)
-    ... # Add more tasks
-    j2 = Job.new('Job2')
-    j2.add_task Task.new(...)
-    ... # Add more tasks
-    # 200-second deadline
-    j1.deadline = j2.deadline = Time.now + 200.0
-    # Submit j1 and j2 together
-    c12 = Client.new([j1,j2]
-    # Background execution
-    c12.start
-    # Do other time consuming computation
-    ...
-    j3 = Job.new('Job3')
-    j3.add_task Task.new(...)
-    ... # Add more tasks
-    c3 = Client.new(j3)
-    c3.start
-    # Remaining part can't run until j3 is done
-    c3.wait_all
-    # Some more things to do
-    ...
-    # Wait until j1 and j2 is done.
-    c12.wait_all
-    # Combning j1, j2 and j3
-    ...
-
-    \end{lstlisting}
-  \end{spacing}
-  \caption{Sample code of client usage}
-\end{Example Code}
+  \begin{Example Code}
+    \input{snippets/client-sample-code}
+    \caption{Sample code of client usage}
+  \end{Example Code}
+\end{spacing}
 
 Assume that the user has 3 jobs -- $j_1$, $j_2$ and $j_3$ -- to be done
 separately and their result to be aggregated:  $j_1$ and $j_2$ takes
