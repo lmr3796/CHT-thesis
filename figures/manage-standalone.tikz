@@ -1,0 +1,33 @@
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}
+  \node[](management){\input{figures/manage.tikz}};
+
+  % Client
+  %\coordinate (client-mid) at (management.east) + (5em,0);
+  %\path (client-mid) + (0,-2) node[component,text width=5em]{Client};
+  %\path (client-mid) + (0, 2) node[component,text width=5em]{Client};
+
+  % Workers
+  \coordinate (l1) at (management.south west);
+  \coordinate (l2) at (management.south east);
+  \path (l1) + (0, -3)
+  node[component,text width=4em,minimum height=3em](w1){worker};
+  \path (l2) + (0, -3)
+  node[component,text width=4em,minimum height=3em](w4){worker};
+  \path ($(w1)!0.33!(w4)$)
+  node[component,text width=4em,minimum height=3em](w2){worker};
+  \path ($(w1)!0.66!(w4)$)
+  node[component,text width=4em,minimum height=3em](w3){worker};
+  \draw[vecArrow] ([xshift=-5]$(l1)!0.2!(l2)$) to ([xshift=-5,yshift=3]w1.north);
+  \draw[vecArrow] ([xshift=-5]$(l1)!0.4!(l2)$) to ([xshift=-5,yshift=3]w2.north);
+  \draw[vecArrow] ([xshift=-5]$(l1)!0.6!(l2)$) to ([xshift=-5,yshift=3]w3.north);
+  \draw[vecArrow] ([xshift=-5]$(l1)!0.8!(l2)$) to ([xshift=-5,yshift=3]w4.north);
+  \draw[vecArrow] ([xshift=5,yshift=3]w1.north) to ([xshift=5]$(l1)!0.2!(l2)$);
+  \draw[vecArrow] ([xshift=5,yshift=3]w2.north) to ([xshift=5]$(l1)!0.4!(l2)$);
+  \draw[vecArrow] ([xshift=5,yshift=3]w3.north) to ([xshift=5]$(l1)!0.6!(l2)$);
+  \draw[vecArrow] ([xshift=5,yshift=3]w4.north) to ([xshift=5]$(l1)!0.8!(l2)$);
+\end{tikzpicture}
+
