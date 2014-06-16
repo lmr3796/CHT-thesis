@@ -165,6 +165,30 @@
 \end{frame}
 \begin{frame}
   \frametitle{Work flow -- Case study: Integration with JPPF}
+  \begin{itemize}[<+->]
+    \only<1-2>{
+      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
+        framework
+        \begin{itemize}
+          \item <.->Very easy to deploy
+          \item <.->GUI monitoring tools
+          \item <.->Active development
+        \end{itemize}
+      \item Doesn't support \emph{centralized} and
+        \emph{node-aware} scheduling
+      }
+    \only<3->{
+      \item Provides API for jobs set "filters" for a job -- to reject a
+        node of from running that job
+      \item Leveraging this API, we can somehow implement node-aware
+        scheduling by \pause
+        \begin{enumerate}
+          \item Contact the system for scheduling information
+          \item Get scheduled worker of the job
+          \item Reject if this node is not scheduled
+        \end{enumerate}
+      }
+  \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{Policy}
