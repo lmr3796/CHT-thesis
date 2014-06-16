@@ -102,10 +102,29 @@
   % TODO RPC implementation
   % TODO emphasize that it can work "standalone" or become a part of
   % other system
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item 
+        \item Each component is implemented as a RPC server
+        \item Can work as a cluster management system individually or as
+          extension component of existent cloud systems
+      \end{itemize}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \centering
+        \scalebox{0.4}{
+          \input{figures/manage-worker.tikz}
+        }
+        \caption{System Architecture Overview}
+        \label{fig:archi-overview}
+      \end{figure}
+    \end{column}
+  \end{columns}
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture}
-  % TODO Hurray!!!!!! I like this part!!!!!
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture -- Client}
