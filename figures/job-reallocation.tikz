@@ -1,8 +1,3 @@
-\usetikzlibrary{backgrounds}
-\usetikzlibrary{calc}
-\usetikzlibrary{fit}
-\usetikzlibrary{shapes.arrows}
-
 \tikzstyle{worker-matrix}=[
   row sep=0.7cm,column sep=0.7cm,
   nodes={draw, minimum size=3em, circle, thick, fill=gray!20}

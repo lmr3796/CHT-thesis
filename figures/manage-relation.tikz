@@ -1,5 +1,4 @@
 \begin{tikzpicture}
-  \usetikzlibrary{arrows, shadows, decorations.markings}
   \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
 	1 with {\arrow[semithick]{open triangle 60}}},
 	double distance=1.4pt, shorten >= 5.5pt, preaction = {decorate},
