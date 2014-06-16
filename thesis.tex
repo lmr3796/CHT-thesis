@@ -1,13 +1,8 @@
-\RequirePackage{tikz}
-\RequirePackage{url}
+\RequirePackage{tikz} % Must add this, I just don't know why...
 \documentclass{ntuthesis}
 
-\usepackage[linesnumbered,ruled]{algorithm2e}
-\usepackage{amsmath}
-\usepackage{float}
-\usepackage{listings}
-\usepackage{url}
-\usepackage{tikz}
+% Put required libraries into library.tex
+\input{library}
 
 % Using the tex-text mapping for ligatures etc.
 \defaultfontfeatures{Mapping=tex-text}
@@ -37,10 +32,10 @@
 \mainmatter
 
 % Your thesis goes here
-\input{introduction}
-\input{related-work}
-\input{architecture}
-\input{policy}
+%\input{introduction}
+%\input{related-work}
+%\input{architecture}
+%\input{policy}
 
 \appendix
 
