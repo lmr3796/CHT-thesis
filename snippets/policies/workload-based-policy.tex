@@ -15,9 +15,9 @@ $jobSet \gets$ $sortByPriority(jobSet)$\;
     $k<workerSet$.size \textbf{AND}
     $k<n_i$ \textbf{AND}
     $th < w_i$;
-    $k\mathrel{+}\mathrel{+}$ \textbf{)}
+    $k \gets k+1 $\textbf{)}
   }{
-    $th \mathrel{+}= workerSet[i].throughput[j]$\;
+    $th \mathrel{+}= workerSet[k].th[j_i]$\;
   }
   $result[j_i] \gets workerSet[0...i]$\;
   $workerSet$.remove(0,$k$)

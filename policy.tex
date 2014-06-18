@@ -75,9 +75,9 @@ meet the workload requirement of high priority jobs.
 We represent each job $j_i$ submitted as $j_i = (w_i, p_i, n_i)$, where
 $w_i, p_i, n_i$ represents the estimated workload, priority and the
 number of task of $j_i$ respectively.
-As for the workers, we model each worker $s_j$ as a vector of estimated
-\emph{throughput} of each submitted job; we can write is as $s_J =
-(th_1, th_2, \ldots)$.
+As for the workers, we model each worker $s_k$ as a vector of estimated
+\emph{throughput} of each submitted job; we can write is as $s_k =
+(th^k_1, th^k_2, \ldots)$.
 
 
 \subsection{Algorithm}
@@ -113,15 +113,27 @@ adapt to this need; hence, we introduce another policy designed for
 \subsection{Model Definition}
 
 For this policy, we assume that each job is provided with priority and
-deadline and we have execution time (which may be a estimated one) of a
-job on each server.
-A job $J_i$ can thus be represented as $J_i = (P_i, D_i, N_i)$, where
-$P_i, D_i\text{ and }N_i$ refers to the priority, deadline and the
-number of tasks of $J_i$ respectively.
-
-
+deadline and we have required execution time (which may be a estimated
+one) of a job to run on each single server.
+A job $j_i$ can thus be represented as $j_i = (d_i, p_i, n_i)$, where
+$d_i, p_i, n_i$ refers to the deadline, priority and the number of tasks
+of $j_i$ respectively, and the workers are modeled as a vector of
+estimated execution time of each submitted job: $s_k = (T^k_1, T^k_2,
+\ldots)$, similar to the previous policy.
 
 \subsection{Algorithm}
+
+Intuitively, for the same job, if the deadline is twice tighter, it
+requires twice as many workers to meet that deadline.
+More generally speaking, the deadline and the workload are in reciprocal
+relationship.
+
+This implies that an worker allocation $S$ to job $j_i$ meeting the
+deadline is equivalent to
+\[\displaystyle\sum_{s_k \in S}\frac{1}{T^k_{j_i}} \geq \frac{1}{d_i}\]
+With this observation, only a little modification on the workload-based
+policy is needed to apply to this model: simply use the inverse of
+deadline as throughput.
 
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
