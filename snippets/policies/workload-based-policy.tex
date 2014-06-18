@@ -6,6 +6,27 @@
 $result \gets$
 KeyValueMap(key $\to \{\}$ for all key $\in jobSet$)\;
 $jobSet \gets$ $sortByPriority(jobSet)$\;
-\For{each $i \in jobSet$}{}
+\For{each job $j \in jobSet$}{
+  \If{$workerSet$ is empty}{\textbf{break}\;}
+  $cmp \gets function(w)$\{\Return $w$.throughput$[j]\}$\;
+  $workerSet \gets$ $sort(workerSet,cmp,ACSENDING)$\;
+  $i \gets 0$\;
+  $throughput \gets 0$\;
+  %\For{$i = 0 $ to $workerSet$.size-1}{
+  %  $throughput \mathrel{+}= workerSet[i].throughput[j]$\;
+  %  \If{$throughput \geq j$.workload}{
+  %    \textbf{break}\;
+  %  }
+  %}
+  \For{$i = 0$ ;\\
+    $i<workerSet$.size \textbf{AND}
+    $throughput < j$.workload;
+    $i\mathrel{+}\mathrel{+}$
+  }{
+    $throughput \mathrel{+}= workerSet[i].throughput[j]$\;
+  }
+  $result[j] \gets workerSet[0...i]$\;
+  $workerSet$.remove(0,$i$)
+}
 
 \Return{result}\;
