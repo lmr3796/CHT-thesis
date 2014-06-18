@@ -15,7 +15,12 @@
   {
     \begin{frame}<beamer>
       \frametitle{Outline for section \thesection}
-      \tableofcontents[currentsubsection]
+      \tableofcontents[
+        currentsubsection,
+        hideothersubsections,
+        sectionstyle=show/hide,
+        subsectionstyle=show/shaded,
+      ]
     \end{frame}
   }
 ]
