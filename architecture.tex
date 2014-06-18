@@ -34,7 +34,7 @@ components: \emph{status checker}, \emph{decision maker} and
 % TODO use the topic sentence of each component to briefly describe it.
 In the former case, the management system connects with several
 \emph{workers}, which leverage physical resources directly, and
-interacts with instances of \emph{client} -- the interface end users
+interacts with instances of \emph{client} --- the interface end users
 submit jobs from.
 
 % RPC server design
@@ -45,7 +45,7 @@ Separate RPC server implementation makes each component
 The pluggability gives the system administrator flexibility to choose
 the most suitable component implementation to fit different needs.
 Moreover, without shutting the whole system down, it is possible to
-change system configurations -- or even upgrade the system -- by
+change system configurations --- or even upgrade the system --- by
 substituting target components with feasible ones.
 Besides, this design allows us to easily integrate the management system
 with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
@@ -107,7 +107,7 @@ Here's an example on how to program with our client library.
   \end{Example Code}
 \end{spacing}
 
-Assume that the user has 3 jobs -- $j_1$, $j_2$ and $j_3$ -- to be done
+Assume that the user has 3 jobs --- $j_1$, $j_2$ and $j_3$ --- to be done
 separately and their result to be aggregated:  $j_1$ and $j_2$ takes
 long time to run on the cluster can be submitted directly; $j_3$ takes
 shorter time on remote clusters if separated into parallel tasks but
