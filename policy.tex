@@ -81,8 +81,10 @@ As for the workers, we model each worker $S_j$ as a vector of estimated
 The approach is a simple greedy method:
 First, sort the jobs by priority.
 For each job $J_m$, sort remaining workers according to its $th_m$,
-assign top $k$ workers that just satisfies the workload requirement of
+assign top $k$ workers that just satisfy the workload requirement of
 $J_m$ and remove assigned workers from the list.
+If workers are used up, break the loop.
+The complete algorithm is shown as algorithm ~\ref{algo:workload-based}.
 
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
