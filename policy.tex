@@ -8,6 +8,13 @@ execution efficiency per different server and execution deadline.
 The decision maker makes dispatching plans to according to a specified
 policy.
 
+When designing the schedule policies, one should take the number of
+tasks a job is split into consideration since we don't want to assign
+workers more than tasks of a job to it.
+Recall that it is the end users' responsibility to split a job into well
+balanced tasks; the more balanced the tasks, the better the system
+schedules.
+
 
 \section{Priority-based Policy}
 
@@ -30,7 +37,7 @@ The algorithm is shown as Algorithm~\ref{algo:priority-based}.
 
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
-  \input{snippets/priority-based-policy}
+  \input{snippets/policies/priority-based-policy}
   \caption{Priority-based policy}
   \label{algo:priority-based}
 \end{algorithm}
@@ -46,9 +53,42 @@ is in proportion to its workload proportion to all jobs.
 
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
-  \input{snippets/proportion-based-policy}
+  \input{snippets/policies/proportion-based-policy}
   \caption{Proportion-based policy}
   \label{algo:proportion-based}
+\end{algorithm}
+
+\section{Workload-based Policy}
+
+Similar to the proportion-based policy, the main concern of the
+workload-based policy is the workload of the job.
+The main difference is, rather than fair sharing, this policy tends to
+meet the workload requirement of high priority jobs.
+
+\subsection{Model Definition}
+
+We represent each job $J_i$ submitted as $J_i = (W_i, P_i, N_i)$, where
+$W_i, P_i, N_i$ represents the estimated workload, priority and the
+number of task of $J_i$ respectively.
+As for the workers, we model each worker $S_j$ as a vector of estimated
+\emph{throughput} of each submitted job; we can write is as $S_J =
+(th_1, th_2, \ldots)$
+
+% TODO Server model
+
+\subsection{Algorithm}
+
+The approach is a simple greedy method:
+First, sort the jobs by priority.
+For each job $J_m$, sort remaining workers according to its $th_m$,
+assign top $k$ workers that just satisfies the workload requirement of
+$J_m$ and remove assigned workers from the list.
+
+\begin{algorithm}[H]
+  \DontPrintSemicolon % Some LaTeX compilers require you to use
+  \input{snippets/policies/workload-based-policy}
+  \caption{Deadline-based policy}
+  \label{algo:deadline-based}
 \end{algorithm}
 
 \section{Deadline-based Policy}
@@ -67,11 +107,18 @@ this need; hence, we introduce another policy designed for
 
 \subsection{Model Definition}
 
+For this policy, we assume that each job is provided with priority and
+deadline.
+A job $J_i$ can thus be represented as $J_i = (P_i, D_i, N_i)$, where
+$P_i, D_i\text{ and }N_i$ refers to the priority, deadline and the
+number of tasks of $J_i$ respectively.
+
 
 \subsection{Algorithm}
+
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
-  \input{snippets/deadline-based-policy}
+  \input{snippets/policies/deadline-based-policy}
   \caption{Deadline-based policy}
   \label{algo:deadline-based}
 \end{algorithm}
