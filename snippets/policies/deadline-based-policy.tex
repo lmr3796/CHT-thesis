@@ -1,0 +1,26 @@
+\KwIn{
+  $workerSet=\{w_1, w_2, \ldots, w_m\}$,
+  $jobSet=\{j_1, j_2, \ldots, j_n\}$,
+}
+\KwOut{A mapping of each job to scheduled workers}
+$result \gets$
+KeyValueMap(key $\to \{\}$ for all key $\in jobSet$)\;
+$jobSet \gets$ $sortByPriority(jobSet)$\;
+\For{each job $j_i=(d_i,p_i,n_i)  \in jobSet$}{
+  \If{$workerSet$ is empty}{\textbf{break}\;}
+  $cmp \gets function(w)$\{\Return $1/w.execTime[j_i]\}$\;
+  $workerSet \gets$ $sort(workerSet,cmp,DECSENDING)$\;
+  $th \gets 0$\;
+  \For{\textbf{(} $k = 0$ ;\\
+    $k<workerSet$.size \textbf{AND}
+    $k<n_i$ \textbf{AND}
+    $th < 1/w_i.execTime[j_i]$;
+    $k \gets k+1 $\textbf{)}
+  }{
+    $th \mathrel{+}= 1/workerSet[k].execTime[j_i]$\;
+  }
+  $result[j_i] \gets workerSet[0...i]$\;
+  $workerSet$.remove(0,$k$)
+}
+
+\Return{result}\;
