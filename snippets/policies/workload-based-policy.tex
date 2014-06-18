@@ -1,0 +1,11 @@
+\KwIn{
+  $workerSet=\{w_1, w_2, \ldots, w_m\}$,
+  $jobSet=\{j_1, j_2, \ldots, j_n\}$,
+}
+\KwOut{A mapping of each job to scheduled workers}
+$result \gets$
+KeyValueMap(key $\to \{\}$ for all key $\in jobSet$)\;
+$jobSet \gets$ $sortByPriority(jobSet)$\;
+\For{each $i \in jobSet$}{}
+
+\Return{result}\;
