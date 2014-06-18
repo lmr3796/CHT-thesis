@@ -1,8 +1,8 @@
 \chapter{Policy}
 
-In this chapter, we introduce the policies in our system.
-There are three dispatching policies --- \emph{priority-based},
-\emph{proportion-based} and \emph{deadline-based}.
+In this chapter, we introduce the four policies in our system ---
+\emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
+and \emph{deadline-based}.
 Each policy requires different parameters such as job priority,
 execution efficiency per different server and execution deadline.
 The decision maker makes dispatching plans to according to a specified
@@ -24,16 +24,21 @@ The idea behind this policy is to make the job with highest priority runs as
 fast as possible.
 Intuitively, we can sort the jobs according to their priority then greedily
 schedule as many workers as possible to each job in that order.
-However, this might cause \emph{starvation} that lower priority jobs never get
-executed.
+However, this might cause \emph{starvation} --- lower priority jobs
+never get executed.
 
 % TODO try to say more...
-% TODO Dissemble the topic sentence
+
 %%% How we avoid starvation from happening
-To avoid \emph{starvation}, we preserve a portion $r \in [0,1]$ of workers for
-low priority jobs and job with the highest priority can use only the
-unpreserved workers.
-The algorithm is shown as Algorithm~\ref{algo:priority-based}.
+To avoid \emph{starvation}, we preserve a portion for low priority jobs.
+We set a reservation rate $r \in [0,1]$ that the portion $r$ of workers
+will be reserved for low priority jobs.
+The job with highest priorities can use at most the $1-r$ of all workers
+and the remaining workers, including those are not reserved but still not
+assigned to the highest priority job because of the task amount limit,
+will be assigned to jobs with lower priority, in the manner that one job
+receives one worker.
+The complete algorithm is shown as algorithm~\ref{algo:priority-based}.
 
 \begin{algorithm}[H]
   \DontPrintSemicolon % Some LaTeX compilers require you to use
@@ -67,14 +72,13 @@ meet the workload requirement of high priority jobs.
 
 \subsection{Model Definition}
 
-We represent each job $J_i$ submitted as $J_i = (W_i, P_i, N_i)$, where
-$W_i, P_i, N_i$ represents the estimated workload, priority and the
-number of task of $J_i$ respectively.
-As for the workers, we model each worker $S_j$ as a vector of estimated
-\emph{throughput} of each submitted job; we can write is as $S_J =
-(th_1, th_2, \ldots)$
+We represent each job $j_i$ submitted as $j_i = (w_i, p_i, n_i)$, where
+$w_i, p_i, n_i$ represents the estimated workload, priority and the
+number of task of $j_i$ respectively.
+As for the workers, we model each worker $s_j$ as a vector of estimated
+\emph{throughput} of each submitted job; we can write is as $s_J =
+(th_1, th_2, \ldots)$.
 
-% TODO Server model
 
 \subsection{Algorithm}
 
@@ -102,18 +106,19 @@ very critical to their business.
 It it obvious that computing resource allocated this kind of job should
 increase as their deadline approaches --- the closer the deadline is, the
 more worker a job should get.
-% TODO should I use "introduce"? It's the most critical idea we proposed
-Unfortunately, policies introduced in previous sections can't adapt to
-this need; hence, we introduce another policy designed for
+Unfortunately, policies introduced in previous sections can't directly
+adapt to this need; hence, we introduce another policy designed for
 \emph{deadline-aware} scenarios.
 
 \subsection{Model Definition}
 
 For this policy, we assume that each job is provided with priority and
-deadline.
+deadline and we have execution time (which may be a estimated one) of a
+job on each server.
 A job $J_i$ can thus be represented as $J_i = (P_i, D_i, N_i)$, where
 $P_i, D_i\text{ and }N_i$ refers to the priority, deadline and the
 number of tasks of $J_i$ respectively.
+
 
 
 \subsection{Algorithm}
