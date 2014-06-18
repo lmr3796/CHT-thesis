@@ -1,0 +1,107 @@
+\section{System Architecture}
+
+\begin{frame}
+  \frametitle{System Architecture -- Overview}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \resizebox{\linewidth}{!}{
+          \input{figures/manage-standalone.tikz}
+        }
+        \caption{Architecture Overview}
+        \label{fig:archi-overview}
+      \end{figure}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item Each component is a RPC server
+        \item As a cluster management system or extension
+          components of existent cloud systems
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{System Architecture -- Client}
+  \only<1>{
+    \begin{itemize}
+      \item The programming interface users sends jobs to the system for execution
+      \item Users can specify attributes for jobs
+        \begin{itemize}
+          \item Deadline
+          \item Priority
+          \item \ldots
+        \end{itemize}
+      \item Supports background execution
+
+    \end{itemize}
+  }
+  \only<2>{
+    \newfloat{Example Code}{H}{myc}
+    \begin{Example Code}
+      \lstset{
+        frame=LRBT,
+        basicstyle=\ttfamily\tiny\color{black},
+        commentstyle = \ttfamily\color{blue!50},
+        keywordstyle=\ttfamily\color{green},
+        stringstyle=\color{red!80},
+      }
+      \input{snippets/client-sample-code}
+      \caption{Sample code of client usage}
+    \end{Example Code}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{System Architecture -- Worker}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+
+\begin{frame}
+  \frametitle{System Architecture -- Decision Maker}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+
+\begin{frame}
+  \frametitle{System Architecture -- Status Checker}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+
+\begin{frame}
+  \frametitle{System Architecture -- Dispatcher}
+  % TODO Hurray!!!!!! I like this part!!!!!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Work flow -- Standalone Mode}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Work flow -- Case study: Integration with JPPF}
+  \begin{itemize}[<+->]
+      \only<1-2>{
+      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
+        framework
+        \begin{itemize}
+          \item <.->Very easy to deploy
+          \item <.->GUI monitoring tools
+          \item <.->Active development
+        \end{itemize}
+      \item Doesn't support \emph{centralized} and
+        \emph{node-aware} scheduling
+      }
+      \only<3->{
+      \item Provides API for jobs set "filters" for a job -- to reject a
+        node of from running that job
+      \item Leveraging this API, we can somehow implement node-aware
+        scheduling by \pause
+        \begin{enumerate}
+          \item Contact the system for scheduling information
+          \item Get scheduled worker of the job
+          \item Reject if this node is not scheduled
+        \end{enumerate}
+      }
+  \end{itemize}
+\end{frame}
+

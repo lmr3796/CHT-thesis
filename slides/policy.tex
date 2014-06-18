@@ -1,0 +1,117 @@
+\section{Scheduling Policies}
+
+\begin{frame}
+  \frametitle{Policy}
+  \begin{itemize}
+    \item Basically, the scheduling algorithm used by the system
+    \item Each of them requires different parameters
+      \begin{itemize}
+        \item User provided
+        \item System statistics
+      \end{itemize}
+    \item Administrators can select different policies for their need
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Policy -- Priority-based}
+  %TODO for different needs, use different policies
+  %If no deadline, only priority is specified. e.g., research experiment
+  \only<1>{
+    \begin{itemize}
+      \item Make the job with highest priority done as fast as possbile
+      \item Preserve some workers to relieve starvation
+      \item Only priority is considered
+      \item Good for those without hard time limit situations like research experiment
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/policies/priority-based-policy}
+      \caption{Priority-based policy}
+      \label{algo:priority-based}
+    \end{algorithm}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Policy -- Proportion-based}
+  %For streaming jobs, workloads may varies: For streaming jobs dependent on
+  %others, if they don't have anything to process, its workload is low
+  %so no workers needed, but as results come out, we should give it
+  %servers
+  \only<1>{
+    \begin{itemize}
+      \item Take workload as main concern
+      \item "Fair sharing"
+      \item Considers only workload
+      \item Streaming jobs with dependency
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/policies/proportion-based-policy}
+      \caption{Proportion-based policy}
+      \label{algo:proportion-based}
+    \end{algorithm}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Policy -- Workload-based}
+  %TODO for different needs, use different policies
+  %TODO If we have workload and deadline
+  %TODO Tell this is the main focus of CHT's request, so our experiments
+  %focus on this
+  \only<1>{
+    \begin{itemize}
+      \item Similar to proportion based takes workload into consideration
+      \item Greedy: meet high priority requirement, give up low priority
+        ones
+      \item Give resource that just meets requirement 
+      \item Schedule jobs on those fit the most -- node
+        difference/\emph{heterogeneity} aware
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/policies/workload-based-policy}
+      \caption{Deadline-based policy}
+      \label{algo:deadline-based}
+    \end{algorithm}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Policy -- Deadline-based}
+  %TODO for different needs, use different policies
+  %TODO If we have workload and deadline
+  %TODO Tell this is the main focus of CHT's request, so our experiments
+  %focus on this
+  \only<1>{
+    \begin{itemize}
+      \item Deadline is the main focus
+      \item Takes priority, workload and deadline into consideration
+      \item Greedy: meet high priority deadlines, give up low priority
+        ones
+      \item Don't over schedule resource: give resource just enough to
+        make deadline
+      \item Schedule jobs on those fit the most -- node
+        difference/\emph{heterogeneity} aware
+      \item CHT's main concern
+      \item e.g. billing accountant
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+    \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/policies/deadline-based-policy}
+      \caption{Deadline-based policy}
+      \label{algo:deadline-based}
+    \end{algorithm}
+  }
+\end{frame}
+
