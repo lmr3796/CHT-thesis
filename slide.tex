@@ -247,6 +247,31 @@
   }
 \end{frame}
 \begin{frame}
+  \frametitle{Policy -- Workload-based}
+  %TODO for different needs, use different policies
+  %TODO If we have workload and deadline
+  %TODO Tell this is the main focus of CHT's request, so our experiments
+  %focus on this
+  \only<1>{
+    \begin{itemize}
+      \item Similar to proportion based takes workload into consideration
+      \item Greedy: meet high priority requirement, give up low priority
+        ones
+      \item Give resource that just meets requirement 
+      \item Schedule jobs on those fit the most -- node
+        difference/\emph{heterogeneity} aware
+    \end{itemize}
+  }
+  \only<2>{\scriptsize
+      \begin{algorithm}[H]
+      \DontPrintSemicolon % Some LaTeX compilers require you to use
+      \input{snippets/policies/workload-based-policy}
+      \caption{Deadline-based policy}
+      \label{algo:deadline-based}
+    \end{algorithm}
+  }
+\end{frame}
+\begin{frame}
   \frametitle{Policy -- Deadline-based}
   %TODO for different needs, use different policies
   %TODO If we have workload and deadline
@@ -260,8 +285,8 @@
         ones
       \item Don't over schedule resource: give resource just enough to
         make deadline
-      \item Schedule jobs on those fit the most -- node difference
-        (\emph{heterogeneity}) aware
+      \item Schedule jobs on those fit the most -- node
+        difference/\emph{heterogeneity} aware
       \item CHT's main concern
       \item e.g. billing accountant
     \end{itemize}
