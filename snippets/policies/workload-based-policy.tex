@@ -6,27 +6,21 @@
 $result \gets$
 KeyValueMap(key $\to \{\}$ for all key $\in jobSet$)\;
 $jobSet \gets$ $sortByPriority(jobSet)$\;
-\For{each job $j \in jobSet$}{
+\For{each job $j_i=(w_i,p_i,n_i)  \in jobSet$}{
   \If{$workerSet$ is empty}{\textbf{break}\;}
-  $cmp \gets function(w)$\{\Return $w$.throughput$[j]\}$\;
+  $cmp \gets function(w)$\{\Return $w.th[j_i]\}$\;
   $workerSet \gets$ $sort(workerSet,cmp,DECSENDING)$\;
-  $i \gets 0$\;
-  $throughput \gets 0$\;
-  %\For{$i = 0 $ to $workerSet$.size-1}{
-  %  $throughput \mathrel{+}= workerSet[i].throughput[j]$\;
-  %  \If{$throughput \geq j$.workload}{
-  %    \textbf{break}\;
-  %  }
-  %}
-  \For{$i = 0$ ;\\
-    $i<workerSet$.size \textbf{AND}
-    $throughput < j$.workload;
-    $i\mathrel{+}\mathrel{+}$
+  $th \gets 0$\;
+  \For{\textbf{(} $k = 0$ ;\\
+    $k<workerSet$.size \textbf{AND}
+    $k<n_i$ \textbf{AND}
+    $th < w_i$;
+    $k\mathrel{+}\mathrel{+}$ \textbf{)}
   }{
-    $throughput \mathrel{+}= workerSet[i].throughput[j]$\;
+    $th \mathrel{+}= workerSet[i].throughput[j]$\;
   }
-  $result[j] \gets workerSet[0...i]$\;
-  $workerSet$.remove(0,$i$)
+  $result[j_i] \gets workerSet[0...i]$\;
+  $workerSet$.remove(0,$k$)
 }
 
 \Return{result}\;
