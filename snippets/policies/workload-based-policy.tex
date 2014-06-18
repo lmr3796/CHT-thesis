@@ -9,7 +9,7 @@ $jobSet \gets$ $sortByPriority(jobSet)$\;
 \For{each job $j \in jobSet$}{
   \If{$workerSet$ is empty}{\textbf{break}\;}
   $cmp \gets function(w)$\{\Return $w$.throughput$[j]\}$\;
-  $workerSet \gets$ $sort(workerSet,cmp,ACSENDING)$\;
+  $workerSet \gets$ $sort(workerSet,cmp,DECSENDING)$\;
   $i \gets 0$\;
   $throughput \gets 0$\;
   %\For{$i = 0 $ to $workerSet$.size-1}{
