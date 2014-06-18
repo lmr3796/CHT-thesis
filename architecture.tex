@@ -98,20 +98,18 @@ synchronization model they like.
 Here's an example on how to program with our client library.
 
 % Programming example
-\begin{spacing}{1.0}
-  \newfloat{Example Code}{H}{myc}
-  \lstloadlanguages{Ruby}
-  \begin{Example Code}
-    \input{snippets/client-sample-code}
-    \caption{Sample code of client usage}
-  \end{Example Code}
-\end{spacing}
+\newfloat{Example Code}{H}{myc}
+\lstloadlanguages{Ruby}
+\begin{Example Code}
+  \input{snippets/client-sample-code}
+  \caption{Sample code of client usage}
+\end{Example Code}
 
-Assume that the user has 3 jobs --- $j_1$, $j_2$ and $j_3$ --- to be done
-separately and their result to be aggregated:  $j_1$ and $j_2$ takes
-long time to run on the cluster can be submitted directly; $j_3$ takes
-shorter time on remote clusters if separated into parallel tasks but
-requires time consuming local pre-processing and post-processing.
+Assume that the user has 3 jobs --- $j_1$, $j_2$ and $j_3$ --- to be
+done separately and their result to be aggregated:  $j_1$ and $j_2$
+takes long time to run on the cluster can be submitted directly; $j_3$
+takes shorter time on remote clusters if separated into parallel tasks
+but requires time consuming local pre-processing and post-processing.
 Since $j_1$, $j_2$ and pre-processing of $j_3$ is costive, it's better
 to do them in parallel.
 As a result, we submit $j_1$ and $j_2$ at first and wait for their
