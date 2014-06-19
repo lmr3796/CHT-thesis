@@ -8,9 +8,14 @@
 % Put required libraries into library.tex
 \input{library}
 
+\usepackage{biblatex}
 \usepackage{etoolbox}
 \usepackage{graphicx}
 \usepackage{xeCJK}
+
+% Your bibliography goes here
+\bibliography{bibliography}
+
 \setCJKmainfont{微軟正黑體} 
 
 % Tikz figure styls
@@ -82,7 +87,6 @@
     subsectionstyle=show/show/shaded,
   ]
 \end{frame}
-
 \begin{frame}
   \frametitle{Q3 Progress}
   \begin{itemize}
@@ -94,10 +98,15 @@
     \item Adaptive adjustment
       \begin{itemize}
         \item Monitor job execution progress to estimate running time
+        \item Helpful for
+          \begin{itemize}
+            \item Catch up progress delayed stragglers
+            \item Adjust over/under allocated resource due to workload
+              information error
+          \end{itemize}
       \end{itemize}
   \end{itemize}
 \end{frame}
-
 \subsection{Task Queuing}
 \begin{frame}
   \frametitle{Task Queuing}
@@ -171,5 +180,6 @@
       }
   \end{itemize}
 \end{frame}
+
 
 \end{document}
