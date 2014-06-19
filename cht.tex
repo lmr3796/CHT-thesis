@@ -21,7 +21,8 @@
 % Tikz figure styls
 \input{figures/architecture.styles.tikz}
 
-\usetheme{Boadilla}
+% Slide style setting
+\usetheme{Madrid}
 
 \title{大型資料中心之硬體資源分配管理}
 %\author{Ting-Chou Lin}
@@ -123,10 +124,11 @@
 
   \begin{figure}[h]
     \centering
-    \input{figures/trailing-idle.tikz}
+    \resizebox{\textheight}{!}{
+      \input{figures/trailing-idle.tikz}
+    }
     \caption{Trailing Idle Worker}
   \end{figure}
-
 \end{frame}
 
 \subsection{Adaptive Adjustment}
