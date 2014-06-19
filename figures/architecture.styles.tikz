@@ -1,3 +1,4 @@
+% System architecture
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
   1 with {\arrow[semithick]{open triangle 60}}},
   double distance=1.4pt, shorten >= 5.5pt, preaction = {decorate},
@@ -8,3 +9,14 @@
 ]
 \tikzstyle{dispatcher} = [component,minimum height=19.3em]
 \tikzstyle{system}=[draw,dashed,rounded corners,fill=yellow!30]
+
+% Job allocations
+\tikzstyle{worker-matrix}=[
+  row sep=0.7cm,column sep=0.7cm,
+  nodes={draw, minimum size=3em, circle, thick, fill=gray!20}
+]
+\tikzstyle{job-allocation}=[draw, thick, rectangle,rounded corners, inner sep=0.2cm,]
+\tikzstyle{job-1}=[job-allocation, fill=green!15, label=left:$J_1$]
+\tikzstyle{job-2}=[job-allocation, fill=blue!15, label=left:$J_2$]
+\tikzstyle{job-3}=[job-allocation, fill=red!15, label=right:$J_3$]
+\tikzstyle{invisible}=[draw=none, fill=none]

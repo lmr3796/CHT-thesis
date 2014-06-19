@@ -1,8 +1,14 @@
 \documentclass{beamer}
 
+%%% Compile flags
+% Show algorithm pseudocode
+\newif\ifshowalgo
+\showalgofalse
+
 % Put required libraries into library.tex
 \input{library}
 
+\usepackage{etoolbox}
 \usepackage{graphicx}
 \usepackage{xeCJK}
 \setCJKmainfont{微軟正黑體} 
@@ -15,19 +21,16 @@
 \title{大型資料中心之硬體資源分配管理}
 %\author{Ting-Chou Lin}
 
-\AtBeginSection[
-  {
-    \begin{frame}<beamer>
-      \frametitle{Outline for section \thesection}
-      \tableofcontents[
-        currentsubsection,
-        hideothersubsections,
-        sectionstyle=show/hide,
-        subsectionstyle=show/shaded,
-      ]
-    \end{frame}
-  }
-]
+\AtBeginSection[]{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[
+      currentsubsection,
+      sectionstyle=show/shaded,
+      subsectionstyle=show/shaded,
+    ]
+  \end{frame}
+}
 
 \begin{document}
 
@@ -35,10 +38,17 @@
   \titlepage
   \label{title-page}
 \end{frame}
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[
+    currentsubsection,
+    sectionstyle=show/show,
+    subsectionstyle=show/shaded,
+  ]
+\end{frame}
 
 \input{slides/introduction.tex}
-
-\section{System Architecture}
+\section{System Overview}
 \begin{frame}
   \frametitle{System Architecture -- Overview}
   \begin{columns}
@@ -53,7 +63,7 @@
     \end{column}
     \begin{column}{.5\textwidth}
       \begin{itemize}
-        \item Each component is a RPC server
+        \item Each component is a RPC server.
         \item As a cluster management system or extension
           components of existent cloud systems
       \end{itemize}
@@ -61,94 +71,34 @@
   \end{columns}
 \end{frame}
 
-\section{Policy}
-\begin{frame}
-  \frametitle{Policy}
-  \begin{itemize}
-    \item The scheduling algorithm used by the system
-    \item Each of them requires different parameters
-      \begin{itemize}
-        \item User provided
-        \item System statistics
-      \end{itemize}
-    \item Administrators can select different policies for their need
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Policy}
-  \begin{itemize}
-    \item Four policies are proposed
-      \begin{itemize}
-        \item Priority-based
-        \item Proportion-based
-        \item Deadline-based
-        \item Workload-based
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Policy -- Priority-based}
-  %TODO for different needs, use different policies
-  %If no deadline, only priority is specified. e.g., research experiment
-  \begin{itemize}
-    \item Make the job with highest priority done as fast as possible
-    \item Preserve some workers to relieve starvation
-    \item Only priority is considered
-    \item Good for those without hard time limit situations like research experiment
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Policy -- Proportion-based}
-  %For streaming jobs, workloads may varies: For streaming jobs dependent on
-  %others, if they don't have anything to process, its workload is low
-  %so no workers needed, but as results come out, we should give it
-  %servers
-  \begin{itemize}
-    \item Take workload as main concern
-    \item "Fair sharing"
-    \item Considers only workload
-    \item Good for streaming jobs with dependency
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Policy -- Deadline-based}
-  %TODO for different needs, use different policies
-  %TODO If we have workload and deadline
-  %TODO Tell this is the main focus of CHT's request, so our experiments
-  %focus on this
-  \begin{itemize}
-    \item Deadline is the main focus
-    \item Use deadlines to estimated required workload and apply
-      the workload-based policy
-    \item Don't over schedule resource: give resource just enough to
-      meet deadline
-    \item Schedule jobs on those fit the most -- node
-      difference/\emph{heterogeneity} aware
-    \item CHT's main concern
-    \item e.g. billing accountant
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Policy -- Workload-based}
-  \begin{itemize}
-    \item Combining previous ones, take priority and workload into
-      consideration
-    \item Greedy: meet high priority requirements first
-    \item Give resource that just meets requirement 
-    \item Schedule jobs on those fit the most -- node
-      difference/\emph{heterogeneity} aware
-  \end{itemize}
-\end{frame}
+\input{slides/policy}
 
 \section{Q3 Progress}
+\begin{frame}<beamer>
+  \frametitle{Outline}
+  \tableofcontents[
+    currentsubsection,
+    sectionstyle=show/shaded,
+    subsectionstyle=show/show/shaded,
+  ]
+\end{frame}
 
 \begin{frame}
   \frametitle{Q3 Progress}
   \begin{itemize}
     \item Task queuing
+      \begin{itemize}
+        \item To release trailing idle workers earlier
+        \item Reduce resource waste
+      \end{itemize}
     \item Adaptive adjustment
+      \begin{itemize}
+        \item Monitor job execution progress to estimate running time
+      \end{itemize}
   \end{itemize}
 \end{frame}
+
+\subsection{Task Queuing}
 \begin{frame}
   \frametitle{Task Queuing}
   \begin{itemize}
@@ -158,6 +108,19 @@
     \item Task queuing enables releasing trailing idle workers earlier
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Trailing Idle Worker}
+
+  \begin{figure}[h]
+    \centering
+    \input{figures/trailing-idle.tikz}
+    \caption{Trailing Idle Worker}
+  \end{figure}
+
+\end{frame}
+
+\subsection{Adaptive Adjustment}
 \begin{frame}
   \frametitle{Adaptive Adjustment}
   \setbeamercovered{transparent}
@@ -165,8 +128,7 @@
     \begin{itemize}[<+->]
       \item We assumed that the execution time of each task can be
         predicted or obtained by profiling.
-      \item <.->But we sometimes just don't have such information or the
-        information are not that accurate
+      \item <.->But accurate information is not always available.
         \begin{itemize}
           \item New applications
           \item Profiling error
@@ -180,14 +142,8 @@
     \includegraphics[width=\textwidth]{figures/adaptive.png}
   }
 \end{frame}
-\section{TODO}
-\begin{frame}
-  \frametitle{TODO}
-  \begin{itemize}
-    \item Co-work with CHT integrate with JPPF
-  \end{itemize}
 
-\end{frame}
+\section{Q4 TODOs}
 \begin{frame}
   \frametitle{Integration with JPPF}
   \begin{itemize}[<+->]
@@ -199,13 +155,13 @@
           \item <.->GUI monitoring tools
           \item <.->Active development
         \end{itemize}
-      \item Doesn't support \emph{centralized} and
+      \item Does not support \emph{centralized} and
         \emph{node-aware} scheduling
       }
       \only<3->{
-      \item Provides API for jobs set "filters" for a job -- to reject a
+      \item It provides API for jobs to set "filters" for a job -- to reject a
         node of from running that job
-      \item Leveraging this API, we can somehow implement node-aware
+      \item Leveraging this API, we might be able to implement node-aware
         scheduling by \pause
         \begin{enumerate}
           \item Contact the system for scheduling information
@@ -215,4 +171,5 @@
       }
   \end{itemize}
 \end{frame}
+
 \end{document}

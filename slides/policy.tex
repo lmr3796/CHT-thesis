@@ -1,17 +1,27 @@
-\section{Scheduling Policies}
+\section{Policy}
 
 \begin{frame}
   \frametitle{Policy}
   \begin{itemize}
-    \item Basically, the scheduling algorithm used by the system
-    \item Each of them requires different parameters
+    \item The scheduling algorithm used by the system.
+    \item Each of them requires different parameters.
       \begin{itemize}
         \item User provided
         \item System statistics
       \end{itemize}
-    \item Administrators can select different policies for their need
+    \item Administrators can select different policies to fit their
+      need.
   \end{itemize}
 \end{frame}
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[
+    currentsubsection,
+    sectionstyle=show/shaded,
+    subsectionstyle=show/show/shaded,
+  ]
+\end{frame}
+\subsection{Priority-based}
 
 \begin{frame}
   \frametitle{Policy -- Priority-based}
@@ -19,12 +29,14 @@
   %If no deadline, only priority is specified. e.g., research experiment
   \only<1>{
     \begin{itemize}
-      \item Make the job with highest priority done as fast as possible
-      \item Preserve some workers to relieve starvation
+      \item Finish the job with highest priority as fast as possible
+      \item Preserve workers to relieve starvation of low priority ones
       \item Only priority is considered
-      \item Good for those without hard time limit situations like research experiment
+      \item Good for those facility whose applications do not have 
+        hard time limit, such as research experiment.
     \end{itemize}
   }
+  \ifshowalgo
   \only<2>{\scriptsize
     \begin{algorithm}[H]
       \DontPrintSemicolon % Some LaTeX compilers require you to use
@@ -33,8 +45,10 @@
       \label{algo:priority-based}
     \end{algorithm}
   }
+  \fi
 \end{frame}
 
+\subsection{Proportion-based}
 \begin{frame}
   \frametitle{Policy -- Proportion-based}
   %For streaming jobs, workloads may varies: For streaming jobs dependent on
@@ -43,12 +57,12 @@
   %servers
   \only<1>{
     \begin{itemize}
-      \item Take workload as main concern
-      \item "Fair sharing"
-      \item Considers only workload
-      \item Good for streaming jobs with dependency
+      \item Allocate resource proportionally according to workload 
+      \item "Fair-share scheduling"~\footnote{cite:fair-share-schedule}
+      \item Good for streaming jobs or jobs with dependency
     \end{itemize}
   }
+  \ifshowalgo
   \only<2>{\scriptsize
     \begin{algorithm}[H]
       \DontPrintSemicolon % Some LaTeX compilers require you to use
@@ -57,20 +71,21 @@
       \label{algo:proportion-based}
     \end{algorithm}
   }
+  \fi
 \end{frame}
 
+\subsection{Workload-based}
 \begin{frame}
   \frametitle{Policy -- Workload-based}
   \only<1>{
     \begin{itemize}
-      \item Combining previous ones, take priority and workload into
-        consideration
-      \item Greedy: meet high priority requirements first
-      \item Give resource that just meets requirement 
-      \item Schedule jobs on those fit the most -- node
-        difference/\emph{heterogeneity} aware
+      \item Consider both priority and workload
+      \item Give just enough resource to meet the requirement 
+      \item Achieve \emph{Heterogeneity} aware allocation by always allocating
+        workers that run the job the fastest
     \end{itemize}
   }
+  \ifshowalgo
   \only<2>{\scriptsize
     \begin{algorithm}[H]
       \DontPrintSemicolon % Some LaTeX compilers require you to use
@@ -79,7 +94,10 @@
       \label{algo:workload-based}
     \end{algorithm}
   }
+  \fi
 \end{frame}
+
+\subsection{Deadline-based}
 
 \begin{frame}
   \frametitle{Policy -- Deadline-based}
@@ -89,17 +107,14 @@
   %focus on this
   \only<1>{
     \begin{itemize}
-      \item Deadline is the main focus
       \item Use deadlines to estimated required workload and apply
         the workload-based policy
-      \item Don't over schedule resource: give resource just enough to
-        meet deadline
-      \item Schedule jobs on those fit the most -- node
-        difference/\emph{heterogeneity} aware
-      \item CHT's main concern
-      \item e.g. billing accountant
+      \item Allocate resource just enough to meet deadlines
+      \item \emph{Heterogeneity} aware scheduling
+      \item Scenario: billing accounting
     \end{itemize}
   }
+  \ifshowalgo
   \only<2>{\scriptsize
     \begin{algorithm}[H]
       \DontPrintSemicolon % Some LaTeX compilers require you to use
@@ -108,5 +123,6 @@
       \label{algo:deadline-based}
     \end{algorithm}
   }
+  \fi
 \end{frame}
 

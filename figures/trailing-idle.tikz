@@ -1,0 +1,12 @@
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+\begin{tikzpicture}
+  \matrix (wmtrx2)[worker-matrix]{
+    \node(w0_)[fill=red!15]{$w_0$};& \node(i1)[invisible]{};& \node(w0_)[fill=red!15]{$w_0$};&	\node(j1)[invisible]{};&	\node(w0_)[fill=red!15]{$w_0$};\\
+    \node(w1_)[fill=red!15]{$w_1$};& \node(i2)[invisible]{};& \node(w1_)[fill=red!15]{$w_1$};&	\node(j2)[invisible]{};&	\node(w1_)[fill=red!15]{$w_1$};\\
+    \node(w2_)[fill=red!15]{$w_2$};& \node(i3)[invisible]{};& \node(w2_)[fill=red!15]{$w_2$};&	\node(j3)[invisible]{};&	\node(w2_){$w_2$};\\
+    \node(w3_)[fill=red!15]{$w_3$};& \node(i4)[invisible]{};& \node(w3_)[fill=red!15]{$w_3$};&	\node(j4)[invisible]{};&	\node(w3_){$w_3$};\\
+  };
+  \node[fit=(i1) (i4)]{};
+  \node[fit=(j1) (j4)]{};
+\end{tikzpicture}

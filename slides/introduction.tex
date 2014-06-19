@@ -9,7 +9,7 @@
     % Deploying all applications to the cluster
     \item For elasticity, rather than dedicating servers for particular
       applications, more people tend to build a large cluster for all
-      needs
+      needs.
   \end{itemize}
 \end{frame}
 
@@ -17,7 +17,7 @@
   \frametitle{Background -- Job Characteristics}
   \setbeamercovered{transparent}
   \begin{itemize}[<+->]
-    \item In data centers, jobs come with different characteristics
+    \item In data centers, jobs come with different characteristics.
       \begin{itemize}
         \item Importance/Priority
         \item Computation resource demand
@@ -29,7 +29,7 @@
         \item <.(2)->{\alert<.(2)->{Deadline}}
       \end{itemize}
     \item Moreover, some of them should be completed before time
-      constraints
+      constraints.
       \begin{itemize}
         \item <.-> Billing jobs should be done within days after charge-off
         \item <.-> Research experiments are not that urgent
@@ -62,22 +62,22 @@
   \frametitle{Goal}
   \begin{itemize}
     \item Implement a resource management component that \emph{dynamically}
-      adjust resource for each job
+      adjusts resource for each job
     \item System administrator can easily specify different policy to
       adapt to their needs
-    \item The system should take server heterogeneity into consideration
+    \item The system should take server \alert{heterogeneity} into consideration
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Target Environment -- CHT's Data Center}
   \begin{itemize}
-    \item Old and new servers coexists -- heterogeneous environment
-    \item Jobs are mainly about processing files (billing accountant)
+    \item Old and new servers coexists -- heterogeneous environment.
+    \item Jobs are mainly about processing files (billing accounting).
     \item Jobs are split into many \emph{tasks}, each of which can be processed
-      in parallel
-    \item Data is shared via NFS
-    \item Servers may fail
+      in parallel.
+    \item Data is shared via NFS.
+    \item Servers may fail.
   \end{itemize}
 \end{frame}
 
