@@ -5,8 +5,12 @@ SLIDE_TARGETS=slide cht
 
 
 .PHONY: clean clean-all
-	#$(TARGETS):
-	#	$(COMPILE_CMD) $@
+
+all: $(PDF_TARGETS) $(SLIDE_TARGETS)
+
+#$(TARGETS):
+#	$(COMPILE_CMD) $@
+
 $(PDF_TARGETS):
 	xelatex -output-directory=$(BUILD_DIR) $@
 	bibtex $(BUILD_DIR)/$@.aux
@@ -17,7 +21,6 @@ $(SLIDE_TARGETS):
 	biber --output_directory $(BUILD_DIR) $@
 	xelatex -output-directory=$(BUILD_DIR) $@
 	xelatex -output-directory=$(BUILD_DIR) $@
-all: $(PDF_TARGETS) $(SLIDE_TARGETS)
 clean:
 	#$(COMPILE_CMD) -c
 	rm -rf $(BUILD_DIR)/*
