@@ -1,0 +1,187 @@
+\documentclass{beamer}
+
+%%% Compile flags
+% Show algorithm pseudocode
+\newif\ifshowalgo
+\showalgofalse
+
+% Put required libraries into library.tex
+\input{library}
+
+\usepackage{biblatex}
+\usepackage{etoolbox}
+\usepackage{graphicx}
+\usepackage{xeCJK}
+
+% Your bibliography goes here
+\bibliography{bibliography}
+
+\setCJKmainfont{微軟正黑體} 
+
+% Tikz figure styls
+\input{figures/architecture.styles.tikz}
+
+% Slide style setting
+\usetheme{Madrid}
+
+\title{大型資料中心之硬體資源分配管理}
+%\author{Ting-Chou Lin}
+
+\AtBeginSection[]{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[
+      currentsubsection,
+      sectionstyle=show/shaded,
+      subsectionstyle=show/shaded,
+    ]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+  \label{title-page}
+\end{frame}
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[
+    currentsubsection,
+    sectionstyle=show/show,
+    subsectionstyle=show/shaded,
+  ]
+\end{frame}
+
+\input{slides/introduction.tex}
+\section{System Overview}
+\begin{frame}
+  \frametitle{System Architecture -- Overview}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \resizebox{\linewidth}{!}{
+          \input{figures/manage-standalone.tikz}
+        }
+        \caption{Architecture Overview}
+        \label{fig:archi-overview}
+      \end{figure}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item Each component is a RPC server.
+        \item As a cluster management system or extension
+          components of existent cloud systems
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\input{slides/policy}
+
+\section{Q3 Progress}
+\begin{frame}<beamer>
+  \frametitle{Outline}
+  \tableofcontents[
+    currentsubsection,
+    sectionstyle=show/shaded,
+    subsectionstyle=show/show/shaded,
+  ]
+\end{frame}
+\begin{frame}
+  \frametitle{Q3 Progress}
+  \begin{itemize}
+    \item Task queuing
+      \begin{itemize}
+        \item To release trailing idle workers earlier
+        \item Reduce resource waste
+      \end{itemize}
+    \item Adaptive adjustment
+      \begin{itemize}
+        \item Monitor job execution progress to estimate running time
+        \item Helpful for
+          \begin{itemize}
+            \item Catch up progress delayed stragglers
+            \item Adjust over/under allocated resource due to workload
+              information error
+          \end{itemize}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+\subsection{Task Queuing}
+\begin{frame}
+  \frametitle{Task Queuing}
+  \begin{itemize}
+    \item Workers are occupied until all tasks of the assigned job are
+      done
+    \item Trailing idle workers
+    \item Task queuing enables releasing trailing idle workers earlier
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Trailing Idle Worker}
+
+  \begin{figure}[h]
+    \centering
+    \resizebox{\textheight}{!}{
+      \input{figures/trailing-idle.tikz}
+    }
+    \caption{Trailing Idle Worker}
+  \end{figure}
+\end{frame}
+
+\subsection{Adaptive Adjustment}
+\begin{frame}
+  \frametitle{Adaptive Adjustment}
+  \setbeamercovered{transparent}
+  \only<1-5>{
+    \begin{itemize}[<+->]
+      \item We assumed that the execution time of each task can be
+        predicted or obtained by profiling.
+      \item <.->But accurate information is not always available.
+        \begin{itemize}
+          \item New applications
+          \item Profiling error
+          \item Machine performance degradation
+        \end{itemize}
+      \item Log the execution progress of each task and use it to
+        estimate task execution speed
+    \end{itemize}
+  }
+  \only<6>{
+    \includegraphics[width=\textwidth]{figures/adaptive.png}
+  }
+\end{frame}
+
+\section{Q4 TODOs}
+\begin{frame}
+  \frametitle{Integration with JPPF}
+  \begin{itemize}[<+->]
+      \only<1-2>{
+      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
+        framework
+        \begin{itemize}
+          \item <.->Very easy to deploy
+          \item <.->GUI monitoring tools
+          \item <.->Active development
+        \end{itemize}
+      \item Does not support \emph{centralized} and
+        \emph{node-aware} scheduling
+      }
+      \only<3->{
+      \item It provides API for jobs to set "filters" for a job -- to reject a
+        node of from running that job
+      \item Leveraging this API, we might be able to implement node-aware
+        scheduling by \pause
+        \begin{enumerate}
+          \item Contact the system for scheduling information
+          \item Get scheduled worker of the job
+          \item Reject if this node is not scheduled
+        \end{enumerate}
+      }
+  \end{itemize}
+\end{frame}
+
+
+\end{document}

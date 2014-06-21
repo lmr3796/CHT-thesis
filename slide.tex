@@ -1,29 +1,44 @@
 \documentclass{beamer}
 
+%%% Compile flags
+% Show algorithm pseudocode
+\newif\ifshowalgo
+\showalgotrue
+
 % Put required libraries into library.tex
 \input{library}
 
-% Tikz figure styls
-\input{figures/architecture.styles.tikz}
+% Slide specific packages
+\usepackage{adjustbox}
+\usepackage{biblatex}
+\usepackage{caption}
+\usepackage{multicol}
+\captionsetup{font=scriptsize,labelfont=scriptsize}
+% if figure only 
+%\captionsetup[figure]{font=scriptsize,labelfont=scriptsize}
 
-%\usetheme{Warsaw}
+% Your bibliography goes here
+\bibliography{bibliography}
+
+% Define styles
+\input{style}
+
+% Slide style setting
+\usetheme{Boadilla}
 
 \title{Job Dispatching and Scheduling under Heterogeneous Clusters}
 \author{Ting-Chou Lin}
 
-\AtBeginSection[
-  {
-    \begin{frame}<beamer>
-      \frametitle{Outline for section \thesection}
-      \tableofcontents[
-        currentsubsection,
-        hideothersubsections,
-        sectionstyle=show/hide,
-        subsectionstyle=show/shaded,
-      ]
-    \end{frame}
-  }
-]
+\AtBeginSection[]{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[
+      currentsubsection,
+      sectionstyle=show/shaded,
+      subsectionstyle=show/hide,
+    ]
+  \end{frame}
+}
 
 \begin{document}
 
@@ -31,12 +46,18 @@
   \titlepage
   \label{title-page}
 \end{frame}
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[subsectionstyle=show/hide]
+\end{frame}
 
 \input{slides/introduction.tex}
 
 \input{slides/architecture.tex}
 
 \input{slides/policy.tex}
+
+\input{slides/implementation.tex}
 
 \input{slides/experiment.tex}
 
