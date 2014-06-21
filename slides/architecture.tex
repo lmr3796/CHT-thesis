@@ -66,30 +66,46 @@
 \begin{frame}
   \frametitle{System Architecture --- Worker}
   \begin{itemize}
-    \item Minimum scheduling slot
+    \item The minimum scheduling slot
     \item Runs one task only at a time
-    \item
+    \item Administrators can deploy one or more instances on a machine
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture --- Decision Maker}
-  % TODO Hurray!!!!!! I like this part!!!!!
   \begin{itemize}
-    \item Schedules jobs
+    \item The core scheduler
+    \item Schedules according to information from the status checker and
+      dispatcher.
+    \item Administrators can configure it with different scheduling
+      policy.
+    \item Runs in \emph{passive mode}
+      \begin{itemize}
+        \item Does not affect the system directly.
+        \item Gives out the \emph{results} only.
+        \item This design lowers the coupling between components and
+          makes the system easier to be integrated into other existent
+          systems.
+      \end{itemize}
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture --- Status Checker}
-  % TODO Hurray!!!!!! I like this part!!!!!
-  \begin{itemize}
-    \item 
+    Periodically collects and maintains system information
+    \begin{itemize}
+      \item Node healthiness
+      \item Resource utilization
+      \item \ldots
+    \end{itemize}
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{System Architecture --- Dispatcher}
-  % TODO Hurray!!!!!! I like this part!!!!!
   \begin{itemize}
-    \item 
+    \item Organizes the system work flows.
+    \item Accepts job submissions from client instances.
+    \item Obtains the schedule from decision maker and dispatches
+      tasks.
   \end{itemize}
 \end{frame}
 
