@@ -18,7 +18,7 @@
   \tableofcontents[
     currentsubsection,
     sectionstyle=show/shaded,
-    subsectionstyle=show/show/shaded,
+    subsectionstyle=show/show/hide,
   ]
 \end{frame}
 \subsection{Priority-based}
@@ -36,16 +36,16 @@
         hard time limit, such as research experiment.
     \end{itemize}
   }
-  \ifshowalgo
-  \only<2>{\scriptsize
-    \begin{algorithm}[H]
-      \DontPrintSemicolon % Some LaTeX compilers require you to use
-      \input{snippets/policies/priority-based-policy}
-      \caption{Priority-based policy}
-      \label{algo:priority-based}
-    \end{algorithm}
-  }
-  \fi
+  \ifshowalgo\only<2>{\scriptsize
+    \resizebox{.9\textwidth}{!}{
+      \begin{algorithm}[H]
+        \DontPrintSemicolon % Some LaTeX compilers require you to use
+        \input{snippets/policies/priority-based-policy}
+        \caption{Priority-based policy}
+        \label{algo:priority-based}
+      \end{algorithm}
+    }
+  }\fi
 \end{frame}
 
 \subsection{Proportion-based}
@@ -58,20 +58,20 @@
   \only<1>{
     \begin{itemize}
       \item Allocate resource proportionally according to workload 
-      \item "Fair-share scheduling"~\footnote[frame]{\fullcite{cite:fair-share-scheduling}}
+      \item "Fair-share scheduling"~\footnote[frame]{\tiny\fullcite{cite:fair-share-scheduling}}
       \item Good for streaming jobs or jobs with dependency
     \end{itemize}
   }
-  \ifshowalgo
-  \only<2>{\scriptsize
-    \begin{algorithm}[H]
-      \DontPrintSemicolon % Some LaTeX compilers require you to use
-      \input{snippets/policies/proportion-based-policy}
-      \caption{Proportion-based policy}
-      \label{algo:proportion-based}
-    \end{algorithm}
-  }
-  \fi
+  \ifshowalgo\only<2>{\scriptsize
+    \resizebox{.9\textwidth}{!}{
+      \begin{algorithm}[H]
+        \DontPrintSemicolon % Some LaTeX compilers require you to use
+        \input{snippets/policies/proportion-based-policy}
+        \caption{Proportion-based policy}
+        \label{algo:proportion-based}
+      \end{algorithm}
+    }
+  }\fi
 \end{frame}
 
 \subsection{Workload-based}
@@ -85,44 +85,42 @@
         workers that run the job the fastest
     \end{itemize}
   }
-  \ifshowalgo
-  \only<2>{\scriptsize
-    \begin{algorithm}[H]
-      \DontPrintSemicolon % Some LaTeX compilers require you to use
-      \input{snippets/policies/workload-based-policy}
-      \caption{Workload-based policy}
-      \label{algo:workload-based}
-    \end{algorithm}
-  }
-  \fi
+  \ifshowalgo\only<2>{\scriptsize
+    \resizebox{.9\textwidth}{!}{
+      \begin{algorithm}[H]
+        \DontPrintSemicolon % Some LaTeX compilers require you to use
+        \input{snippets/policies/workload-based-policy}
+        \caption{Workload-based policy}
+        \label{algo:workload-based}
+      \end{algorithm}
+    }
+  }\fi
 \end{frame}
 
 \subsection{Deadline-based}
 
 \begin{frame}
   \frametitle{Policy -- Deadline-based}
-  %TODO for different needs, use different policies
-  %TODO If we have workload and deadline
   %TODO Tell this is the main focus of CHT's request, so our experiments
   %focus on this
   \only<1>{
     \begin{itemize}
+      \item Scenario: billing accounting
       \item Use deadlines to estimated required workload and apply
         the workload-based policy
       \item Allocate resource just enough to meet deadlines
       \item \emph{Heterogeneity} aware scheduling
-      \item Scenario: billing accounting
     \end{itemize}
   }
-  \ifshowalgo
-  \only<2>{\scriptsize
-    \begin{algorithm}[H]
-      \DontPrintSemicolon % Some LaTeX compilers require you to use
-      \input{snippets/policies/deadline-based-policy}
-      \caption{Deadline-based policy}
-      \label{algo:deadline-based}
-    \end{algorithm}
-  }
-  \fi
+  \ifshowalgo\only<2>{\scriptsize
+    \resizebox{.9\textwidth}{!}{
+      \begin{algorithm}[H]
+        \DontPrintSemicolon % Some LaTeX compilers require you to use
+        \input{snippets/policies/deadline-based-policy}
+        \caption{Deadline-based policy}
+        \label{algo:deadline-based}
+      \end{algorithm}
+    }
+  }\fi
 \end{frame}
 

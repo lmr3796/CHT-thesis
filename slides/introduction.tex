@@ -21,9 +21,9 @@
         \item Importance/Priority
         \item Computation resource demand
           \begin{itemize}
-            \item CPU $\leftrightarrow$ I/O bound
+            \item CPU bound versus I/O bound
             \item <.-> Requires large RAM
-            \item <.-> Leveraging GPGPU
+            \item <.-> Leverage GPGPU
           \end{itemize}
         \item <.(2)->{\alert<.(2)->{Deadline}}
       \end{itemize}
@@ -45,8 +45,7 @@
       \begin{itemize}
         \item Purchase new ones and remove obsolete ones only on
           periodic equipment upgrades.
-        \item \textbf{We can view the number of workers as fixed between
-          upgrades.}
+        \item \textbf{The number of workers is fixed between upgrades.}
       \end{itemize}
     \item <.(-2)-> Servers in the cluster are \alert{heterogeneous}.
       \begin{itemize}
@@ -61,7 +60,7 @@
   \begin{itemize}
     \item Implement a resource management component that \emph{dynamically}
       adjusts resource for each job.
-    \item System administrator can easily specify different policy to
+    \item System administrator can easily specify different policies to
       adapt to their needs.
     \item The system should take server \alert{heterogeneity} into consideration.
   \end{itemize}
@@ -70,8 +69,8 @@
   \frametitle{Target Environment -- CHT's Data Center}
   \begin{itemize}
     \item Old and new servers coexists -- heterogeneous environment.
-    \item Jobs are mainly about processing files (billing accounting).
-    \item Jobs are split into many \emph{tasks}, each of which can be processed
+    \item Most jobs process files (billing accounting).
+    \item Jobs are split into many \emph{tasks}, each can be processed
       in parallel.
     \item Data is shared via NFS.
     \item Servers may fail.

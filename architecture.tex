@@ -1,4 +1,4 @@
-\chapter{System Architecture}
+jchapter{System Architecture}
 
 \section{Overview}
 
@@ -94,7 +94,8 @@ specify the synchronization point that waits all the submitted task to
 be done as they like, without blocking the code before it.
 Besides, user can submit multiple jobs at a time.
 Combining these two features, user can easily program the
-synchronization model they like.
+synchronization model they want, just like those traditional work flow
+description languages can do~\cite{cite:workflow-managment}.
 Here's an example on how to program with our client library.
 
 % Programming example
@@ -234,7 +235,7 @@ on hand, the dispatcher would told them to run tasks of $J_3$ and the
 allocation plan became the lower half of
 figure~\ref{fig:allocation-adjustment}.
 
-\begin{figure}]
+\begin{figure}
   \centering
   \input{figures/job-reallocation.tikz}
   \caption{Job allocation adjustment}

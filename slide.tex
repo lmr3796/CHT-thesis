@@ -8,10 +8,14 @@
 % Put required libraries into library.tex
 \input{library}
 
+% Slide specific packages
+\usepackage{adjustbox}
 \usepackage{biblatex}
-
-% Your bibliography goes here
-\bibliography{bibliography}
+\usepackage{caption}
+\usepackage{multicol}
+\captionsetup{font=scriptsize,labelfont=scriptsize}
+% if figure only 
+%\captionsetup[figure]{font=scriptsize,labelfont=scriptsize}
 
 % Tikz figure styles
 \input{figures/architecture.styles.tikz}
@@ -28,7 +32,7 @@
     \tableofcontents[
       currentsubsection,
       sectionstyle=show/shaded,
-      subsectionstyle=show/shaded,
+      subsectionstyle=show/hide,
     ]
   \end{frame}
 }
@@ -41,7 +45,7 @@
 \end{frame}
 \begin{frame}
   \frametitle{Outline}
-  \tableofcontents[subsectionstyle=show/shaded]
+  \tableofcontents[subsectionstyle=show/hide]
 \end{frame}
 
 \input{slides/introduction.tex}
