@@ -31,9 +31,9 @@
     \begin{itemize}
       \item Finish the job with highest priority as fast as possible.
       \item Preserve workers to relieve starvation of low priority ones.
-      \item Only priority is considered.
-      \item Good for those facility whose applications do not have 
-        hard time limit, such as research experiment.
+      \item Considers priority only.
+      \item Good for facilities whose applications do not have hard time
+        limit, such as research experiment.
     \end{itemize}
   }
   \ifshowalgo\only<2>{\scriptsize
@@ -75,10 +75,11 @@
   \frametitle{Policy -- Workload-based}
   \only<1>{
     \begin{itemize}
-      \item Consider both priority and workload
-      \item Give just enough resource to meet the requirement 
-      \item Achieve \emph{heterogeneity aware}allocation by always allocating
-        workers that run the job the fastest
+      \item Considers both priority and workload.
+      \item Meets high priority requirements first.
+      \item Gives just enough resource to meet the requirement.
+      \item Achieves \emph{heterogeneity-aware} allocation by always allocating
+        workers that run the job fastest.
     \end{itemize}
   }
   \ifshowalgo\only<2>{\scriptsize
@@ -97,15 +98,14 @@
 
 \begin{frame}
   \frametitle{Policy -- Deadline-based}
-  %TODO Tell this is the main focus of CHT's request, so our experiments
-  %focus on this
   \only<1>{
     \begin{itemize}
       \item Scenario: billing accounting
-      \item Use deadlines to estimated required workload and apply
+      \item Use deadlines to estimate required workload and apply
         the workload-based policy
       \item Allocate resource just enough to meet deadlines
-      \item \emph{Heterogeneity} aware scheduling
+      \item \emph{Heterogeneity-aware} scheduling
+      \item CHT's main concern
     \end{itemize}
   }
   \ifshowalgo\only<2>{\scriptsize
