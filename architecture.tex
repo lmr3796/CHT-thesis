@@ -83,7 +83,7 @@ client instance created using the provided library.
 % attributes
 Users specify several attributes to jobs before submission, such as
 deadline, priority and execution profile from previous experience.
-These attributes are later passed to the decision maker for reference so
+These attributes are later passed to decision maker for reference so
 that it can schedule the jobs.
 
 % Library features: batch submission and background execution
@@ -153,9 +153,9 @@ manipulating physical resources instead.
 
 \section{Status Checker}
 
-The status checker periodically collects the information about worker
+Status checker periodically collects the information about worker
 instances and physical servers.
-Leveraging the information collected by the status checker, the decision
+Leveraging the information collected by status checker, the decision
 maker can make resource allocation plans according to a policy specified
 by the system administration.
 
@@ -176,13 +176,13 @@ For example, if someone deployed the management system on a cluster
 which focuses on utilizing its I/O bandwidth, they would probably
 specify a schedule policy in regard to I/O utilization of the physical
 server.
-In this situation, the status checker must collect the information about
+In this situation, status checker must collect the information about
 not only the worker instances but the physical server as well.
 
 Necessary information will be written to a database for persistent
 storage.
-This allows the status checker to recover its state and work normally
-after being plugged off.
+This allows status checker to recover its state and work normally after
+being plugged off.
 Besides, writing to a external database makes integration with other
 framework easier since it's more general to access a database.
 
@@ -194,23 +194,23 @@ makes allocation plans according to a specified \emph{policy} that takes
 different parameters, for example, job deadline and priority, into
 consideration. 
 
-Instead of letting the decision maker schedule resources actively, we
+Instead of letting decision maker schedule resources actively, we
 decided to have it work in \emph{passive mode}, which means it is
 invoked only under certain circumstances.
-Normally, it is only invoked by the dispatcher whenever a job is
-submitted or finished.
-By this design, the decision maker is only responsible for making
-allocation plans.
+Normally, it is only invoked by dispatcher whenever a job is submitted
+or finished.
+By this design, decision maker is only responsible for making allocation
+plans.
 In other words, the only job this component do is to perform the
 schedule algorithm and give results.
 
 
-Doing seemingly little work only, the decision maker is however the most
+Doing seemingly little work only, decision maker is however the most
 critical part of the management system.
 This is not only because the whole system acts according to the plan the
 decision maker makes, but also because it provides the flexibility that
 other frameworks can easily obtain the result of the scheduling
-algorithm by invoking the decision maker.
+algorithm by invoking decision maker.
 
 \section{Dispatcher}
 
@@ -224,13 +224,13 @@ In the beginning, two jobs $J_1$ and $J_2$ had been allocated with 5
 workers respectively ($w_{0\sim4}$, $w_{5\sim9}$), as shown in the upper
 half of figure~\ref{fig:allocation-adjustment}.
 After $J_3$, with which higher priority had been specified than $J_1$
-and $J_2$, had been submitted, the decision maker computed a new
-allocation plan according to a specified policy.
+and $J_2$, had been submitted, decision maker computed a new allocation
+plan according to a specified policy.
 In the example, the new allocation plan was 3 workers for $J_1$ and
 $J_2$ each ($w_{0\sim2}$, $w_{5\sim7}$) and 4 workers ($w_{3,4,8,9}$)
 for $J_3$.
 Therefore, after $w_3$, $w_4$, $w_8$ and $ w_9$ had finished there task
-on hand, the dispatcher would told them to run tasks of $J_3$ and the
+on hand, dispatcher would told them to run tasks of $J_3$ and the
 allocation plan became the lower half of
 figure~\ref{fig:allocation-adjustment}.
 
