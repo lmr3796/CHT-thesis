@@ -54,16 +54,19 @@ Roystonea also benefits from the RPC server implementation.
 
 %%% Not sure if we need this, but anyway...
 The rest of the chapter is organized as followed.  
-First we introduce the \emph{client}, which is ...
-Then we define the \emph{Worker} in our system, ...
-The three components, { \emph{status checker}, \emph{decision maker} and
-\emph{dispatcher}, are described after that.
+First we introduce the \emph{client}, which is programming interface for
+end users to submit jobs to our system.
+Then we define the job model and the \emph{worker}, the component that
+directly executes jobs, also the minimum scheduling slot, in our system.
+The three major management components --- \emph{status checker},
+\emph{decision maker} and \emph{dispatcher} --- are described after
+that.
 
 \section{Job and Tasks}
 
 Before discussing our system architecture, we have to introduce the
 representation of workload in our system.
-Users will submit \emph{jobs} each of which consists of several
+Users will submit \emph{jobs}, each of which consists of several
 \emph{tasks}, the minimum unit of scheduling, to the system.
 As a cluster management framework, submitted jobs are meant to be
 expected to be processed in parallel.
@@ -123,17 +126,18 @@ aggregation.
 
 Workers are the ones using resource of the cloud directly.
 They execute tasks assigned by the management system.
-A worker instance executes at most one task at a time, but it doesn't
-mean that a physical machine can run one task only at a time.
+A worker instance executes at most one task at a time.
+In other words, a worker is the minimum scheduling slot of our system.
+However, it does not mean that a physical machine can run one task only
+at a time.
 One can run multiple worker instances on a physical machine so that a
-physical machine could run more than one task simultaneously.	 
+physical machine could run more than one task simultaneously.
 
 Deploying multiple worker instances on a powerful machine (e.g., with
 large number of cores) can gain better performance from
 multiprogramming, but in contrary, it might however cause resource
 contention on low-end machines.
 We leave the choice to system administrators.
-
 
 If the task execution performance of a machine running multiple worker
 instances is far worse than expected, it is very likely due to resource
