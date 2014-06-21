@@ -3,6 +3,7 @@
 \begin{frame}
   \frametitle{System Architecture -- Overview}
   \begin{columns}
+
     \begin{column}{.5\textwidth}
       \begin{figure}
         \resizebox{\linewidth}{!}{
@@ -14,14 +15,22 @@
     \end{column}
     \begin{column}{.5\textwidth}
       \begin{itemize}
-        \item Each component is a RPC server.
-        \item As a cluster management system or extension
-          components of existent cloud systems
+        \item Three major components
+          \begin{itemize}
+            \item Dispatcher
+            \item Status Checker
+            \item Decision Maker
+          \end{itemize}
+        \item Two working modes
+          \begin{itemize}
+            \item Standalone
+            \item Extension component
+          \end{itemize}
       \end{itemize}
     \end{column}
+
   \end{columns}
 \end{frame}
-
 \begin{frame}
   \frametitle{System Architecture -- Client}
   \only<1>{
@@ -52,56 +61,20 @@
     \end{Example Code}
   }
 \end{frame}
-
 \begin{frame}
   \frametitle{System Architecture -- Worker}
   % TODO Hurray!!!!!! I like this part!!!!!
 \end{frame}
-
 \begin{frame}
   \frametitle{System Architecture -- Decision Maker}
   % TODO Hurray!!!!!! I like this part!!!!!
 \end{frame}
-
 \begin{frame}
   \frametitle{System Architecture -- Status Checker}
   % TODO Hurray!!!!!! I like this part!!!!!
 \end{frame}
-
 \begin{frame}
   \frametitle{System Architecture -- Dispatcher}
   % TODO Hurray!!!!!! I like this part!!!!!
-\end{frame}
-
-\begin{frame}
-  \frametitle{Work flow -- Standalone Mode}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Work flow -- Case study: Integration with JPPF}
-  \begin{itemize}[<+->]
-      \only<1-2>{
-      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
-        framework
-        \begin{itemize}
-          \item <.->Very easy to deploy
-          \item <.->GUI monitoring tools
-          \item <.->Active development
-        \end{itemize}
-      \item Doesn't support \emph{centralized} and
-        \emph{node-aware} scheduling
-      }
-      \only<3->{
-      \item Provides API for jobs set "filters" for a job -- to reject a
-        node of from running that job
-      \item Leveraging this API, we can somehow implement node-aware
-        scheduling by \pause
-        \begin{enumerate}
-          \item Contact the system for scheduling information
-          \item Get scheduled worker of the job
-          \item Reject if this node is not scheduled
-        \end{enumerate}
-      }
-  \end{itemize}
 \end{frame}
 
