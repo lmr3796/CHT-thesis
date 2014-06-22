@@ -1,5 +1,4 @@
 \section{System Architecture}
-
 \begin{frame}
   \frametitle{System Architecture --- Overview}
   \begin{columns}
@@ -69,6 +68,13 @@
     \item The minimum scheduling slot
     \item Runs one task only at a time
     \item Administrators can deploy one or more instances on a machine
+    \item Different states
+      \begin{itemize}
+        \item AVAILABLE
+        \item OCCUPIED 
+        \item BUSY
+        \item DOWN
+      \end{itemize}
   \end{itemize}
 \end{frame}
 \begin{frame}
@@ -107,4 +113,3 @@
       tasks.
   \end{itemize}
 \end{frame}
-
