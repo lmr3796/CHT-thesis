@@ -1,16 +1,14 @@
 \section{Implementation}
+\subsection{RPC Server Design}
 \begin{frame}
+  \frametitle{RPC Server Design}
+  We implement all the components in our system as RPC servers.
   \begin{itemize}
-    \item Each component is a RPC server.
-      \begin{itemize}
-        \item Low coupling
-        \item Upgrade/Change configurations without halting the system
-      \end{itemize}
-    \item Two working modes
-      \begin{itemize}
-        \item Standalone
-        \item Extension component
-      \end{itemize}
+    \item Lowers coupling between components.
+    \item Enables changing configurations or upgrading the system
+      without halting the system.
+    \item Roystonea~\footnote[frame]{\tiny\fullcite{cite:roystonea}}
+      benefits from this design, too.
   \end{itemize}
 \end{frame}
 \subsection{Task Queuing}

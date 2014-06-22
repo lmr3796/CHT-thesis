@@ -3,7 +3,7 @@
   \frametitle{System Architecture --- Overview}
   \begin{columns}
 
-    \begin{column}{.5\textwidth}
+    \begin{column}{.55\textwidth}
       \begin{figure}
         \resizebox{\linewidth}{!}{
           \input{figures/manage-standalone.tikz}
@@ -12,14 +12,18 @@
         \label{fig:archi-overview}
       \end{figure}
     \end{column}
-    \begin{column}{.5\textwidth}
+    \begin{column}{.4\textwidth}
       \begin{itemize}
-        \item Three major components
-          \begin{itemize}
-            \item Dispatcher
-            \item Status Checker
-            \item Decision Maker
-          \end{itemize}
+        \item Client
+        \item Workers
+        \item Management system
+          \uncover<2>{
+            \begin{itemize}
+              \item Dispatcher
+              \item Status Checker
+              \item Decision Maker
+            \end{itemize}
+          }
         \item Two working modes
           \begin{itemize}
             \item Standalone
