@@ -52,7 +52,7 @@
   \begin{enumerate}
     \item Status checker periodically pings each worker for its status.
     \item Also on each ping, collects execution statistics.
-    \item If a worker stuck at OCCUPIED status for too long, forcibly
+    \item If a worker stucks at occupied status for too long, forcibly
       releases it.
     \item If it found servers fail or recover from failure, tells the
       dispatcher to update the schedule.
