@@ -30,7 +30,7 @@
   \only<1>{
     \begin{itemize}
       \item Finish the job with highest priority as fast as possible.
-      \item Preserve workers to relieve starvation of low priority ones.
+      \item Preserves workers to relieve starvation of low priority ones.
       \item Considers priority only.
       \item Good for facilities whose applications do not have hard time
         limit, such as research experiment.
@@ -53,8 +53,8 @@
   \frametitle{Policy -- Proportion-based}
   \only<1>{
     \begin{itemize}
-      \item Allocate resource proportionally according to workload 
-      \item "Fair-share scheduling"~\footnote[frame]{\tiny\fullcite{cite:fair-share-scheduling}}
+      \item Allocates resource proportionally according to workload 
+      \item "Fair-share scheduling"\footnote[frame]{\tiny\fullcite{cite:fair-share-scheduling}}
       \item Good for streaming jobs or jobs with dependency
     \end{itemize}
   }
@@ -101,9 +101,9 @@
   \only<1>{
     \begin{itemize}
       \item Scenario: billing accounting
-      \item Use deadlines to estimate required workload and apply
+      \item Uses deadlines to estimate required workload and apply
         the workload-based policy
-      \item Allocate resource just enough to meet deadlines
+      \item Allocates resource just enough to meet deadlines
       \item \emph{Heterogeneity-aware} scheduling
       \item CHT's main concern
     \end{itemize}

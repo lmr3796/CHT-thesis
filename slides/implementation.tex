@@ -1,16 +1,14 @@
 \section{Implementation}
+\subsection{RPC Server Design}
 \begin{frame}
+  \frametitle{RPC Server Design}
+  We implement all the components in our system as RPC servers.
   \begin{itemize}
-    \item Each component is a RPC server.
-      \begin{itemize}
-        \item Low coupling
-        \item Upgrade/Change configurations without halting the system
-      \end{itemize}
-    \item Two working modes
-      \begin{itemize}
-        \item Standalone
-        \item Extension component
-      \end{itemize}
+    \item Lowers coupling between components.
+    \item Enables changing configurations or upgrading the system
+      without halting the system.
+    \item Roystonea\footnote[frame]{\tiny\fullcite{cite:roystonea}}
+      benefits from this design, too.
   \end{itemize}
 \end{frame}
 \subsection{Task Queuing}
@@ -60,35 +58,35 @@
   }
 \end{frame}
 
-\subsection{Work Flow}
+\subsection{Case Study: Integration with JPPF}
 \begin{frame}
-  \frametitle{Standalone Mode}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Case study: Integration with JPPF}
-  \begin{itemize}[<+->]
-      \only<1-2>{
-      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
-        framework
+  \frametitle{Case Study: Integration with JPPF}
+  \only<1>{
+    \begin{itemize}
+      \item JPPF\footnote[frame]{\tiny\fullcite{cite:JPPF}} is a very
+        popular open-source cluster management framework.
         \begin{itemize}
-          \item <.->Very easy to deploy
-          \item <.->GUI monitoring tools
-          \item <.->Active development
+          \item Very easy to deploy
+          \item GUI monitoring tools
+          \item Active development
         \end{itemize}
+      \item Used in CHT's cluster.
       \item Doesn't support \emph{centralized} and
         \emph{node-aware} scheduling
-      }
-      \only<3->{
-      \item Provides API for jobs set "filters" for a job -- to reject a
-        node of from running that job
-      \item Leveraging this API, we can somehow implement node-aware
-        scheduling by \pause
+    \end{itemize}
+  }
+  \only<2->{
+    \begin{itemize}[<+->]
+      \item Provides API for jobs set "filters" for a job --- to reject a
+        node from running that job
+      \item<.-> Leveraging this API, we can somehow implement node-aware
+        scheduling by
+        \pause
         \begin{enumerate}
           \item Contact the system for scheduling information
           \item Get scheduled worker of the job
           \item Reject if this node is not scheduled
         \end{enumerate}
-      }
-  \end{itemize}
+    \end{itemize}
+  }
 \end{frame}
