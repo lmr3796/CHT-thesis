@@ -69,10 +69,10 @@
 \begin{frame}
   \frametitle{System Architecture --- Worker}
   \begin{itemize}
-    \item The minimum scheduling slot
-    \item Runs one task only at a time
-    \item Administrators can deploy one or more instances on a machine
-    \item Different states
+    \item The minimum scheduling slot.
+    \item Runs one task only at a time.
+    \item Administrators can deploy one or more instances on a machine.
+    \item States of a worker:
       \begin{itemize}
         \item AVAILABLE
         \item OCCUPIED 
@@ -89,7 +89,7 @@
       dispatcher.
     \item Administrators can configure it with different scheduling
       policy.
-    \item Runs in \emph{passive mode}
+    \item Runs in \emph{passive mode}.
       \begin{itemize}
         \item Does not affect the system directly.
         \item Gives out the \emph{results} only.
