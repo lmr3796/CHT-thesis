@@ -3,7 +3,7 @@
   \frametitle{System Architecture --- Overview}
   \begin{columns}
 
-    \begin{column}{.5\textwidth}
+    \begin{column}{.55\textwidth}
       \begin{figure}
         \resizebox{\linewidth}{!}{
           \input{figures/manage-standalone.tikz}
@@ -12,14 +12,18 @@
         \label{fig:archi-overview}
       \end{figure}
     \end{column}
-    \begin{column}{.5\textwidth}
+    \begin{column}{.4\textwidth}
       \begin{itemize}
-        \item Three major components
-          \begin{itemize}
-            \item Dispatcher
-            \item Status Checker
-            \item Decision Maker
-          \end{itemize}
+        \item Client
+        \item Worker
+        \item Management system
+          \uncover<2>{
+            \begin{itemize}
+              \item Dispatcher
+              \item Status Checker
+              \item Decision Maker
+            \end{itemize}
+          }
         \item Two working modes
           \begin{itemize}
             \item Standalone
@@ -43,7 +47,7 @@
         \end{itemize}
       \item Supports background execution
       \item Exposed APIs let users easily do what existent
-        work flow description languages~\footnote[frame]
+        work flow description languages\footnote[frame]
         {\tiny\fullcite{cite:workflow-management}} can do.
     \end{itemize}
   }
@@ -65,15 +69,15 @@
 \begin{frame}
   \frametitle{System Architecture --- Worker}
   \begin{itemize}
-    \item The minimum scheduling slot
-    \item Runs one task only at a time
-    \item Administrators can deploy one or more instances on a machine
-    \item Different states
+    \item The minimum scheduling slot.
+    \item Runs one task only at a time.
+    \item Administrators can deploy one or more instances on a machine.
+    \item States of a worker:
       \begin{itemize}
-        \item AVAILABLE
-        \item OCCUPIED 
-        \item BUSY
-        \item DOWN
+        \item Available
+        \item Occupied
+        \item Busy
+        \item Down
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -85,7 +89,7 @@
       dispatcher.
     \item Administrators can configure it with different scheduling
       policy.
-    \item Runs in \emph{passive mode}
+    \item Runs in \emph{passive mode}.
       \begin{itemize}
         \item Does not affect the system directly.
         \item Gives out the \emph{results} only.
