@@ -1,0 +1,59 @@
+\section{Work Flow}
+\begin{frame}
+  \frametitle{Work Flow -- Job Submission}
+  \begin{enumerate}
+    \item Client submits a job batch to dispatcher.
+    \item Dispatcher passes information to decision maker for a new
+      schedule.
+    \item Decision maker obtains required information from status
+      checker and schedules.
+    \item Dispatcher updates job-worker relationship table according to
+      the new schedule.
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Work Flow -- Task Execution}
+  \begin{enumerate}
+    \item Client forks a task thread and notifies dispatcher a task is
+      ready to run.
+    \item The task thread waits for an available worker. This is a
+      blocking operation.
+    \item After the task thread obtains a worker, client forks another
+      task thread and goes 2.
+    \item The first client thread contacts the assigned worker and sends
+      required information about the task: command, parameters, etc.
+    \item Client thread tells the worker to run the task and waits for
+      the result. This is also a blocking call.
+    \item After obtaining the result, client remove the task from the
+      remaining task list and notifies the dispatcher to release the
+      worker.
+    \item Dispatcher assigns the released worker to next job
+      according to the current schedule plan.
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Work Flow -- Job Completion}
+  \begin{enumerate}
+    \item After the last task of a job finished, notifies dispatcher to
+      remove a job.
+    \item Dispatcher removes the job entry and reschedules.
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Work Flow -- Monitoring}
+  \begin{enumerate}
+    \item Status checker periodically pings each worker for its status.
+    \item Also on each ping, collects execution statistics.
+    \item If a worker stuck at OCCUPIED status for too long, forcibly
+      releases it.
+    \item If it found servers fail or recover from failure, tells the
+      dispatcher to update the schedule.
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Rescheduling Conditions}
+  \begin{itemize}
+    \item Job change
+    \item Worker change
+  \end{itemize}
+\end{frame}
