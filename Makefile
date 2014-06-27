@@ -27,4 +27,13 @@ $(BUILD_DIR):
 clean:
 	#$(COMPILE_CMD) -c
 	rm -rf $(BUILD_DIR)/*
+	rm -rf *.log *.aux *.dvi *~ *.bbl  *.bl 1
+	rm -rf *.lo* *.toc *.blg
+
+ICPADS:
+	latex ICPADS
+	bibtex ICPADS
+	latex ICPADS
+	latex ICPADS
+	dvipdfm ICPADS
 
