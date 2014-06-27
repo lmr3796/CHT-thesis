@@ -1,0 +1,119 @@
+\section{System Architecture}
+\begin{frame}
+  \frametitle{System Architecture --- Overview}
+  \begin{columns}
+
+    \begin{column}{.55\textwidth}
+      \begin{figure}
+        \resizebox{\linewidth}{!}{
+          \input{figures/manage-standalone.tikz}
+        }
+        \caption{Architecture Overview}
+        \label{fig:archi-overview}
+      \end{figure}
+    \end{column}
+    \begin{column}{.4\textwidth}
+      \begin{itemize}
+        \item Client
+        \item Worker
+        \item Management system
+          \uncover<2>{
+            \begin{itemize}
+              \item Dispatcher
+              \item Status Checker
+              \item Decision Maker
+            \end{itemize}
+          }
+        \item Two working modes
+          \begin{itemize}
+            \item Standalone
+            \item Extension component
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture --- Client}
+  \only<1>{
+    \begin{itemize}
+      \item The programming interface users sends jobs to the system for execution
+      \item Users can specify attributes for jobs
+        \begin{itemize}
+          \item Deadline
+          \item Priority
+          \item \ldots
+        \end{itemize}
+      \item Supports background execution
+      \item Exposed APIs let users easily do what existent
+        work flow description languages\footnote[frame]
+        {\tiny\fullcite{cite:workflow-management}} can do.
+    \end{itemize}
+  }
+  \only<2>{
+    \newfloat{Example Code}{H}{myc}
+    \begin{Example Code}
+      \lstset{
+        frame=LRBT,
+        basicstyle=\ttfamily\tiny\color{black},
+        commentstyle = \ttfamily\color{blue!50},
+        keywordstyle=\ttfamily\color{green},
+        stringstyle=\color{red!80},
+      }
+      \input{snippets/client-sample-code}
+      \caption{Sample code of client usage}
+    \end{Example Code}
+  }
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture --- Worker}
+  \begin{itemize}
+    \item The minimum scheduling slot.
+    \item Runs one task only at a time.
+    \item Administrators can deploy one or more instances on a machine.
+    \item States of a worker:
+      \begin{itemize}
+        \item Available
+        \item Occupied
+        \item Busy
+        \item Down
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture --- Decision Maker}
+  \begin{itemize}
+    \item The core scheduler
+    \item Schedules according to information from the status checker and
+      dispatcher.
+    \item Administrators can configure it with different scheduling
+      policy.
+    \item Runs in \emph{passive mode}.
+      \begin{itemize}
+        \item Does not affect the system directly.
+        \item Gives out the \emph{results} only.
+        \item This design lowers the coupling between components and
+          makes the system easier to be integrated into other existent
+          systems.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture --- Status Checker}
+  Periodically collects and maintains system information
+  \begin{itemize}
+    \item Node healthiness
+    \item Resource utilization
+    \item \ldots
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{System Architecture --- Dispatcher}
+  \begin{itemize}
+    \item Organizes the system work flows.
+    \item Accepts job submissions from client instances.
+    \item Obtains the schedule from decision maker and dispatches
+      tasks.
+  \end{itemize}
+\end{frame}
