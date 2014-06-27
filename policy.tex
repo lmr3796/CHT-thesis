@@ -1,4 +1,4 @@
-\chapter{Policy}
+\section{Scheduling Policies}\label{sec:policy}
 
 In this chapter, we introduce the four policies in our system ---
 \emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
@@ -16,7 +16,7 @@ balanced tasks; the more balanced the tasks, the better the system
 schedules.
 
 
-\section{Priority-based Policy}
+\subsection{Priority-based Policy}
 
 %%% Introduce Priority-based
 \emph{Priority-based} distributes workloads according to job priority. 
@@ -40,14 +40,13 @@ will be assigned to jobs with lower priority, in the manner that one job
 receives one worker.
 The complete algorithm is shown as algorithm~\ref{algo:priority-based}.
 
-\begin{algorithm}[H]
-  \DontPrintSemicolon % Some LaTeX compilers require you to use
+\begin{algorithm}[]
   \input{snippets/policies/priority-based-policy}
   \caption{Priority-based policy}
   \label{algo:priority-based}
 \end{algorithm}
 
-\section{Proportion-based Policy}
+\subsection{Proportion-based Policy}
 
 In contrast to priority-based, this policy is takes job priorities into
 consideration very little; instead, the main concern of this policy is
@@ -62,21 +61,20 @@ allocated is in proportion to its workload proportion to all jobs.
 % workload is low so no workers needed, but as results come out, we
 % should give it servers.
 
-\begin{algorithm}[H]
-  \DontPrintSemicolon % Some LaTeX compilers require you to use
+\begin{algorithm}[]
   \input{snippets/policies/proportion-based-policy}
   \caption{Proportion-based policy}
   \label{algo:proportion-based}
 \end{algorithm}
 
-\section{Workload-based Policy}
+\subsection{Workload-based Policy}
 
 Similar to the proportion-based policy, the main concern of the
 workload-based policy is the workload of the job.
 The main difference is, rather than fair sharing, this policy tends to
 meet the workload requirement of high priority jobs.
 
-\subsection{Model Definition}
+\subsubsection{Model Definition}
 
 We represent each job $j_i$ submitted as $j_i = (w_i, p_i, n_i)$, where
 $w_i, p_i, n_i$ represents the estimated workload, priority and the
@@ -86,7 +84,7 @@ As for the workers, we model each worker $s_k$ as a vector of estimated
 (th^k_1, th^k_2, \ldots)$.
 
 
-\subsection{Algorithm}
+\subsubsection{Algorithm}
 
 The approach is a simple greedy method:
 First, sort the jobs by priority.
@@ -96,14 +94,13 @@ $J_m$ and remove assigned workers from the list.
 If workers are used up, break the loop.
 The complete algorithm is shown as algorithm ~\ref{algo:workload-based}.
 
-\begin{algorithm}[H]
-  \DontPrintSemicolon % Some LaTeX compilers require you to use
+\begin{algorithm}[]
   \input{snippets/policies/workload-based-policy}
   \caption{Workload-based policy}
   \label{algo:workload-based}
 \end{algorithm}
 
-\section{Deadline-based Policy}
+\subsection{Deadline-based Policy}
 
 Plenty kinds of jobs must be finished before a given deadline.
 For example, as a Internet service provider, settling monthly bills of
@@ -116,7 +113,7 @@ Unfortunately, policies introduced in previous sections can't directly
 adapt to this need; hence, we introduce another policy designed for
 \emph{deadline-aware} scenarios.
 
-\subsection{Model Definition}
+\subsubsection{Model Definition}
 
 For this policy, we assume that each job is provided with priority and
 deadline and we have required execution time (which may be a estimated
@@ -127,7 +124,7 @@ of $j_i$ respectively, and the workers are modeled as a vector of
 estimated execution time of each submitted job: $s_k = (T^k_1, T^k_2,
 \ldots)$, similar to the previous policy.
 
-\subsection{Algorithm}
+\subsubsection{Algorithm}
 
 Intuitively, for the same job, if the deadline is twice tighter, it
 requires twice as many workers to meet that deadline.
@@ -141,8 +138,7 @@ With this observation, only a little modification on the workload-based
 policy is needed to apply to this model: simply use the inverse of
 deadline as throughput.
 
-\begin{algorithm}[H]
-  \DontPrintSemicolon % Some LaTeX compilers require you to use
+\begin{algorithm}[]
   \input{snippets/policies/deadline-based-policy}
   \caption{Deadline-based policy}
   \label{algo:deadline-based}

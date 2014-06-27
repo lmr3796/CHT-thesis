@@ -1,0 +1,32 @@
+\section{Experiment}\label{sec:exp}
+
+\subsection{Experimental Settings}
+
+Our experimental environment consists of one master node and ten working nodes.
+The master node is a physical machine with two quad-core CPU.
+The CPU model is Intel(R) Xeon(R) CPU X5570 @ 2.93GHz.
+On the other hand, each working node is a single-core physical machine.
+The memory sizes are 1.5GB and 768MB, respectively.
+Our management system works on the master node.
+The master node also serves as a client which generate the workloads.
+There are two workers on each working node.
+
+%%% TODO Add citation of the workload
+%%% TODO explain how we sample (and scale)
+We conduct a trace-based simulation to demonstrate the efficiency of our system.
+The trace we use is the {\em CERIT-SC workload log}, which is provided by the CERIT-SC and the Czech National Grid Infrastructure MetaCentrum.
+The data sets, which contains 17,900 jobs, are generated from TORQUE traces during the first 3 months of the year 2013.
+We take samples from these eighteen-thousand jobs, and scale the waiting and execution time of the sampled jobs.
+The sample rate is XXX.
+
+During simulation, the client starts new jobs according to the arrival time and execution time from the trace.
+Since the actual workloads is not available, a worker will be set to ``sleep mode'' after receiving a task from the client.
+The sleeping duration is equal to the task execution length.
+After resumed from the sleeping mode, the worker sends a message to the management system indicating it has finished a task.
+
+
+\subsection{Experimental Results}
+
+%%% TODO ...= =+
+
+

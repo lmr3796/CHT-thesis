@@ -1,13 +1,13 @@
-\chapter{System Architecture}
+\section{System Architecture}\label{sec:arch}
 
-\section{Overview}
+\subsection{Overview}
 
-\begin{figure}[h]
-  \centering
-  \input{figures/manage-standalone.tikz}
-  \caption{System Architecture Overview}
-  \label{fig:archi-overview}
-\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \input{figures/manage-standalone.tikz}
+%  \caption{System Architecture Overview}
+%  \label{fig:archi-overview}
+%\end{figure}
 
 %%% begins with introducing the system and what is does again as a reminding
 We proposed a cloud resource management framework to dynamically adjust
@@ -19,6 +19,14 @@ the job requirements.
 %%%
 This framework can work as an individual cloud computing system, or as
 extension components of an existent cloud system.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width = 0.5\textwidth, bb=0 0 500 360]{./figures/overview.png}
+%\includegraphics[width = 0.5\textwidth, bb=0 0 490 350]{./figures/flow.png}
+\caption{System Architecture Overview}
+\label{fig:archi-overview}
+\end{figure}
 
 % Overview
 Figure~\ref{fig:archi-overview} shows the architecture of our cloud
@@ -62,7 +70,7 @@ The three major management components --- \emph{status checker},
 \emph{decision maker} and \emph{dispatcher} --- are described after
 that.
 
-\section{Job and Tasks}
+\subsection{Job and Tasks}
 
 Before discussing our system architecture, we have to introduce the
 representation of workload in our system.
@@ -74,7 +82,7 @@ It is end user's responsibility to split their jobs into balanced tasks.
 Just like all of other parallel computing systems, the more balanced the
 tasks, the better the system schedules.
 
-\section{Client}
+\subsection{Client}
 
 % Client is the interface of submission
 The client is the programming interface for users to submit jobs to our
@@ -122,7 +130,7 @@ $j_3$.
 Finally, as all of the results come back, we can do the final
 aggregation.
 
-\section{Worker}
+\subsection{Worker}
 
 Workers are the ones using resource of the cloud directly.
 They execute tasks assigned by the management system.
@@ -155,7 +163,7 @@ In the case that it is working as a part of other cluster management
 frameworks, the framework in charge should be responsible for
 manipulating physical resources instead.
 
-\section{Status Checker}
+\subsection{Status Checker}
 
 Status checker periodically collects the information about worker
 instances and physical servers.
@@ -190,7 +198,7 @@ being plugged off.
 Besides, writing to a external database makes integration with other
 framework easier since it's more general to access a database.
 
-\section{Decision Maker}
+\subsection{Decision Maker}
 
 Decision maker is in charge of adjusting resource allocation plans.
 It
@@ -216,7 +224,7 @@ decision maker makes, but also because it provides the flexibility that
 other frameworks can easily obtain the result of the scheduling
 algorithm by invoking decision maker.
 
-\section{Dispatcher}
+\subsection{Dispatcher}
 
 Dispatcher is the component that deal with the physical resource
 allocation adjustment according to the allocation plan made by the
@@ -238,9 +246,10 @@ on hand, dispatcher would told them to run tasks of $J_3$ and the
 allocation plan became the lower half of
 figure~\ref{fig:allocation-adjustment}.
 
-\begin{figure}
-  \centering
-  \input{figures/job-reallocation.tikz}
-  \caption{Job allocation adjustment}
-  \label{fig:allocation-adjustment}
-\end{figure}
+%\begin{figure}
+%  \centering
+%  \input{figures/job-reallocation.tikz}
+%  \caption{Job allocation adjustment}
+%  \label{fig:allocation-adjustment}
+%\end{figure}
+
