@@ -40,7 +40,7 @@ will be assigned to jobs with lower priority, in the manner that one job
 receives one worker.
 The complete algorithm is shown as algorithm~\ref{algo:priority-based}.
 
-\begin{algorithm}[H]
+\begin{algorithm}[]
   \input{snippets/policies/priority-based-policy}
   \caption{Priority-based policy}
   \label{algo:priority-based}
@@ -61,7 +61,7 @@ allocated is in proportion to its workload proportion to all jobs.
 % workload is low so no workers needed, but as results come out, we
 % should give it servers.
 
-\begin{algorithm}[H]
+\begin{algorithm}[]
   \input{snippets/policies/proportion-based-policy}
   \caption{Proportion-based policy}
   \label{algo:proportion-based}
@@ -94,7 +94,7 @@ $J_m$ and remove assigned workers from the list.
 If workers are used up, break the loop.
 The complete algorithm is shown as algorithm ~\ref{algo:workload-based}.
 
-\begin{algorithm}[H]
+\begin{algorithm}[]
   \input{snippets/policies/workload-based-policy}
   \caption{Workload-based policy}
   \label{algo:workload-based}
@@ -138,7 +138,7 @@ With this observation, only a little modification on the workload-based
 policy is needed to apply to this model: simply use the inverse of
 deadline as throughput.
 
-\begin{algorithm}[H]
+\begin{algorithm}[]
   \input{snippets/policies/deadline-based-policy}
   \caption{Deadline-based policy}
   \label{algo:deadline-based}
