@@ -274,24 +274,5 @@ which \em{workers} are assigned to the run the \em{job}.
 %\end{figure}
 
 
-\subsubsection{System Flow}	%%% [DS] added
 
-Figure~\ref{fig:archi-overview} shows our system flow.
-1) The client sends a job request to the Dispatcher in the management 
-system.
-2) According to the pre-defined policy and current worker status, the 
-Decision maker generates a resource allocation plan.
-The dispatcher responds to the client about which workers the client 
-should executes its job on.
-3) The client transfer the required data to workers.
-4) The client sends a pending request to the management system, waiting
-for response after the management system receives the ``job done''
-signal from workers.
-5) After finishing the job, the workers send ``job done'' signal to the
-management system.
-6) On receiving the ``job done'' signal,  the management system informs
-the corresponding client.
-7) The client collects the job results from workers, and
-8) send an acknowledgement to workers after the transmission is 
-completed.
-9) Last, the worker send a ``clear'' signal to management system.
+

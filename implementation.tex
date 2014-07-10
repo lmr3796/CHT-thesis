@@ -1,0 +1,23 @@
+\section{Implementation}  % [lmr3796] added
+
+\subsection{System Flow}	%%% [DS] added
+
+Figure~\ref{fig:archi-overview} shows our system flow.
+1) The client sends a job request to the Dispatcher in the management 
+system.
+2) According to the pre-defined policy and current worker status, the 
+Decision maker generates a resource allocation plan.
+The dispatcher responds to the client about which worker and
+corresponding job the client should execute next task on.
+3) The client transfer the required data to workers.
+4) The client sends tells the management system a task is sent
+(maintaining remaining tasks of each job is critical to scheduling).
+5) After finishing the task, the worker sends ``job done'' signal to the
+management system.
+6) On receiving the ``job done'' signal,  the management system informs
+the corresponding client.
+7) The client collects the job results from workers, and
+8) send an acknowledgement to workers after the transmission is 
+completed.
+9) Last, the worker send a ``clear'' signal to management system.
+
