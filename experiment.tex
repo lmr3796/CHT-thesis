@@ -1,6 +1,6 @@
 \section{Experiment}\label{sec:exp}
 
-\subsection{Experimental Settings}
+\subsection{Hardware Settings}
 
 Our experimental environment consists of one master node and ten working nodes.
 The master node is a physical machine with two quad-core CPU.
@@ -11,18 +11,57 @@ Our management system works on the master node.
 The master node also serves as a client which generate the workloads.
 There are two workers on each working node.
 
-%%% TODO Add citation of the workload
-%%% TODO explain how we sample (and scale)
-We conduct a trace-based simulation to demonstrate the efficiency of our system.
-The trace we use is the {\em CERIT-SC workload log}, which is provided by the CERIT-SC and the Czech National Grid Infrastructure MetaCentrum.
-The data sets, which contains 17,900 jobs, are generated from TORQUE traces during the first 3 months of the year 2013.
-We take samples from these eighteen-thousand jobs, and scale the waiting and execution time of the sampled jobs.
-The sample rate is XXX.
+\subsection{Simulation Settings}
 
-During simulation, the client starts new jobs according to the arrival time and execution time from the trace.
-Since the actual workloads is not available, a worker will be set to ``sleep mode'' after receiving a task from the client.
+We conducted a trace-based simulation to demonstrate the efficiency of
+our system.
+Since we cannot obtain traces with deadline, we decided to use traces in
+{\em standard workload format}~\cite{cite:swf}.
+The trace we used is the {\em CERIT-SC workload log}, which is provided
+by the CERIT-SC and the Czech National Grid Infrastructure
+MetaCentrum~\cite{cite:metacentrum}.
+The data set containing 17,900 jobs are generated from TORQUE traces
+during the first 3 months of the year 2013.
+We took samples from these eighteen-thousand jobs, and scaled the
+waiting and execution time of the sampled jobs.
+
+The trace is however very sparse and skewed.
+If we directly sample 1 percent of jobs the waiting time between jobs
+can be extremely long --- maybe up to hours.
+Because of this, we instead sample consecutive jobs only and scaled the
+waiting time between jobs.
+Limiting the number of jobs to sample out, we randomly pick a starting
+job and take jobs consecutively after it. 
+The sample rate is 0.01 and the scale factor of waiting time between
+jobs is 0.1.
+
+On the other hand, the running time distribution of the trace is very
+long-tailed and more like a exponential distribution: Enormous number of
+jobs has extremely short running time (several seconds), while some jobs
+takes extremely long time (several days).
+Therefore, we scaled down the running time of jobs by factor of 0.001.
+
+There's still some assumptions to be made to fit our usage model.
+First, we cannot obtain information about subtasks of a jobs.
+So we take the processors of allocated for a job as its number of tasks
+and take the total running time as the execution time of each task.
+
+Besides, the information about batches and deadlines is absent in the
+trace but however our targeted characteristics.
+Since jobs in standard workload format traces are independent,
+we group jobs that will be submitted within 1 second together to
+simulate batches.
+As for the deadlines, we use the double of its running time as deadline
+for those jobs with less than 4 tasks, and for those jobs with more
+tasks, we use $2 * runtime * \#task / 4$ as deadline.
+
+During simulation, the client starts new jobs according to the arrival
+time and execution time from the trace.
+Since the actual workloads is not available, a worker will be set to
+``sleep mode'' after receiving a task from the client.
 The sleeping duration is equal to the task execution length.
-After resumed from the sleeping mode, the worker sends a message to the management system indicating it has finished a task.
+After resumed from the sleeping mode, the worker sends a message to the
+management system indicating it has finished a task.
 
 
 \subsection{Experimental Results}
