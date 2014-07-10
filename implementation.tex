@@ -21,3 +21,29 @@ the corresponding client.
 completed.
 9) Last, the worker send a ``clear'' signal to management system.
 
+\subsection{Message Service} % [lmr3796] added
+Our implementation is a pure client-server model, which means the
+management system and workers cannot actively contact the clients.
+However, it is essential for workers and the management system to notify
+clients to submit tasks or get back execution results as soon as a task
+is done.
+It is extremely inefficient for both side and server side to keep the
+connection between the client and the management system along the
+period.
+The connection may last over hours, depending on how long a task is
+required to execute (the period between step 4 and step 5).
+Moreover, as the number of long-last connections increases, the
+connection number limit from the operating system will become the
+bottleneck of the management system.
+
+In order to overcome this, we implemented a underlying message push
+service between client and the management system to allow pushing
+messages to clients from server side.
+It is implemented using long polling~\cite{cite:push-pull} --- each
+message pull request waits on a message queue which will block the pop
+request on empty until timeout
+threshold exceeds.
+This implementation gives the balance between the CPU cost of frequent
+polling and the cost of maintaining long connections as notification
+channel.
+
