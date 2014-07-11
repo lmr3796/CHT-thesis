@@ -12,7 +12,46 @@ The master node also serves as a client which generate the workloads.
 There are two workers on each working node.
 
 \subsection{Worker Failure Tolerance}
-Jizz.
+
+\begin{figure}
+  \resizebox{\columnwidth}{!}{\includegraphics{figures/adaptive}}
+  \caption{Worker Instance Allocation}
+  \label{figure:worker-failure}
+\end{figure}
+
+We reproduced a small scale workload trace provided by Chunghwa Telecom
+Laboratories~\cite{cite:CHT}.
+Total of 8 worker instance is used and deadline-based scheduling policy
+is applied in this simulation. 
+1 job was sent and the deadline is set to 4 minutes.
+The characteristic of this workload is that it starts with several
+light-weight tasks and then comes with heavier tasks.
+
+Figure~\ref{figure:worker-failure} shows the worker allocated for that
+job.
+The blue line is the normal execution, and the red line shows the
+execution progress with workers manually shutted down to simulate worker
+failure.
+Six workers are manually shutted down at 0:00:55 and resumed after
+0:01:55, which means at the period, only 2 workers are available.
+
+We will discuss the normal execution (blue-line) first.
+At the beginning, since we don't have any run time information, the
+scheduler just use the default value (4 workers).
+After few seconds, some tasks are done and the run time statistics from
+\emph{status checker} shows that it seems that each task execution
+progress is going faster than expected, so the system decided to
+decrease the number of scheduled workers.
+However, the system later found that the task execution progress had
+been slowing down and current allocation might not be able to meet the
+deadline, so it schedules more workers to the job.
+
+The simulation with worker failure is similar to the normal one except
+for we manually shutted down and resumed workers.
+After worker resumed, the system tried harder to catch up the deadline.
+We can see that the slope of the worker number change of red line is
+greater than the blue line, implying the systems ability to adapt
+to failure events.
 
 \subsection{Trace-based Simulation}
 
