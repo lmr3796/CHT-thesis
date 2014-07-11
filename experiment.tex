@@ -50,8 +50,8 @@ The simulation with worker failure is similar to the normal one except
 for we manually shutted down and resumed workers.
 After worker resumed, the system tried harder to catch up the deadline.
 We can see that the slope of the worker number change of red line is
-greater than the blue line, implying the systems ability to adapt
-to failure events.
+greater than the blue line, implying the systems ability to adapt to
+failure events.
 
 \subsection{Trace-based Simulation}
 
@@ -90,11 +90,13 @@ First, we cannot obtain information about subtasks of a jobs.
 So we take the processors of allocated for a job as its number of tasks
 and take the total running time as the execution time of each task.
 
-Besides, the information about batches and deadlines is absent in the
-trace but however our targeted characteristics.
+Besides, the information about batches, priority and deadlines is absent
+in the trace but however our targeted characteristics.
 Since jobs in standard workload format traces are independent,
 we group jobs that will be submitted within 1 second together to
 simulate batches.
+For priority, we group jobs with same user IDs as same priority and we
+give the priority group with less jobs higher priority.
 As for the deadlines, we use the double of its running time as deadline
 for those jobs with less than 4 tasks, and for those jobs with more
 tasks, we use $2 * runtime * \#task / 4$ as deadline.

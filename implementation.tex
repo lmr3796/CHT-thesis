@@ -21,6 +21,23 @@ the corresponding client.
 completed.
 9) Last, the worker send a ``clear'' signal to management system.
 
+\subsection{RPC Server Component}
+
+% RPC server design
+We implemented the components in the {\em management system} and the
+{\em worker} as separate RPC (remote procedural call)~\cite{cite:RPC}
+servers.
+Separate RPC server implementation makes each component {\em pluggable}.
+The pluggability gives the system administrator flexibility to choose
+the most suitable component implementation to fit different needs.
+Moreover, without shutting the whole system down, it is possible to
+change system configurations --- or even upgrade the system --- by
+substituting target components with feasible ones.
+Besides, this design allows us to easily integrate the management system
+with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
+cloud operating system like Roystonea~\cite{cite:roystonea}.
+Roystonea also benefits from the RPC server implementation.
+
 \subsection{Message Service} % [lmr3796] added
 
 Our implementation is a pure client-server model, which means the
@@ -32,8 +49,9 @@ is done.
 It is extremely inefficient for both side and server side to keep the
 connection between the client and the management system along the
 period.
-The connection may last over hours, depending on how long a task is
-required to execute (the period between step 4 and step 5).
+The connection may last over hours if we keep it alive between task
+submission to worker and the finish of task execution, depending on how
+long a task is required to execute.
 Moreover, as the number of long-last connections increases, the
 connection number limit from the operating system will become the
 bottleneck of the management system.
