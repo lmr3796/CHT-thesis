@@ -109,9 +109,21 @@ The sleeping duration is equal to the task execution length.
 After resumed from the sleeping mode, the worker sends a message to the
 management system indicating it has finished a task.
 
-
 \subsubsection{Experimental Results}
 
-%%% TODO ...= =+
+The simulation result is not that good. We conducted 3 rounds of sample
+and the average deadline meet rate of the 3 round is 36.6/178 jobs.
+After digging into the sample, we found that the low performance is
+mainly due to the infeasible deadline model and priority model.
 
+Many jobs are blocked by several super huge jobs with high priority.
+Resource are spent on these gigantic jobs so that lots of light weight
+jobs could not finish before deadline.
+Besides, as mentioned, the running time distribution of the jobs is a
+very long-tailed exponential-like distribution.
+Lots of fly-weight jobs with running time within seconds will be sampled
+and scaled to millisecond level, and their deadlines were accordingly
+set to several milliseconds only.
+The round-trip cost of job submission and task submission overwhelms it
+and resulted in deadline miss.
 
