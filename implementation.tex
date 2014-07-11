@@ -67,3 +67,29 @@ This implementation gives the balance between the CPU cost of frequent
 polling and the cost of maintaining long connections as notification
 channel.
 
+\subsection{Adaptive Adjustment}
+
+As we have the status checker periodically collecting system information
+and runtime information about tasks, we can use them to help to improve
+scheduling accuracy or adapt to accidental events.
+
+For example, some scheduling policies would require to have expected
+runtime of a task, which is sometimes unavailable.
+In that case, it can use the default value first, and after several
+tasks are done, we can provide the logged statistics for scheduling.
+Moreover, machine performance degrade or temporary network congestion
+may lower the accuracy of expected runtime of jobs given by user.
+Leveraging the runtime statistics can improve the quality of
+scheduling.
+
+Another case is about worker failure.
+In data centers, workers may fail or recover any time.
+Worker failure will cause execution progress delay and very possibly
+will result in deadline miss.
+In that case, if it is able to recover failed workers, the schedule plan
+should change and give more resource to delayed jobs (if possible) so
+that it may be able to meet the deadline.
+
+To achieve this, while collecting informations, status checker also
+asks decision maker to schedule with updated information so that the
+system schedule plan can catch up with current conditions.
