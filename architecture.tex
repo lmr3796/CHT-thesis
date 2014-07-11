@@ -1,8 +1,8 @@
 \section{System Architecture}\label{sec:arch}
 
-In this section, first we will introduce the job and task model in our 
+In this section, first we will introduce the job and task model in our
 framework.
-Then we give an overview of the proposed framework, followed by the 
+Then we give an overview of the proposed framework, followed by the
 description and implementation of each component.
 The system flow is presented in the last section.
 
@@ -10,37 +10,37 @@ The system flow is presented in the last section.
 \subsection{Job and Task Model}	%%% [DS] revised
 
 We define our job and task models as the following.
-A \emph{job} submitted by a user consists of several \emph{tasks}, 
-which is the minimum scheduling unit of our system.
-\emph{Tasks} in the same job are independent to each other, so that 
-they can be processed in parallel.
-A \emph{job} is finished if all the \emph{tasks} from this \emph{job} 
-have been processed.
+A {\em job} submitted by a user consists of several {\em tasks}, which
+is the minimum scheduling unit of our system.
+{\em Tasks} in the same job are independent to each other, so that they
+can be processed in parallel.
+A {\em job} is finished if all the {\em tasks} from this {\em job} have
+been processed.
 
-Here is an example of \emph{job} and \emph{task}.
+Here is an example of {\em job} and {\em task}.
 In a telephone company, they have to send bills to users every month.
 However, the settle days of users are not the same.
-Therefore the system will batch user data with the same settle day 
-into a \emph{job}, and calculate the amount of money each user has to 
-pay.
-Since user data are independent to each other, they can be processed 
-in parallel.
-We called the computation of each user data as \emph{task}.
+Therefore the system will batch user data with the same settle day into
+a {\em job}, and calculate the amount of money each user has to pay.
+Since user data are independent to each other, they can be processed in
+parallel.
+We called the computation of each user data as {\em task}.
 
-We make some assumptions about our models.  We assume that the number 
-of \emph{tasks} in a \emph{job} is known.  \emph{Tasks} can have 
-different workload in a \emph{job}.  The remaining workload of a 
-\emph{job} can be roughly estimated by counting the number of 
-un-processed \emph{tasks} or summing the workloads of these \emph{tasks}.
-A \emph{job} may have ``deadline'', which means all the \emph{tasks} of 
-this \emph{job} must be finished before this time constraint.
+We make some assumptions about our models.
+We assume that the number of {\em tasks} in a {\em job} is known.
+{\em Tasks} can have different workload in a {\em job}.
+The remaining workload of a {\em job} can be roughly estimated by
+counting the number of un-processed {\em tasks} or summing the workloads
+of these {\em tasks}.
+A {\em job} may have ``deadline'', which means all the {\em tasks} of
+this {\em job} must be finished before this time constraint.
 
 %%% \subsection{Job and Tasks}
 
 %%% Before discussing our system architecture, we have to introduce the
 %%% representation of workload in our system.
-%%% Users will submit \emph{jobs}, each of which consists of several
-%%% \emph{tasks}, the minimum unit of scheduling, to the system.
+%%% Users will submit {\em jobs}, each of which consists of several
+%%% {\em tasks}, the minimum unit of scheduling, to the system.
 %%% As a cluster management framework, submitted jobs are meant to be
 %%% expected to be processed in parallel.
 %%% It is end user's responsibility to split their jobs into balanced tasks.
@@ -58,22 +58,22 @@ this \emph{job} must be finished before this time constraint.
 \label{fig:archi-overview}
 \end{figure}
 
-Our cloud management framework consists of three parts, the \emph{
-management system}, \emph{clients}, and \emph{workers}.  
-The \emph{management system} is the major part of our framework.  
-Users submit \emph{jobs} from \emph{clients}.
-\emph{Workers} are the computation nodes that process \emph{tasks} in 
-\emph{jobs}.
-Figure~\ref{fig:archi-overview} gives the idea of the proposed 
+Our cloud management framework consists of three parts, the {\em
+management system}, {\em clients}, and {\em workers}.
+The {\em management system} is the major part of our framework.  Users
+submit {\em jobs} from {\em clients}.
+{\em Workers} are the computation nodes that process {\em tasks} in {\em
+jobs}.
+Figure~\ref{fig:archi-overview} gives the idea of the proposed
 framework.
-The proposed framework can work as an individual cloud computing 
-system, or as extension components of an existent cloud system.
+The proposed framework can work as an individual cloud computing system,
+or as extension components of an existent cloud system.
 
 % RPC server design
-We implemented the components in the \emph{management system} and the 
-\emph{worker} as separate RPC (remote procedural call)~\cite{cite:RPC} 
+We implemented the components in the {\em management system} and the
+{\em worker} as separate RPC (remote procedural call)~\cite{cite:RPC}
 servers.
-Separate RPC server implementation makes each component \emph{pluggable}.
+Separate RPC server implementation makes each component {\em pluggable}.
 The pluggability gives the system administrator flexibility to choose
 the most suitable component implementation to fit different needs.
 Moreover, without shutting the whole system down, it is possible to
@@ -88,9 +88,9 @@ Roystonea also benefits from the RPC server implementation.
 \subsubsection{Client}	%%% [DS] change nothing
 
 % Client is the interface of submission
-The \emph{client} is the programming interface for users to submit jobs
+The {\em client} is the programming interface for users to submit jobs
 to our system.
-In our framework, a user will submit \emph{jobs} to the system via a
+In our framework, a user will submit {\em jobs} to the system via a
 client instance created using the provided library.
 
 % attributes
@@ -127,30 +127,30 @@ but requires time consuming local pre-processing and post-processing.
 Since $j_1$, $j_2$ and pre-processing of $j_3$ is costive, it's better
 to do them in parallel.
 As a result, we submit $j_1$ and $j_2$ at first and wait for their
-results in the background then start pre-processing $j_3$. Not needing
-post-processing, results of $j_1$ and $j_2$ are synchronized after
-$j_3$.
+results in the background then start pre-processing $j_3$.
+Not needing post-processing, results of $j_1$ and $j_2$ are synchronized
+after $j_3$.
 Finally, as all of the results come back, we can do the final
 aggregation.
 
 
 \subsubsection{Worker}	%%% [DS] revised
 
-\emph{Workers} are the computation nodes that consume cloud resources 
-to process \emph{tasks}.
-They execute \emph{tasks} assigned by the management system.
-A \emph{worker} instance executes at most one \emph{task} at a time.
-In other words, a \emph{worker} is the minimum scheduling slot of our 
+{\em Workers} are the computation nodes that consume cloud resources to
+process {\em tasks}.
+They execute {\em tasks} assigned by the management system.
+A {\em worker} instance executes at most one {\em task} at a time.
+In other words, a {\em worker} is the minimum scheduling slot of our
 system.
-However, it does not imply that a physical machine can run only one 
-\emph{task} at a time.
-A physical machine can serve multiple \emph{worker} instances, 
-therefore executing more than one task simultaneously.
+However, it does not imply that a physical machine can run only one {\em
+task} at a time.
+A physical machine can serve multiple {\em worker} instances, therefore
+executing more than one task simultaneously.
 
-Deploying multiple \emph{worker} instances on a powerful machine (e.g.,
-with large number of cores) can gain better performance from 
+Deploying multiple {\em worker} instances on a powerful machine (e.g.,
+with large number of cores) can gain better performance from
 multiprogramming.
-But in contrary, it might however cause resource contention on low-end 
+But in contrary, it might however cause resource contention on low-end
 machines.
 We leave the choice to system administrators.
 
@@ -159,26 +159,27 @@ instances is far worse than expected, it is very likely due to resource
 contention.
 In that case, the system administrator should consider reducing the
 number of worker instances on that machine.
-The pluggable implementation enable the reduction to be done \emph{
+The pluggable implementation enable the reduction to be done {\em
 online}, i.e. without stopping any of other components.
 
 
 \subsubsection{Management System}	%%% [DS] revised
 
 The core part is the management system, which consists of three
-components: \emph{status checker}, \emph{decision maker} and
-\emph{dispatcher}.  
-\em{Status checker} periodically collects the information about \emph{
-worker}, and sends these information to \em{Decision Maker}.
-\em{Decision maker} is in charge of adjusting resource allocation plans.
-\em{Dispatcher} is the component that deal with the physical resource
-allocation adjustment according to the allocation plan made by the
-\em{Decision Maker}.
+components: {\em status checker}, {\em decision maker} and {\em
+dispatcher}.
+{\em Status checker} periodically collects the information about {\em
+worker}, and sends these information to {\em Decision Maker}.
+{\em Decision maker} is in charge of adjusting resource allocation
+plans.
+{\em Dispatcher} is the component that deal with the physical resource
+allocation adjustment according to the allocation plan made by the {\em
+Decision Maker}.
 
 
 \paragraph{Status Checker}	%%% [DS] change nothing
 
-Status checker periodically collects the information about \emph{worker}
+Status checker periodically collects the information about {\em worker}
 instances and physical servers.
 Leveraging on the information collected by status checker, the decision
 maker can make resource allocation plans according to a policy specified
@@ -186,13 +187,13 @@ by the system administration.
 
 The most essential information for the system is probably the status of
 workers.
-A worker can be in status of either \emph{available}, \emph{occupied},
-\emph{busy} or \emph{down}.
-\em{Available} means the worker is idle and ready to accept task 
-assignment; \em{occupied} indicates that the worker is assigned to a 
-job but executing any task (e.g., waiting for necessary data); \em{busy}
-is the state that a worker is really executing a task; \em{down} shows 
-that the worker instance is currently nonfunctional. 
+A worker can be in status of either {\em available}, {\em occupied},
+{\em busy} or {\em down}.
+{\em Available} means the worker is idle and ready to accept task
+assignment; {\em occupied} indicates that the worker is assigned to a
+job but executing any task (e.g., waiting for necessary data); {\em
+busy} is the state that a worker is really executing a task; {\em down}
+shows that the worker instance is currently nonfunctional. 
 
 Aside from essential worker status, system administrators can also
 specify other kinds information to collect if it's essential to  their
@@ -201,8 +202,8 @@ For example, if someone deployed the management system on a cluster
 which focuses on utilizing its I/O bandwidth, they would probably
 specify a schedule policy in regard to I/O utilization of the physical
 server.
-In this situation, status checker must collect the information about
-not only the worker instances but the physical server as well.
+In this situation, status checker must collect the information about not
+only the worker instances but the physical server as well.
 
 Necessary information will be written to a database for persistent
 storage.
@@ -214,13 +215,13 @@ framework easier since it's more general to access a database.
 \paragraph{Decision Maker}	%%% [DS] change nothing
 
 Decision maker is in charge of adjusting resource allocation plans.
-It makes allocation plans according to a specified \emph{policy} that 
-takes different parameters, for example, job deadline and priority, 
-into consideration. 
+It makes allocation plans according to a specified {\em policy} that
+takes different parameters, for example, job deadline and priority, into
+consideration. 
 
 Instead of letting decision maker schedule resources actively, we
-decided to have it work in \emph{passive mode}, which means it is
-invoked only under certain circumstances.
+decided to have it work in {\em passive mode}, which means it is invoked
+only under certain circumstances.
 Normally, it is only invoked by dispatcher whenever a job is submitted
 or finished.
 By this design, decision maker is only responsible for making allocation
@@ -237,18 +238,18 @@ algorithm by invoking decision maker.
 
 \paragraph{Dispatcher}	%%% [DS] revised
 
-\em{Dispatcher} is the component that deal with the physical resource
-allocation adjustment according to the allocation plan made by the
-\em{Decision Maker}.
-\em{Dispatcher} receives job requests from clients, and sends the job
-information to the \em{Decision Maker}.
-After the decision is made, the \em{Dispatcher} response to the client
-which \em{workers} are assigned to the run the \em{job}.
+{\em Dispatcher} is the component that deal with the physical resource
+allocation adjustment according to the allocation plan made by the {\em
+Decision Maker}.
+{\em Dispatcher} receives job requests from clients, and sends the job
+information to the {\em Decision Maker}.
+After the decision is made, the {\em Dispatcher} response to the client
+which {\em workers} are assigned to the run the {\em job}.
 
 
-%%% \em{Dispatcher} is the component that deal with the physical resource
+%%% {\em Dispatcher} is the component that deal with the physical resource
 %%% allocation adjustment according to the allocation plan made by the
-%%% \em{Decision Maker}.
+%%% {\em Decision Maker}.
 %%% Figure~\ref{fig:allocation-adjustment} is a nice example of adjusting
 %%% resource allocation: There were 10 workers ($w_{1\sim10}$) managed by
 %%% the system.

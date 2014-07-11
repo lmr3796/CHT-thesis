@@ -11,7 +11,10 @@ Our management system works on the master node.
 The master node also serves as a client which generate the workloads.
 There are two workers on each working node.
 
-\subsection{Simulation Settings}
+\subsection{Worker Failure Tolerance}
+Jizz.
+
+\subsection{Trace-based Simulation}
 
 We conducted a trace-based simulation to demonstrate the efficiency of
 our system.
@@ -24,6 +27,8 @@ The data set containing 17,900 jobs are generated from TORQUE traces
 during the first 3 months of the year 2013.
 We took samples from these eighteen-thousand jobs, and scaled the
 waiting and execution time of the sampled jobs.
+
+\subsubsection{Simulation Settings}
 
 The trace is however very sparse and skewed.
 If we directly sample 1 percent of jobs the waiting time between jobs
@@ -64,7 +69,7 @@ After resumed from the sleeping mode, the worker sends a message to the
 management system indicating it has finished a task.
 
 
-\subsection{Experimental Results}
+\subsubsection{Experimental Results}
 
 %%% TODO ...= =+
 
