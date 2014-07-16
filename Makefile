@@ -1,7 +1,7 @@
 BUILD_DIR?=build
 BUILD_ENGINE?=xelatex
 #COMPILE_CMD=latexmk -xelatex -outdir=$(BUILD_DIR)
-PDF_TARGETS=main thesis
+PDF_TARGETS=main thesis ICPADS
 SLIDE_TARGETS=slide cht
 
 
@@ -27,4 +27,13 @@ $(BUILD_DIR):
 clean:
 	#$(COMPILE_CMD) -c
 	rm -rf $(BUILD_DIR)/*
+	#rm -rf *.log *.aux *.dvi *~ *.bbl  *.bl 1
+	#rm -rf *.lo* *.toc *.blg
+
+#ICPADS:
+#	latex   -output-directory=$(BUILD_DIR) ICPADS
+#	bibtex  -output-directory=$(BUILD_DIR) ICPADS
+#	latex	-output-directory=$(BUILD_DIR) ICPADS
+#	latex	-output-directory=$(BUILD_DIR) ICPADS
+#	dvipdfm $(BUILD_DIR)/ICPADS
 
