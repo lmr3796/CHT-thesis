@@ -1,33 +1,37 @@
-\section{Scheduling Policies}\label{sec:policy}
+\chapter{Scheduling Policies}\label{sec:policy}
 
 In this chapter, we introduce the four policies in our system ---
 \emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
 and \emph{deadline-based}.
 Each policy requires different parameters such as job priority,
 execution efficiency per different server and execution deadline.
-Decision maker makes dispatching plans to according to a specified
-policy.
+\emph{Decision maker} makes dispatching plans to according to a
+specified policy.
 
-When designing the schedule policies, one should take the number of
-tasks a job is split into consideration since we don't want to assign
-workers more than tasks of a job to it.
+When designing the schedule policies, we should take the number of tasks
+in a job into consideration, since we don't want to assign workers more
+than tasks of a job to it.
 Recall that it is the end users' responsibility to split a job into well
 balanced tasks; the more balanced the tasks, the better the system
 schedules.
 
 
-\subsection{Priority-based Policy}
+\section{Priority-based Policy}	%%% [DS] revise the first paragraph
 
 %%% Introduce Priority-based
 \emph{Priority-based} distributes workloads according to job priority. 
-The idea behind this policy is to make the job with highest priority runs as
-fast as possible.
-Intuitively, we can sort the jobs according to their priority then greedily
-schedule as many workers as possible to each job in that order.
-However, this might cause \emph{starvation} --- lower priority jobs
-never get executed.
-
-% TODO try to say more...
+We first sort all jobs in the system according to their priority in 
+descending order.
+Starts from the job with the highest priority, we assign $x$ workers to
+the job, where $x = max(number of idle worker, number of tasks in the 
+job)$.
+The job is removed from the list.
+The process is repeated until there are no idle workers or unassigned 
+jobs.
+The idea behind this policy is to make the job with highest priority 
+runs as fast as possible.
+However, this assignment might cause \emph{starvation} to jobs with 
+low priority
 
 %%% How we avoid starvation from happening
 To avoid \emph{starvation}, we preserve a portion for low priority jobs.
@@ -40,106 +44,150 @@ will be assigned to jobs with lower priority, in the manner that one job
 receives one worker.
 The complete algorithm is shown as algorithm~\ref{algo:priority-based}.
 
-\begin{algorithm}[]
+\begin{algorithm}[htbp]
   \input{snippets/policies/priority-based-policy}
   \caption{Priority-based policy}
   \label{algo:priority-based}
 \end{algorithm}
 
-\subsection{Proportion-based Policy}
+\section{Proportion-based Policy}	 %%% [DS] revised
 
-In contrast to priority-based, this policy is takes job priorities into
-consideration very little; instead, the main concern of this policy is
-the workload proportion of a job to all the others.
+The main concern of \emph{Proportion-based} policy is the workload
+proportion of a job to all the others.
+In contrast to \emph{priority-based}, this policy does not take job 
+priorities into consideration unless the priority of a task is strongly 
+related to its workload.
+The \emph{Decision maker} first summing all the workloads from each job, 
+then compute the ratio of the individual job.
+The number of workers a job is assigned equals to the number of all 
+workers multiplies it ratio.
 This algorithm, as shown in algorithm~\ref{algo:proportion-based}, is
 also known as \emph{fair share
-scheduling}~\cite{cite:fair-share-scheduling}: workers a job should be
-allocated is in proportion to its workload proportion to all jobs. 
+scheduling}~\cite{ite:fair-share-scheduling} that workers a job should
+be allocated is in proportion to its workload proportion to all jobs. 
+
+\emph{Proportion-based} is a suitable solution for streaming jobs or
+jobs with dependencies.
+For streaming jobs with vary input rate, the number of workers needed is
+highly related to its input rate, thus workload.
+As for jobs with dependencies, a job may need the output from other 
+jobs as input.
+Therefore, we should assign more workers to the predecessor in the 
+beginning, and reduce the number of workers according to time.
+On the other hand, the number of worker of a successor will be 
+increasing since the workload from the predecessor increased.
 
 % TODO For streaming jobs, workloads may varies: For streaming jobs
 % dependent on others, if they don't have anything to process, its
 % workload is low so no workers needed, but as results come out, we
 % should give it servers.
 
-\begin{algorithm}[]
+\begin{algorithm}[htbp]
   \input{snippets/policies/proportion-based-policy}
   \caption{Proportion-based policy}
   \label{algo:proportion-based}
 \end{algorithm}
 
-\subsection{Workload-based Policy}
 
-Similar to the proportion-based policy, the main concern of the
-workload-based policy is the workload of the job.
-The main difference is, rather than fair sharing, this policy tends to
-meet the workload requirement of high priority jobs.
+\section{Workload-based Policy}       %%% [DS] revised
 
-\subsubsection{Model Definition}
+%%% [DS] The only different is worker heterogeneity?
+%%% What is "workload requirement of $J_m$"
+
+Similar to the \emph{proportion-based} policy, the \emph{workload-based}
+policy takes the workload of jobs as scheduling metric.
+However, \emph{workload-based} takes worker heterogeneity, i.e. each
+worker may have different computing ability, into consideration.
+This policy tries to finish every job by assigning jobs to the most
+suitable workers, i.e. workers with higher throughput.
+
+\subsection{Model Definition}
 
 We represent each job $j_i$ submitted as $j_i = (w_i, p_i, n_i)$, where
-$w_i, p_i, n_i$ represents the estimated workload, priority and the
-number of task of $j_i$ respectively.
+$w_i$ is the estimated workload, $p_i$ is the job priority, and $n_i$
+is the number of tasks in $j_i$.
 As for the workers, we model each worker $s_k$ as a vector of estimated
 \emph{throughput} of each submitted job; we can write is as $s_k =
 (th^k_1, th^k_2, \ldots)$.
 
+\subsection{Algorithm}
 
-\subsubsection{Algorithm}
-
-The approach is a simple greedy method:
-First, sort the jobs by priority.
-For each job $J_m$, sort remaining workers according to its $th_m$,
-assign top $k$ workers that just satisfy the workload requirement of
-$J_m$ and remove assigned workers from the list.
-If workers are used up, break the loop.
+We apply a greedy approach in this policy.
+First, we sort all the jobs according to their priority in descending
+order.
+Starts from the job with the highest priority $J_m$, sort the remaining
+workers according to their throughput $th_m$ to $J_m$.
+Then assign the top $k$ workers that can satisfy the workload
+requirement of $J_m$, and remove assigned workers from the list.
+The job is also removed from the list waiting for assignment.
+Repeat this process until there are no idle worker or un-assigned job.
 The complete algorithm is shown as algorithm ~\ref{algo:workload-based}.
 
-\begin{algorithm}[]
-  \input{snippets/policies/workload-based-policy}
-  \caption{Workload-based policy}
-  \label{algo:workload-based}
+\begin{algorithm}[htbp]
+\input{snippets/policies/workload-based-policy}
+\caption{Workload-based policy}
+\label{algo:workload-based}
 \end{algorithm}
 
-\subsection{Deadline-based Policy}
 
-Plenty kinds of jobs must be finished before a given deadline.
+\section{Deadline-based Policy}	%%% [DS] revised
+
+\emph{Deadline-based} policy tries to finish every jobs before their 
+soft deadline.
+If a feasible scheduling plan does not exist, this policy tends to meet
+the deadlines for jobs with higher priority.
+There are varies kinds of jobs that must be finished before a given 
+time constraint.
 For example, as a Internet service provider, settling monthly bills of
 millions of users within few days after the monthly charge-off day is
 very critical to their business.
-It it obvious that computing resource allocated this kind of job should
-increase as their deadline approaches --- the closer the deadline is, the
-more worker a job should get.
-Unfortunately, policies introduced in previous sections can't directly
-adapt to this need; hence, we introduce another policy designed for
+It it obvious that computing resource allocated to this kind of job 
+should increase as their deadline approaches --- the closer the 
+deadline is, the more worker a job should get.
+Unfortunately, policies introduced above does not directly adapt to 
+this need; hence, we introduce this policy designed for
 \emph{deadline-aware} scenarios.
 
-\subsubsection{Model Definition}
+\subsection{Model Definition}
 
 For this policy, we assume that each job is provided with priority and
-deadline and we have required execution time (which may be a estimated
-one) of a job to run on each single server.
+deadline.
+The execution time for each job is assumed to be known, which can be 
+estimated by historical data or profiling.
 A job $j_i$ can thus be represented as $j_i = (d_i, p_i, n_i)$, where
-$d_i, p_i, n_i$ refers to the deadline, priority and the number of tasks
-of $j_i$ respectively, and the workers are modeled as a vector of
-estimated execution time of each submitted job: $s_k = (T^k_1, T^k_2,
-\ldots)$, similar to the previous policy.
+$d_i, p_i, n_i$ refers to the job deadline, job priority, and the 
+number of tasks in $j_i$, respectively
+The workers are modeled as a vector of estimated execution time of each 
+submitted job: $s_k = (T^k_1, T^k_2, \ldots)$, similar to the previous 
+policy.
 
-\subsubsection{Algorithm}
+\subsection{Algorithm}
 
+A job should be finished before its soft deadline.
 Intuitively, for the same job, if the deadline is twice tighter, it
 requires twice as many workers to meet that deadline.
 More generally speaking, the deadline and the workload are in reciprocal
 relationship.
-
 This implies that an worker allocation $S$ to job $j_i$ meeting the
 deadline is equivalent to
 \[\displaystyle\sum_{s_k \in S}\frac{1}{T^k_{j_i}} \geq \frac{1}{d_i}\]
-With this observation, only a little modification on the workload-based
-policy is needed to apply to this model: simply use the inverse of
-deadline as throughput.
+With this observation, only a little modification on the
+\emph{workload-based} policy is needed to apply to this model: simply
+use the inverse of deadline as throughput.
 
-\begin{algorithm}[]
+First, sort all the jobs according to their priority in descending
+order.
+Starting from the job with the highest priority $J_m$, sort the
+remaining workers according to their throughput $th_m$ to $J_m$.
+Then assign the top $k$ workers that can finish $J_m$ before it 
+deadline, and remove assigned workers from the list.
+The job is also removed from the list waiting for assignment.
+Repeat this process until there are no idle worker or un-assigned job.
+The complete algorithm is shown as algorithm ~\ref{algo:deadline-based}.
+
+\begin{algorithm}[htbp]
   \input{snippets/policies/deadline-based-policy}
   \caption{Deadline-based policy}
   \label{algo:deadline-based}
 \end{algorithm}
+

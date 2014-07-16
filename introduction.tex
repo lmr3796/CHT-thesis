@@ -1,98 +1,44 @@
-\section{Introduction}\label{sec:intro}
+\chapter{Introduction}\label{sec:intro}
 
 %%% TODO Starts with introduction of cloud computing
-%%% TODO Add one or two paragraphs about cloud computing before going to scalability
-%%% TODO Something like "cloud computing has become a popular issue in recent year" etc.
-
-%%% Followed by scalability
-Scalability is one of the key characteristics of cloud computing.
-%%% Define/explain scalability and its importance before the example
-% TODO Add example why this is the key???? Why is it important?
-
-% TODO Comment out virtualization...
-% TODO But must replace with workloads in cloud computing/data center
-
-%%% How to achieve scalability: virtualization
-Virtualization wraps essential software components into virtual machines
-in order to make cloud systems scalable.
-For example, Lombardi and Di Pietro proposed ACPS (Advanced Cloud
-Protection System) that wraps applications, operating systems and
-libraries into virtual machines, and deploy them on physical servers for
-execution~\cite{cite:secure_virt_for_cloud, cite:cloud_issue}.
-After we wrap essential software components into virtual machines, we
-can deploy them dynamically.
-Consequently we can quickly adjust the number of running virtual
-machines to satisfy user demands.
+Cloud computing has become a popular issue in recent year.
+Many enterprises or institutes are building private clouds by 
+establishing their own data center.
+In such data centers, the maximum amount of computing resources, or 
+number of physical machines, are fixed for most of the time.
+It only changes during adding newly purchased servers, or remove 
+obsolete ones during equipment upgrade.
 
 %%% TODO why is job deployment so important
 
+Jobs in a data center vary from one another.
+Jobs may have different characteristic, resource requirements, time 
+constraints, and priority.
+For example, scientific computation requires large computing resources,
+while a billing sub-system need to generate the credit-card bill for 
+each user every month.
+Also, newly arrival emergency jobs may require large amount of resource
+in a short time.
+How to allocate jobs in a heterogeneous environment in order to meet 
+different requirements becomes an important issue.
 
-%%% TODO Rewrite virtual machines into jobs
-%%% Gap: too many VMs on a single server cause resource competition
-Properly placing multiple virtual machines on a single physical machine
-will utilize its hardware resource more efficiently.
-As a hypervisor deploys more virtual machines on a physical machine, and
-allocates resources for them, it improves system utilization by reducing
-the possibility of resource sitting idle.
-However, as the number of virtual machines in a physical machine
-increases, the resource each virtual machine receives will
-decrease~\cite{cite:resource_overbooking}.
-For example, if we deploy a single virtual machines on a physical
-machine, it can utilize all the physical resources.
-However, if we deploy four virtual machines on the same physical
-machine, each of them will receive a quarter of the hardware resource,
-which makes applications running on these virtual machines perform
-worse.
+In this paper, we proposed a cloud resource management framework to 
+dynamically adjust the number of computation nodes for every job in the
+system.
+This framework make decisions according to some specified policies --
+\emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
+and \emph{deadline-based}.
+The policies take the remaining workload, priority or deadline of each
+job into consideration and generate a scheduling plan.
+Administrators can choose a different policy or specify a customized
+policy for the system in order to fit the their needs.
+Moreover, this framework can work as an individual cluster managment
+system, or as extension components of an existent cloud system.
 
-% TODO Fuck off those VMs, change it into a "for example"
-%%% One solution: dedicated VM
-Running applications on dedicated servers can guarantee performance.
-A dedicated server~\cite{cite:dedicated_hosting} runs at most one
-virtual machine at a time, so that the performance of the virtual
-machine will not be interfered by other virtual machines.
-%TODO : More dedicate server and performance guarantee examples here.
-%CHT examples here.
-
-%%% TODO Emphasize 'heterogeneous'
-The concept of dedicated server is feasible in data centers.
-The number of physical servers of a data center is usually
-fixed~\cite{cite:maintenance_framework}, and it only changes
-infrequently when we add newly purchased servers, or remove obsolete
-ones, during equipment upgrade.
-In other words, the number of physical servers within a data center is
-fixed between upgrades.
-Since the server configuration is fixed, we can statically map
-applications to dedicated servers.
-
-%%% describe target environment: CHT applications/workloads
-Under the assumption that the number of physical servers in a data
-center is fixed, determining how many dedicated servers should be
-allocated for each job or application becomes a critical problem:
-
-Matching application instances to dedicated servers is crucial to
-performance.
-% TODO  examples
-
-% TODO  Paragraph for bare-bone job dispatch
-
-%%% The goal of this work: develop a system that dynamically distributes workloads to physical servers according to some policies.
-
-% TODO Merge this sentence into the CHT application description
-% Not revised yet!!!
-Jobs with different priority requiring different processing throughput
-will start and finish at different time; handling these varying
-conditions and dynamically adjusting allocated resource of each job so
-that every job could meet its requirement is what we want to do.
-
-The goal of this project is to develop a cloud resource management
-system that dynamically adjusts the number of dedicated server a single
-job is granted to use according to a specified policy with regard to the
-remaining workload, priority and deadline of the job.
-The data center manager can choose a different policy to fit the their
-need or specify a customized policy for the system; moreover, this
-management system shall be able to cooperate with existing cloud
-operating systems.
-
-% There's a remaining paragraph in Simon's proposal which is added per
-% CHT's request, but I think it's not appropriate to put it in the
-% background section.
+The rest of the paper is organized as followed.
+The system architecture is presented in Chapter~\ref{sec:arch} and the
+implementation is discussed in Chapter~\ref{sec:arch}.
+Chapter~\ref{sec:policy} introduce the four policies we implement for 
+different types of jobs.
+The experimental results are in Chapter~\ref{sec:exp}.
+Chapter~\ref{sec:conclusion} is the conclusion.

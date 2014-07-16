@@ -1,92 +1,78 @@
-\section{System Architecture}\label{sec:arch}
+\chapter{System Architecture}\label{sec:arch}
 
-\subsection{Overview}
+In this chapter, first we will introduce the job and task model in our
+framework.
+Then we give an overview of the proposed framework, followed by the
+description and of each component.
 
-%\begin{figure}[h]
-%  \centering
-%  \input{figures/manage-standalone.tikz}
-%  \caption{System Architecture Overview}
-%  \label{fig:archi-overview}
-%\end{figure}
 
-%%% begins with introducing the system and what is does again as a reminding
-We proposed a cloud resource management framework to dynamically adjust
-the number of physical servers for a single job.
-The framework make decisions according to some specified policies.
-The policies take the remaining workload, priority and deadline of each
-job into consideration, and generate a scheduling plan that satisfies
-the job requirements.
-%%%
-This framework can work as an individual cloud computing system, or as
-extension components of an existent cloud system.
+\subsection{Job and Task Model}	%%% [DS] revised
+
+We define our job and task models as the following.
+A \emph{job} submitted by a user consists of several \emph{tasks}, which
+is the minimum scheduling unit of our system.
+\emph{Tasks} in the same job are independent to each other, so that they
+can be processed in parallel.
+A \emph{job} is finished if all the \emph{tasks} from this \emph{job} have
+been processed.
+
+Here is an example of \emph{job} and \emph{task}.
+In a telecommunication company, they have to send bills to users every
+month.
+However, the settle days of users are not the same.
+Therefore the system will batch user data with the same settle day into
+a \emph{job}, and calculate the amount of money each user has to pay.
+Since user data are independent to each other, they can be processed in
+parallel.
+We called the computation of each user data as \emph{task}.
+
+We make some assumptions about our models.
+We assume that the number of \emph{tasks} in a \emph{job} is known.
+\emph{Tasks} can have different workload in a \emph{job}.
+The remaining workload of a \emph{job} can be roughly estimated by
+counting the number of un-processed \emph{tasks} or summing the workloads
+of these \emph{tasks}.
+A \emph{job} may have ``deadline'', which means all the \emph{tasks} of
+this \emph{job} must be finished before this time constraint.
+
+%%% \subsection{Job and Tasks}
+
+%%% Before discussing our system architecture, we have to introduce the
+%%% representation of workload in our system.
+%%% Users will submit \emph{jobs}, each of which consists of several
+%%% \emph{tasks}, the minimum unit of scheduling, to the system.
+%%% As a cluster management framework, submitted jobs are meant to be
+%%% expected to be processed in parallel.
+%%% It is end user's responsibility to split their jobs into balanced tasks.
+%%% Just like all of other parallel computing systems, the more balanced the
+%%% tasks, the better the system schedules.
+
+
+\subsection{System Overview}	%%% [DS] revised
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width = 0.5\textwidth, bb=0 0 500 360]{./figures/overview.png}
-%\includegraphics[width = 0.5\textwidth, bb=0 0 490 350]{./figures/flow.png}
+\input{figures/manage-standalone.tikz}
 \caption{System Architecture Overview}
 \label{fig:archi-overview}
 \end{figure}
 
-% Overview
-Figure~\ref{fig:archi-overview} shows the architecture of our cloud
-management framework.
-The core part is the management system, which consists of three
-components: \emph{status checker}, \emph{decision maker} and
-\emph{dispatcher}.
-%%% move this sentence to the previous paragraph
-%The whole framework can form a complete cloud computing system or work
-%as a part of existent cloud systems.
+Our cloud management framework consists of three parts, the \emph{
+management system}, \emph{clients}, and \emph{workers}.
+The \emph{management system} is the major part of our framework.
+Users submit \emph{jobs} from \emph{clients}.
+\emph{Workers} are the computation nodes that process \emph{tasks} in \emph{
+jobs}.
+Figure~\ref{fig:archi-overview} gives the idea of the proposed
+framework.
+The proposed framework can work as an individual cloud computing system,
+or as extension components of an existent cloud system.
 
-%%% TODO change this sentence into work flows, how worker and client interactive with our system
-% TODO use the topic sentence of each component to briefly describe it.
-In the former case, the management system connects with several
-\emph{workers}, which leverage physical resources directly, and
-interacts with instances of \emph{client} --- the interface end users
-submit jobs from.
-
-% RPC server design
-We implemented the management components and the worker as separate RPC
-(remote procedural call)~\cite{cite:RPC} servers.
-Separate RPC server implementation makes each component
-\emph{pluggable}.
-The pluggability gives the system administrator flexibility to choose
-the most suitable component implementation to fit different needs.
-Moreover, without shutting the whole system down, it is possible to
-change system configurations --- or even upgrade the system --- by
-substituting target components with feasible ones.
-Besides, this design allows us to easily integrate the management system
-with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
-cloud operating system like Roystonea~\cite{cite:roystonea}.
-Roystonea also benefits from the RPC server implementation.
-
-%%% Not sure if we need this, but anyway...
-The rest of the chapter is organized as followed.  
-First we introduce the \emph{client}, which is programming interface for
-end users to submit jobs to our system.
-Then we define the job model and the \emph{worker}, the component that
-directly executes jobs, also the minimum scheduling slot, in our system.
-The three major management components --- \emph{status checker},
-\emph{decision maker} and \emph{dispatcher} --- are described after
-that.
-
-\subsection{Job and Tasks}
-
-Before discussing our system architecture, we have to introduce the
-representation of workload in our system.
-Users will submit \emph{jobs}, each of which consists of several
-\emph{tasks}, the minimum unit of scheduling, to the system.
-As a cluster management framework, submitted jobs are meant to be
-expected to be processed in parallel.
-It is end user's responsibility to split their jobs into balanced tasks.
-Just like all of other parallel computing systems, the more balanced the
-tasks, the better the system schedules.
-
-\subsection{Client}
+\section{Client}	%%% [DS] change nothing
 
 % Client is the interface of submission
-The client is the programming interface for users to submit jobs to our
-system.
+The \emph{client} is the programming interface for users to submit jobs
+to our system.
 In our framework, a user will submit \emph{jobs} to the system via a
 client instance created using the provided library.
 
@@ -124,25 +110,27 @@ but requires time consuming local pre-processing and post-processing.
 Since $j_1$, $j_2$ and pre-processing of $j_3$ is costive, it's better
 to do them in parallel.
 As a result, we submit $j_1$ and $j_2$ at first and wait for their
-results in the background then start pre-processing $j_3$. Not needing
-post-processing, results of $j_1$ and $j_2$ are synchronized after
-$j_3$.
+results in the background then start pre-processing $j_3$.
+Not needing post-processing, results of $j_1$ and $j_2$ are synchronized
+after $j_3$.
 Finally, as all of the results come back, we can do the final
 aggregation.
 
-\subsection{Worker}
+\section{Worker}	%%% [DS] revised
 
-Workers are the ones using resource of the cloud directly.
-They execute tasks assigned by the management system.
-A worker instance executes at most one task at a time.
-In other words, a worker is the minimum scheduling slot of our system.
-However, it does not mean that a physical machine can run one task only
-at a time.
-One can run multiple worker instances on a physical machine so that a
-physical machine could run more than one task simultaneously.
+\emph{Workers} are the computation nodes that consume cloud resources to
+process \emph{tasks}.
+They execute \emph{tasks} assigned by the management system.
+A \emph{worker} instance executes at most one \emph{task} at a time.
+In other words, a \emph{worker} is the minimum scheduling slot of our
+system.
+However, it does not imply that a physical machine can run only one
+\emph{task} at a time.
+A physical machine can serve multiple \emph{worker} instances, therefore
+executing more than one task simultaneously.
 
-Deploying multiple worker instances on a powerful machine (e.g., with
-large number of cores) can gain better performance from
+Deploying multiple \emph{worker} instances on a powerful machine (e.g.,
+with large number of cores) can gain better performance from
 multiprogramming, but in contrary, it might however cause resource
 contention on low-end machines.
 We leave the choice to system administrators.
@@ -152,22 +140,29 @@ instances is far worse than expected, it is very likely due to resource
 contention.
 In that case, the system administrator should consider reducing the
 number of worker instances on that machine.
-Thanks to the pluggable implementation, this can be done \emph{online},
-without stopping any of other components, even running workers which is
-preferred to keep on that machine, by simply stop several worker
-instances.
+The pluggable implementation enables the reduction to be done \emph{
+online}, i.e. without stopping any of other components.
 
-% TODO  Should I move this to another section???
-In fact, our management system can function without workers.
-In the case that it is working as a part of other cluster management
-frameworks, the framework in charge should be responsible for
-manipulating physical resources instead.
 
-\subsection{Status Checker}
+\section{Management System}	%%% [DS] revised
 
-Status checker periodically collects the information about worker
+The core part is the management system, which consists of three
+components: \emph{status checker}, \emph{decision maker} and \emph{
+dispatcher}.
+\emph{Status checker} periodically collects the information about \emph{
+worker}, and sends these information to \emph{Decision Maker}.
+\emph{Decision maker} is in charge of adjusting resource allocation
+plans.
+\emph{Dispatcher} is the component that deal with the physical resource
+allocation adjustment according to the allocation plan made by the \emph{
+Decision Maker}.
+
+
+\subsection{Status Checker}	%%% [DS] change nothing
+
+Status checker periodically collects the information about \emph{worker}
 instances and physical servers.
-Leveraging the information collected by status checker, the decision
+Exploiting the information collected by status checker, the decision
 maker can make resource allocation plans according to a policy specified
 by the system administration.
 
@@ -175,11 +170,11 @@ The most essential information for the system is probably the status of
 workers.
 A worker can be in status of either \emph{available}, \emph{occupied},
 \emph{busy} or \emph{down}.
-Available means the worker
-is idle and ready to accept task assignment; occupied indicates that the
-worker is assigned to a job but executing any task (e.g., waiting for
-necessary data); busy is the state that a worker is really executing a
-task; down shows that the worker instance is currently nonfunctional. 
+\emph{Available} means the worker is idle and ready to accept task
+assignment; \emph{occupied} indicates that the worker is assigned to a
+job but executing any task (e.g., waiting for necessary data); \emph{
+busy} is the state that a worker is really executing a task; \emph{down}
+shows that the worker instance is currently nonfunctional. 
 
 Aside from essential worker status, system administrators can also
 specify other kinds information to collect if it's essential to  their
@@ -188,8 +183,8 @@ For example, if someone deployed the management system on a cluster
 which focuses on utilizing its I/O bandwidth, they would probably
 specify a schedule policy in regard to I/O utilization of the physical
 server.
-In this situation, status checker must collect the information about
-not only the worker instances but the physical server as well.
+In this situation, status checker must collect the information about not
+only the worker instances but the physical server as well.
 
 Necessary information will be written to a database for persistent
 storage.
@@ -198,12 +193,11 @@ being plugged off.
 Besides, writing to a external database makes integration with other
 framework easier since it's more general to access a database.
 
-\subsection{Decision Maker}
+\subsection{Decision Maker}	%%% [DS] change nothing
 
 Decision maker is in charge of adjusting resource allocation plans.
-It
-makes allocation plans according to a specified \emph{policy} that takes
-different parameters, for example, job deadline and priority, into
+It makes allocation plans according to a specified \emph{policy} that
+takes different parameters, for example, job deadline and priority, into
 consideration. 
 
 Instead of letting decision maker schedule resources actively, we
@@ -216,7 +210,6 @@ plans.
 In other words, the only job this component do is to perform the
 schedule algorithm and give results.
 
-
 Doing seemingly little work only, decision maker is however the most
 critical part of the management system.
 This is not only because the whole system acts according to the plan the
@@ -224,11 +217,15 @@ decision maker makes, but also because it provides the flexibility that
 other frameworks can easily obtain the result of the scheduling
 algorithm by invoking decision maker.
 
-\subsection{Dispatcher}
+\subsection{Dispatcher}	%%% [DS] revised
 
-Dispatcher is the component that deal with the physical resource
-allocation adjustment according to the allocation plan made by the
-decision maker.
+\emph{Dispatcher} is the component that deal with the physical resource
+allocation adjustment according to the allocation plan made by
+\emph{Decision Maker}.
+It receives job requests from clients, sends the job information to
+\emph{Decision Maker}, and coordinates the workers and clients to run
+the jobs according to the policy made by \emph{Decision Maker}.
+
 Figure~\ref{fig:allocation-adjustment} is a nice example of adjusting
 resource allocation: There were 10 workers ($w_{1\sim10}$) managed by
 the system.
@@ -246,10 +243,9 @@ on hand, dispatcher would told them to run tasks of $J_3$ and the
 allocation plan became the lower half of
 figure~\ref{fig:allocation-adjustment}.
 
-%\begin{figure}
-%  \centering
-%  \input{figures/job-reallocation.tikz}
-%  \caption{Job allocation adjustment}
-%  \label{fig:allocation-adjustment}
-%\end{figure}
-
+\begin{figure}
+  \centering
+  \input{figures/job-reallocation.tikz}
+  \caption{Job allocation adjustment}
+  \label{fig:allocation-adjustment}
+\end{figure}
