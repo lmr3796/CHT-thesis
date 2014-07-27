@@ -1,7 +1,7 @@
 BUILD_DIR?=build
 BUILD_ENGINE?=xelatex
 #COMPILE_CMD=latexmk -xelatex -outdir=$(BUILD_DIR)
-PDF_TARGETS=main thesis ICPADS
+PDF_TARGETS=main thesis
 SLIDE_TARGETS=slide cht
 
 
