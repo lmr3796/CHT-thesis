@@ -1,1 +1,27 @@
 \chapter{Related Work}\label{sec:related}
+
+Job scheduling with deadlines has been a well studied field.
+In real-time systems, where each job has a hard deadline to be done,
+Earliest Deadline First (EDF) policy has been widely adapted.
+It is an optimal dynamic schedule policy on preemptive
+uniprocessors~\cite{cite:pinedo2012scheduling}, which means if all
+submit jobs in the system can be scheduled in a way that every job can
+be done before deadline, EDF is able to schedule them so that all of
+them can finish before their deadlines.
+
+Various works studied dynamic scheduling methods for parallel real-time
+jobs (PRJs) in clusters.
+Qin et al. modeled parallel real-time jobs as directed acyclic graphs
+and proposed a reliability-driven
+method~\cite{cite:qin-reliability-driven}.
+He et al. represented real-time processing as hybrid execution of
+existing periodic jobs and newly arriving aperiodic jobs, and proposed a
+scheduling method by modeling spare capabilities of new arriving
+aperiodic parallel real-time jobs~\cite{cite:he-spare-capabilities}.
+Xie et al. proposed TAPADS, Task Allocation for Parallel Applications
+with Deadline and Security Constraints, which takes security constraints
+into consideration~\cite{cite:xie-TAPADS,cite:xie2008security}.
+In these cases, deadlines are hard.
+If the system cannot guarantee a submitted job can be finished before
+required deadline, it is thus rejected.
+
