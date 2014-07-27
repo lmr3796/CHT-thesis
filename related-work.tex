@@ -25,11 +25,21 @@ In these cases, deadlines are hard.
 If the system cannot guarantee a submitted job can be finished before
 required deadline, it is thus rejected.
 
-On the other hand, lots of works focused on scheduling with soft
+On the other hand, several works focused on scheduling with soft
 deadlines, where missing deadlines is possible but might yield different
 kind of costs.
 Soft deadlines are also viewed as a kind of service level agreements
 (SLAs) or Quality of Service (QoS) demands.
-When it comes to scheduling with SLAs/QoS demands, works mostly study
-about scheduling with various constraints.
+Service level agreements are usually applied in clusters that provide
+charged computation services, so lots of works took user utility as
+their objective.
+For instance, Libra is a computational economy driven scheduling system
+designed to support allocation of resources based on the users' quality
+of service requirements~\cite{cite:libra}, and Yeo et al. used a linear
+penalty model on user utility~\cite{cite:yeo-SLA-penalty}.
+Also, job with QoS demands are often associated with grid computing; He
+et al. proposed a two-level optimization --- MUSCLE, a multi-cluster
+level scheduler, and TITAN, a single-cluster level workload manager ---
+for scheduling in parallel jobs in multi-clusters and
+grids~\cite{cite:he-muscle-titan}
 
