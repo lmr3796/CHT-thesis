@@ -34,7 +34,7 @@
     \tableofcontents[
       currentsubsection,
       sectionstyle=show/shaded,
-      subsectionstyle=show/shaded,
+      subsectionstyle=show/hide,
     ]
   \end{frame}
 }
@@ -47,11 +47,7 @@
 \end{frame}
 \begin{frame}
   \frametitle{Outline}
-  \tableofcontents[
-    currentsubsection,
-    sectionstyle=show/show,
-    subsectionstyle=show/shaded,
-  ]
+  \tableofcontents[subsectionstyle=show/hide]
 \end{frame}
 
 \input{slides/introduction.tex}
@@ -80,7 +76,7 @@
 
 \input{slides/policy}
 
-\section{Q3 Progress}
+\section{Progress}
 \begin{frame}<beamer>
   \frametitle{Outline}
   \tableofcontents[
@@ -90,7 +86,7 @@
   ]
 \end{frame}
 \begin{frame}
-  \frametitle{Q3 Progress}
+  \frametitle{Progress}
   \begin{itemize}
     \item Task queuing
       \begin{itemize}
@@ -154,33 +150,122 @@
     \includegraphics[width=\textwidth]{figures/adaptive.png}
   }
 \end{frame}
-
-\section{Q4 TODOs}
 \begin{frame}
-  \frametitle{Integration with JPPF}
-  \begin{itemize}[<+->]
-      \only<1-2>{
-      \item JPPF (Java Parallel Processing Framework) is a very popular open-source cluster management
-        framework
-        \begin{itemize}
-          \item <.->Very easy to deploy
-          \item <.->GUI monitoring tools
-          \item <.->Active development
-        \end{itemize}
-      \item Does not support \emph{centralized} and
-        \emph{node-aware} scheduling
-      }
-      \only<3->{
-      \item It provides API for jobs to set "filters" for a job -- to reject a
-        node of from running that job
-      \item Leveraging this API, we might be able to implement node-aware
-        scheduling by \pause
-        \begin{enumerate}
-          \item Contact the system for scheduling information
-          \item Get scheduled worker of the job
-          \item Reject if this node is not scheduled
-        \end{enumerate}
-      }
+  \frametitle{Adaptive Adjustment (Cont'd)}
+  \setbeamercovered{transparent}
+  \begin{itemize}
+    \item Improves fault tolerance.
+      \begin{itemize}
+        \item Detects worker failure and assign failed task to another
+          worker.
+      \end{itemize}
+    \item Implies we can scheduling without considering reserving resource.
+      \begin{itemize}
+        \item When high priority jobs arrive, kill some lower priority
+          ones and gives the resource to high priority ones.  Killed
+          ones we be automatically redo when there is available
+          resource.
+        \item In our experiment, gives about \alert{3x} throughput.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\section{Experiment}
+
+\subsection{Simulation Settings}
+\begin{frame}
+  \frametitle{Experiment Settings}
+  \only<1>{
+    Hardware
+    \begin{itemize}
+      \item Intel Core i5 3570 (2C4T)
+      \item 16GB RAM
+      \item Ubuntu 14.04 LTS
+      \item Ruby 2.1.1
+    \end{itemize}
+  }
+
+  \only<2>{
+    Sleep-based simulation
+    \begin{itemize}
+      \item Sample from obtained data center logs.
+      \item Take allocated CPUs as task amount and assign random numbers
+        as job priorities.
+      \item Sleep according to the execution time.
+      \item 20 worker instances used.
+    \end{itemize}
+  }
+
+  \only<3>{
+    Homogeneous Environment
+    \begin{itemize}
+      \item Tasks in a job has identical sleep time.
+      \item Each worker simply sleeps the time hold by that task.
+    \end{itemize}
+
+    Heterogeneous Environment
+    \begin{itemize}
+
+      \item Each worker will sleep an randomized additional period
+        related to a worker parameter.
+      \item Specify different parameter to represent different computing
+        speed.
+      \item Pick 1/20 of the task as GPU task and 4 out of 20 workers as
+        GPU server.  When GPU task is send to a GPU worker, its sleep
+        time is reduced to 1/10.
+    \end{itemize}
+
+  }
+\end{frame}
+
+\subsection{Homogeneous}
+\begin{frame}
+  \frametitle{Experiment Results --- Homogeneous}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/homo.eps}
+    \caption{Homogeneous Environment Setting}
+  \end{figure}
+\end{frame}
+
+\subsection{Heterogeneous}
+\begin{frame}
+  \frametitle{Experiment Results --- Heterogeneous}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/hetero.eps}
+    \caption{Heterogeneous Environment Setting}
+  \end{figure}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{期中審查意見}
+  部內已做了一些排程相關的東西，希望可以多交流避免重工
+  \begin{itemize}
+
+    \item 跟中華電信的同仁拿了之前的成果了解了一下，兩邊做的在問題設定
+      上不太一樣。中華電信先前的work的排程比較接近auto
+      scaling，也就是考慮機器要怎麼加；我們的設定則是在固定機器數量下排
+      程工作
+    \item 先前的work並沒有把伺服器的異質性納入考量
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Conclusion}
+  \begin{itemize}
+    \item Proposed a pluggable cluster management framework, being able
+      to change its scheduling policy on the fly.
+    \item Proposed several scheduling policies for different situations,
+      including 2 heterogeneous-aware ones.
+    \item Our experiment shows 
+      \begin{enumerate}
+        \item Earliest Deadline First scheduling gives the best performance.
+        \item Our Deadline-based policy slightly underperforms EDF,
+          but takes priority into consideration.
+      \end{enumerate}
   \end{itemize}
 \end{frame}
 
