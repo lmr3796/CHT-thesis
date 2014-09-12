@@ -1,5 +1,5 @@
 .PHONY: clean
-figures: hetero.eps
+figures: hetero.eps homo.eps
 homo.eps: homo.dat
 	./plot-homo.gpi
 hetero.eps: hetero.dat
