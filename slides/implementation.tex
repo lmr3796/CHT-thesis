@@ -58,35 +58,35 @@
   }
 \end{frame}
 
-\subsection{Case Study: Integration with JPPF}
-\begin{frame}
-  \frametitle{Case Study: Integration with JPPF}
-  \only<1>{
-    \begin{itemize}
-      \item JPPF\footnote[frame]{\tiny\fullcite{cite:JPPF}} is a very
-        popular open-source cluster management framework.
-        \begin{itemize}
-          \item Very easy to deploy
-          \item GUI monitoring tools
-          \item Active development
-        \end{itemize}
-      \item Used in CHT's cluster.
-      \item Doesn't support \emph{centralized} and
-        \emph{node-aware} scheduling
-    \end{itemize}
-  }
-  \only<2->{
-    \begin{itemize}[<+->]
-      \item Provides API for jobs set "filters" for a job --- to reject a
-        node from running that job
-      \item<.-> Leveraging this API, we can somehow implement node-aware
-        scheduling by
-        \pause
-        \begin{enumerate}
-          \item Contact the system for scheduling information
-          \item Get scheduled worker of the job
-          \item Reject if this node is not scheduled
-        \end{enumerate}
-    \end{itemize}
-  }
-\end{frame}
+%\subsection{Case Study: Integration with JPPF}
+%\begin{frame}
+%  \frametitle{Case Study: Integration with JPPF}
+%  \only<1>{
+%    \begin{itemize}
+%      \item JPPF\footnote[frame]{\tiny\fullcite{cite:JPPF}} is a very
+%        popular open-source cluster management framework.
+%        \begin{itemize}
+%          \item Very easy to deploy
+%          \item GUI monitoring tools
+%          \item Active development
+%        \end{itemize}
+%      \item Used in CHT's cluster.
+%      \item Doesn't support \emph{centralized} and
+%        \emph{node-aware} scheduling
+%    \end{itemize}
+%  }
+%  \only<2->{
+%    \begin{itemize}[<+->]
+%      \item Provides API for jobs set "filters" for a job --- to reject a
+%        node from running that job
+%      \item<.-> Leveraging this API, we can somehow implement node-aware
+%        scheduling by
+%        \pause
+%        \begin{enumerate}
+%          \item Contact the system for scheduling information
+%          \item Get scheduled worker of the job
+%          \item Reject if this node is not scheduled
+%        \end{enumerate}
+%    \end{itemize}
+%  }
+%\end{frame}
