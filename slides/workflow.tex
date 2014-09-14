@@ -13,31 +13,16 @@
 \end{frame}
 \begin{frame}
   \frametitle{Work Flow -- Task Execution}
-  \only<1>{
-    \begin{enumerate}
-      \item Client forks a task thread and notifies dispatcher a task is
-        ready to run.
-      \item The task thread waits for an available worker. This is a
-        blocking operation.
-      \item After the task thread obtains a worker, client forks another
-        task thread and goes 2.
-    \end{enumerate}
-  }
-
-  \only<2>{
-    \begin{enumerate}
-      \setcounter{enumi}{3}
-      \item Client thread contacts the assigned worker and sends
-        required information about the task: command, parameters, etc.
-      \item Tells the worker to run the task and waits for the result.
-        This is also a blocking call.
-      \item After obtaining the result, client remove the task from the
-        remaining task list and notifies the dispatcher to release the
-        worker.
-      \item Dispatcher assigns the released worker to next job
-        according to the current schedule plan.
-    \end{enumerate}
-  }
+  \begin{enumerate}
+    \item Dispatcher tells the client a worker is ready for the job.
+    \item The client contacts the worker and sends task information
+    \item Client periodically checks if the task is lost (e.g. due to
+      worker failure).  If so, mark the task as undone and redo it
+      later.
+    \item After the job is done, the worker tells the client the
+      result of the task is ready.
+    \item Client retrieves the result from the worker.
+  \end{enumerate}
 \end{frame}
 \begin{frame}
   \frametitle{Work Flow -- Job Completion}
