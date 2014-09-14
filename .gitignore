@@ -94,3 +94,4 @@ sympy-plots-for-*.tex/
 build/*
 main.pdf
 main.dvi
+*.eps
