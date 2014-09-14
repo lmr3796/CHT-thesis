@@ -57,6 +57,25 @@
     \includegraphics[width=\textwidth]{figures/adaptive.png}
   }
 \end{frame}
+\begin{frame}
+  \frametitle{Adaptive Adjustment (Cont'd)}
+  \setbeamercovered{transparent}
+  \begin{itemize}
+    \item Improves fault tolerance.
+      \begin{itemize}
+        \item Detects worker failure and assign failed task to another
+          worker.
+      \end{itemize}
+    \item Implies we can scheduling without considering reserving resource.
+      \begin{itemize}
+        \item When high priority jobs arrive, kill some lower priority
+          ones and gives the resource to high priority ones.  Killed
+          ones we be automatically redo when there is available
+          resource.
+        \item In our experiment, gives about \alert{3x} throughput.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
 
 %\subsection{Case Study: Integration with JPPF}
 %\begin{frame}
