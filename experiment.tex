@@ -85,7 +85,7 @@ jobs has extremely short running time (several seconds), while some jobs
 takes extremely long time (several days).
 Therefore, we scaled down the running time of jobs by factor of 0.001.
 
-There's still some assumptions to be made to fit our usage model.
+There are still some assumptions to be made to fit our usage model.
 First, we cannot obtain information about subtasks of a jobs.
 So we take the processors of allocated for a job as its number of tasks
 and take the total running time as the execution time of each task.
@@ -109,21 +109,17 @@ The sleeping duration is equal to the task execution length.
 After resumed from the sleeping mode, the worker sends a message to the
 management system indicating it has finished a task.
 
-\subsection{Experimental Results}
+\subsection{Experiment Results}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/homo.eps}
+  \caption{Homogeneous Environment Setting}
+  \label{fig:homo-result}
+\end{figure}
 
-The simulation result is not that good. We conducted 3 rounds of sample
-and the average deadline meet rate of the 3 round is 36.6/178 jobs.
-After digging into the sample, we found that the low performance is
-mainly due to the infeasible deadline model and priority model.
-
-Many jobs are blocked by several super huge jobs with high priority.
-Resource are spent on these gigantic jobs so that lots of light weight
-jobs could not finish before deadline.
-Besides, as mentioned, the running time distribution of the jobs is a
-very long-tailed exponential-like distribution.
-Lots of fly-weight jobs with running time within seconds will be sampled
-and scaled to millisecond level, and their deadlines were accordingly
-set to several milliseconds only.
-The round-trip cost of job submission and task submission overwhelms it
-and resulted in deadline miss.
-
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/hetero.eps}
+  \caption{Heterogeneous Environment Setting}
+  \label{fig:hetero-result}
+\end{figure}

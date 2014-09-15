@@ -11,6 +11,28 @@
       benefits from this design, too.
   \end{itemize}
 \end{frame}
+\subsection{Message Service}
+\begin{frame}
+  \frametitle{Message Service}
+  Under traditional client-server model, server cannot actively push
+  message to clients.
+  \begin{itemize}
+    \item Sometimes the management system needs so.
+      e.g. Notifying task completion
+    \item Maintaining long-last socket connection is too expensive and
+      may easily reach system limit.
+  \end{itemize}
+  We built an underlying message pushing service.
+  \begin{itemize}
+    \item For each client, dispatcher maintain a message queue.
+    \item Clients use long-polling\footnote[frame]{\tiny\fullcite{cite:push-pull}} to get message.
+      \begin{itemize}
+        \item Long connection, slow heartbeat
+        \item Technique adopt by modern mobile message pushing services
+          \footnote[frame]{\tiny\fullcite{cite:gcm}}\footnote[frame]{\tiny\fullcite{cite:apns}}.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
 \subsection{Task Queuing}
 \begin{frame}
   \frametitle{Task Queuing}
@@ -57,36 +79,55 @@
     \includegraphics[width=\textwidth]{figures/adaptive.png}
   }
 \end{frame}
-
-\subsection{Case Study: Integration with JPPF}
 \begin{frame}
-  \frametitle{Case Study: Integration with JPPF}
-  \only<1>{
-    \begin{itemize}
-      \item JPPF\footnote[frame]{\tiny\fullcite{cite:JPPF}} is a very
-        popular open-source cluster management framework.
-        \begin{itemize}
-          \item Very easy to deploy
-          \item GUI monitoring tools
-          \item Active development
-        \end{itemize}
-      \item Used in CHT's cluster.
-      \item Doesn't support \emph{centralized} and
-        \emph{node-aware} scheduling
-    \end{itemize}
-  }
-  \only<2->{
-    \begin{itemize}[<+->]
-      \item Provides API for jobs set "filters" for a job --- to reject a
-        node from running that job
-      \item<.-> Leveraging this API, we can somehow implement node-aware
-        scheduling by
-        \pause
-        \begin{enumerate}
-          \item Contact the system for scheduling information
-          \item Get scheduled worker of the job
-          \item Reject if this node is not scheduled
-        \end{enumerate}
-    \end{itemize}
-  }
+  \frametitle{Adaptive Adjustment (Cont'd)}
+  \setbeamercovered{transparent}
+  \begin{itemize}
+    \item Improves fault tolerance.
+      \begin{itemize}
+        \item Detects worker failure and assign failed task to another
+          worker.
+      \end{itemize}
+    \item Implies we can scheduling without considering reserving resource.
+      \begin{itemize}
+        \item When high priority jobs arrive, kill some lower priority
+          ones and gives the resource to high priority ones.  Killed
+          ones we be automatically redo when there is available
+          resource.
+        \item In our experiment, gives about \alert{3x} throughput.
+      \end{itemize}
+  \end{itemize}
 \end{frame}
+
+%\subsection{Case Study: Integration with JPPF}
+%\begin{frame}
+%  \frametitle{Case Study: Integration with JPPF}
+%  \only<1>{
+%    \begin{itemize}
+%      \item JPPF\footnote[frame]{\tiny\fullcite{cite:JPPF}} is a very
+%        popular open-source cluster management framework.
+%        \begin{itemize}
+%          \item Very easy to deploy
+%          \item GUI monitoring tools
+%          \item Active development
+%        \end{itemize}
+%      \item Used in CHT's cluster.
+%      \item Doesn't support \emph{centralized} and
+%        \emph{node-aware} scheduling
+%    \end{itemize}
+%  }
+%  \only<2->{
+%    \begin{itemize}[<+->]
+%      \item Provides API for jobs set "filters" for a job --- to reject a
+%        node from running that job
+%      \item<.-> Leveraging this API, we can somehow implement node-aware
+%        scheduling by
+%        \pause
+%        \begin{enumerate}
+%          \item Contact the system for scheduling information
+%          \item Get scheduled worker of the job
+%          \item Reject if this node is not scheduled
+%        \end{enumerate}
+%    \end{itemize}
+%  }
+%\end{frame}
