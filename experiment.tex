@@ -23,8 +23,8 @@ There are two workers on each working node.
 We reproduced a small scale workload trace provided by Chunghwa Telecom
 Laboratories~\cite{cite:cht-lab}.
 Total of 8 worker instance is used and deadline-based scheduling policy
-is applied in this simulation. 
-1 job was sent and the deadline is set to 4 minutes.
+is applied in this simulation.
+Only 1 job was sent and the deadline is set to 4 minutes.
 The characteristic of this workload is that it starts with several
 light-weight tasks and then comes with heavier tasks.
 
@@ -75,21 +75,22 @@ waiting and execution time of the sampled jobs.
 
 \subsection{Simulation Settings}
 \subsubsection{Trace Sampling}
+
 The trace is however very sparse and skewed.
-If we directly sample 1 percent of jobs the waiting time between jobs
-can be extremely long --- maybe up to hours.
+The running time distribution of the trace is very long-tailed and more
+like a exponential distribution: Enormous number of jobs have quite
+short running time (several seconds), while some jobs have extremely
+long running time (several days).
+Therefore, we scaled down the running time of jobs by factor of 0.001 to
+lower the simulation time.
+Besides, if we directly sample 1 percent of jobs the waiting time
+between jobs can still be long --- maybe up to hours.
 Because of this, we instead sample consecutive jobs only and scaled the
 waiting time between jobs.
 Limiting the number of jobs to sample out, we randomly pick a starting
-job and take jobs consecutively after it. 
+job and take jobs consecutively after it.
 The sample rate is 0.01 and the scale factor of waiting time between
 jobs is 0.1.
-
-On the other hand, the running time distribution of the trace is very
-long-tailed and more like a exponential distribution: Enormous number of
-jobs has extremely short running time (several seconds), while some jobs
-takes extremely long time (several days).
-Therefore, we scaled down the running time of jobs by factor of 0.001.
 
 There are still some assumptions to be made to fit our usage model.
 First, we cannot obtain information about subtasks of a jobs.
@@ -98,9 +99,9 @@ and take the total running time as the execution time of each task,
 which means we assume every task in a job takes identical time to run.
 Besides, the information about batches, priority and deadlines is absent
 in the trace but however our targeted characteristics.
-Since jobs in standard workload format traces are independent,
-we group jobs that will be submitted within 1 second together to
-simulate batches.
+Since jobs in standard workload format traces are independent, we group
+jobs that will be submitted within 1 second together to simulate
+batches.
 For priority, we group jobs with same user IDs as same priority and we
 give the priority group with less jobs higher priority.
 As for the deadlines, we use the double of its running time as deadline
@@ -111,11 +112,11 @@ During the simulation, the client starts new jobs according to the
 arrival time and execution time from the trace.
 Since the actual workloads is not available, a worker will be set to
 ``sleep mode'' after receiving a task from the client.
-The sleeping duration is equal to the task execution length.
 After resumed from the sleeping mode, the worker sends a message to the
 management system indicating it has finished a task.
 
 \subsubsection{Homogeneous/Heterogeneous Environment}
+
 The simulation is conducted under 2 different environment settings ---
 homogeneous and heterogeneous.
 By homogeneous we mean each worker has identical performance.
@@ -126,6 +127,7 @@ In contrast, in heterogeneous environment, workers may have different
 performance.
 
 \subsection{Experiment Result}
+
 The target we compared with is the Earliest Deadline First (EDF)
 algorithm, an optimal solution in real-time systems.
 We used $\sum_{j \in Jobs} P_j * M_j$ as our penalty measure, where $j$
@@ -134,13 +136,20 @@ is the deadline missed of $j$ in seconds; we define $M_j = 0$ if a $j$
 is finished before its deadline.
 This measure takes both priority and deadline into consideration.
 The lower the penalty score, the better the performance.
-The result is shown in figure~\ref{fig:homo-exp} and~\ref{fig:hetero-exp}.
+
+Experiment results are shown in figure~\ref{fig:homo-exp}
+and~\ref{fig:hetero-exp}.
+The shown result of each scheduling policy is the average of 5 sampled
+workloads.
+All of the policies used identical sample set as input benchmark.
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/homo.eps}
   \caption{Homogeneous Environment Setting}
   \label{fig:homo-exp}
 \end{figure}
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/hetero.eps}
@@ -148,4 +157,13 @@ The result is shown in figure~\ref{fig:homo-exp} and~\ref{fig:hetero-exp}.
   \label{fig:hetero-exp}
 \end{figure}
 
-
+As we can see, EDF still gives the best performance, whether applied
+under homogeneous or heterogeneous environment.
+Priority-based policy and deadline-based policy with spare resource
+filled by priority did not perform well --- their penalty scores are 3
+magnitudes higher when compared with EDF.
+Surprisingly, there is a gorgeous leap on the performance of
+deadline-based policy when the spare resource is assigned to jobs with
+the closest deadlines instead of the highest priorities.
+We think the main reason of this is the extremely long-tailed running
+time distribution.
