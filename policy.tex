@@ -22,12 +22,11 @@ schedules.
 \emph{Priority-based} distributes workloads according to job priority. 
 We first sort all jobs in the system according to their priority in 
 descending order.
-Starts from the job with the highest priority, we assign $x$ workers to
-the job, where $x = max(number of idle worker, number of tasks in the 
-job)$.
-The job is removed from the list.
-The process is repeated until there are no idle workers or unassigned 
-jobs.
+Next, starting from the job with the highest priority, we assign $x$
+workers to the job, where $x$ is the maximum of 1) number of idle worker
+and 2) number of tasks in the job.
+The process is repeated until there are no idle workers or all the jobs
+are assigned with sufficient workers.
 The idea behind this policy is to make the job with highest priority 
 runs as fast as possible.
 However, this assignment might cause \emph{starvation} to jobs with 
