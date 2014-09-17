@@ -162,8 +162,26 @@ under homogeneous or heterogeneous environment.
 Priority-based policy and deadline-based policy with spare resource
 filled by priority did not perform well --- their penalty scores are 3
 magnitudes higher when compared with EDF.
+
 Surprisingly, there is a gorgeous leap on the performance of
 deadline-based policy when the spare resource is assigned to jobs with
 the closest deadlines instead of the highest priorities.
+The penalty score of filling by deadline is only 0.004 of filling by
+priority under homogeneous environment setting, and 0.002 under
+heterogeneous environment setting.
+
 We think the main reason of this is the extremely long-tailed running
 time distribution.
+Despite being scaled down, the workload still contains some very
+heavy-weighted jobs which takes 500 to 800 seconds.
+The impact made by running time (and the relative deadlines) will be
+much bigger compared with the priority scores limited under 100.
+That is why the policies focused more on deadlines, such as EDF, gives
+better performance.
+Deadline-based policy with spare resource filled by deadline, however,
+attaches more importance to priority, so it slightly underperforms EDF.
+On the other hand, as we blended with the powerful EDF algorithm by
+allocating spare resource with EDF, the deadline based policy has 2
+magnitudes of improvement on performance compared with filling spare
+resource by priority, and the performance is quite close to EDF.
+
