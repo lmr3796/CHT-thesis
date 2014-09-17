@@ -15,8 +15,29 @@ system.
 This framework make decisions according to some specified policies.
 The proposed framework can work as an individual cloud computing system,
 or as extension components of an existent cloud system.
-%%% [DS] add experimental summary here
 Our experiment results demonstrate that our system is capable of
 dynamically adjust the resource allocation plan according to the runtime
 statistics to meet the deadline requirements even there is worker
 failure.
+Moreover, leveraging this ability to dynamically adjust resource usage,
+our system can adapt more aggressive scheduling policies that do not
+need to preserve resources in advance and thus improves its throughput
+and performance.
+
+Aside from the framework, we also proposed several scheduling policies
+for different situations, including 2 heterogeneity-aware ones.
+The deadline-based policy is a heterogeneity-aware policy that takes
+both priority and deadline into consideration.
+Our experiment shows that
+\begin{enumerate}
+  \item Earliest Deadline First algorithm, an optimal solution in
+    real-time systems, still gives the best performance.
+  \item Blending the deadline-based policy with EDF by allocating the
+    spare resource to jobs with earliest deadlines improves its
+    performance and almost make the performance reach the level of EDF.
+\end{enumerate}
+Although still not outperforming EDF, deadline-based policy with spare
+resource filled by deadline gives a nice balance between priority and
+deadline constraints.
+It takes priority into consideration and give high priority jobs enough
+resource first.
