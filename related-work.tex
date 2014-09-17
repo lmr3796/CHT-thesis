@@ -43,3 +43,18 @@ level scheduler, and TITAN, a single-cluster level workload manager ---
 for scheduling in parallel jobs in multi-clusters and
 grids~\cite{cite:he-muscle-titan}
 
+Java Parallel Processing Framework (JPPF)~\cite{cite:JPPF} is a very
+popular open-source job dispatching framework.
+It has gained enormous amount of users with abundant customization APIs
+, user friendly management tool in GUI
+(figure~\ref{fig:jppf-management-tool}) and being extremely easy to
+deploy.
+However, because its design is to let available nodes pull tasks from a
+queue, it is very hard to achieve node-aware scheduling that can assign
+tasks to a certain machine explicitly.
+\begin{figure}[htpb]
+  \centering
+  \resizebox{\linewidth}{!}{\includegraphics{figures/jppf.png}}
+  \caption{Graphical Management Tool of JPPF}
+  \label{fig:jppf-management-tool}
+\end{figure}
