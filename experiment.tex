@@ -1,4 +1,4 @@
-\chapter{Experiment}\label{sec:exp}
+\chapter{Experiment}\label{chap:exp}
 
 \section{Hardware Settings}
 
@@ -65,9 +65,15 @@ to the performance.
 
 Since we could not obtain traces with deadline, we decided to use traces
 in {\em standard workload format}~\cite{cite:swf}.
-The trace we used are the \emph{CERIT-SC workload log}, which is
-provided by the CERIT-SC and the Czech National Grid Infrastructure
-MetaCentrum~\cite{cite:metacentrum}.
+The trace we use is the SDSC-Par96 log, containing 32135 jobs.
+This log contains a years worth of accounting records for the 416-node
+Intel Paragon located at the San Diego Supercompter Center (SDSC)
+The workload logs from the SDSC Paragon were graciously provided by
+Reagan Moore (moore@sdsc.edu) and Allen Downey (downey@sdsc.edu), who
+also helped with background information and interpretation.
+%The trace we used are the \emph{CERIT-SC workload log}, which is
+%provided by the CERIT-SC and the Czech National Grid Infrastructure
+%MetaCentrum~\cite{cite:metacentrum}.
 The data set containing 17,900 jobs are generated from TORQUE traces
 during the first 3 months of the year 2013.
 We took samples from these eighteen-thousand jobs, and scaled the

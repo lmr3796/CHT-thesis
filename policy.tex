@@ -1,4 +1,4 @@
-\chapter{Scheduling Policies}\label{sec:policy}
+\chapter{Scheduling Policies}\label{chap:policy}
 
 In this chapter, we introduce the four policies in our system ---
 \emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
@@ -185,3 +185,17 @@ The complete algorithm is shown as algorithm ~\ref{algo:deadline-based}.
   \label{algo:deadline-based}
 \end{algorithm}
 
+\section{Spare Resource Allocating}
+
+Originally, scheduling policies should consider preserving resource for
+possible emergency jobs like workload-based or deadline-based policy.
+With the adaptive adjustment in section\ref{sec:adaptive}, we can
+aggressively allocate the spare resource as much as possible.
+There are 2 ways to do so, allocate them by priority or by closest
+deadline.
+For jobs still requires worker to process, sort them by the
+criteria (priority or deadline), and allocate the rest workers one by
+one until workers are used up or every job has obtained enough workers.
+This is the additional optimization we did on the policies that
+preserves resource in advance for emergency jobs like workload-based or
+deadline-based policy.
