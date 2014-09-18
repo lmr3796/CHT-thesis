@@ -2,32 +2,47 @@
 
 \section{System Flow}	%%% [DS] added
 
-Figure~\ref{fig:archi-overview} shows our system flow.
-1) The client sends a job request to the Dispatcher in the management 
-system.
-2) According to the pre-defined policy and current worker status, the 
-Decision maker generates a resource allocation plan.
-The dispatcher responds to the client about which worker and
-corresponding job the client should execute next task on.
-3) The client transfer the required data to workers.
-4) The client sends tells the management system a task is sent
-(maintaining remaining tasks of each job is critical to scheduling).
-5) After finishing the task, the worker sends ``job done'' signal to the
-management system.
-6) On receiving the ``job done'' signal,  the management system informs
-the corresponding client.
-7) The client collects the job results from workers, and
-8) send an acknowledgement to workers after the transmission is 
-completed.
-9) Last, the worker send a ``clear'' signal to management system.
+Figure~\ref{fig:archi-overview} shows our system flow. Each arrow on the
+figure indicates the communication between the components.
+\begin{enumerate}
+  \item The client sends a job request to the Dispatcher in the management 
+    system.
+  \item According to the pre-defined policy and current worker status,
+    decision maker generates a resource allocation plan.
+  \item Once the worker is ready, dispatcher responds to the client
+    about which worker and corresponding job the client should execute
+    next task on.
+  \item The client transfer the required data to workers.
+  \item The client sends tells the management system a task is sent
+    ,maintaining remaining tasks of each job is critical to scheduling.
+  \item After finishing the task, the worker sends ``job done'' signal
+    to the management system.
+
+  \item On receiving the ``job done'' signal, the management system
+    informs the corresponding client.
+  
+  \item The client collects the job results from workers, and
+
+  \item send an acknowledgement to workers after the transmission is
+    completed.
+  \item Last, the worker send a ``clear'' signal to management system.
+\end{enumerate}
+Aside from the normal job execution flow, status checker will
+periodically collects the system information for scheduling, including
+detecting worker healthiness.
+The scheduling process only happens whenever there is 
+\begin{enumerate}
+  \item job change, including submission or completion, or
+  \item worker change, including worker failure or rejoin.
+\end{enumerate}
 
 \section{RPC Server Component}
 
 % RPC server design
-We implemented the components in the {\em management system} and the
-{\em worker} as separate RPC (remote procedural call)~\cite{cite:RPC}
-servers.
-Separate RPC server implementation makes each component {\em pluggable}.
+We implemented the components in the management system and the worker as
+separate RPC (remote procedural call)~\cite{cite:RPC} servers.
+Separate RPC server implementation makes each component
+\emph{pluggable}.
 The pluggability gives the system administrator flexibility to choose
 the most suitable component implementation to fit different needs.
 Moreover, without shutting the whole system down, it is possible to
@@ -38,7 +53,7 @@ with other cluster management frameworks like JPPF~\cite{cite:JPPF} or
 cloud operating system like Roystonea~\cite{cite:roystonea}.
 Roystonea also benefits from the RPC server implementation.
 
-\section{Message Service} % [lmr3796] added
+\section{Message Service}
 
 Our implementation is a pure client-server model, which means the
 management system and workers cannot actively contact the clients.
@@ -93,3 +108,16 @@ that it may be able to meet the deadline.
 To achieve this, while collecting informations, status checker also
 asks decision maker to schedule with updated information so that the
 system schedule plan can catch up with current conditions.
+
+This feature not only improves fault tolerance, but also let us choose a
+more aggressive scheduling policy.
+Originally, the scheduling policy should in order to handle emergency
+jobs.
+This critically lowers the throughput of the system.
+Applying adaptive adjustment, the scheduling policy can aggressively
+allocate all the resources without preserving them.
+If emergency job comes, all we need is kill some low priority running
+tasks and reallocate them to the high priority emergency ones.
+As for the killed ones, it is just like handling worker failure; they
+will be redo when there are available workers allocated for them.
+
