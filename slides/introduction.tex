@@ -15,26 +15,25 @@
 \begin{frame}
   \frametitle{Background --- Job Characteristics}
   \setbeamercovered{transparent}
+  In data centers, jobs come with different characteristics.
   \begin{itemize}[<+->]
-    \item In data centers, jobs come with different characteristics.
+    \item <+(1)->Importance/Priority
+    \item <+(1)->Computation resource demand
       \begin{itemize}
-        \item Importance/Priority
-        \item Computation resource demand
-          \begin{itemize}
-            \item CPU bound versus I/O bound
-            \item <.-> Requires large RAM
-            \item <.-> Leverage GPGPU
-          \end{itemize}
-        \item <.(2)->{\alert<.(2)->{Deadline/Service Level Agreement}}
+        \item <+(1)-> CPU bound versus I/O bound
+        \item <.(1)-> Requires large RAM
+        \item <.(1)-> Leverage GPGPU
       \end{itemize}
-    \item Moreover, some of them should be completed before time
-      constraints.
-      \begin{itemize}
-        \item <.-> Billing jobs should be done within days after
-          charge-off.
-        \item <.-> Research experiments are not that urgent.
-      \end{itemize}
+    \item <.(3)->{\alert{Deadline/Service Level Agreement}}
   \end{itemize}
+  \onslide<+(1)->{Moreover, some of them should be completed before time
+    constraints.
+    \begin{itemize}
+      \item <.(1)-> Billing jobs should be done within days after
+        charge-off.
+      \item <.(1)-> Research experiments are not that urgent.
+    \end{itemize}
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Background --- Server Characteristics}
