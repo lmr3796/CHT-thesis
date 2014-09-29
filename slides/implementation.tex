@@ -24,23 +24,27 @@
   \end{itemize}
   We built an underlying message pushing service.
   \begin{itemize}
-    \item For each client, dispatcher maintain a message queue.
+    \item For each client, dispatcher maintains a message queue.
     \item Clients use long-polling\footnote[frame]{\tiny\fullcite{cite:push-pull}} to get message.
       \begin{itemize}
-        \item Long connection, slow heartbeat
-        \item Technique adopt by modern mobile message pushing services
-          \footnote[frame]{\tiny\fullcite{cite:gcm}}\footnote[frame]{\tiny\fullcite{cite:apns}}.
+        \item "Long connection, slow heartbeat"
+        \item Technique adopted by modern mobile message pushing services
+          \footnote[frame]{\tiny\fullcite{cite:gcm}}~\footnote[frame]{\tiny\fullcite{cite:apns}}.
       \end{itemize}
   \end{itemize}
 \end{frame}
 \subsection{Task Queuing}
 \begin{frame}
   \frametitle{Task Queuing}
+  Originally:
   \begin{itemize}
     \item Workers are occupied until all tasks of the assigned job are
       done.
     \item Trailing idle workers.
-    \item Maintain a available worker queue for each job.
+  \end{itemize}
+  Task queuing:
+  \begin{itemize}
+    \item Maintains a available worker queue for each job.
     \item Enables releasing trailing idle workers earlier.
   \end{itemize}
 \end{frame}

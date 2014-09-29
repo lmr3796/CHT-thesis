@@ -1,44 +1,44 @@
-\chapter{Introduction}\label{sec:intro}
+\chapter{Introduction}\label{chap:intro}
 
 %%% TODO Starts with introduction of cloud computing
-Cloud computing has become a popular issue in recent year.
-Many enterprises or institutes are building private clouds by 
-establishing their own data center.
-In such data centers, the maximum amount of computing resources, or 
-number of physical machines, are fixed for most of the time.
-It only changes during adding newly purchased servers, or remove 
+Cloud computing has become a popular issue in recent years.
+Many enterprises or institutes are building private clouds by
+establishing their own data centers.
+In such data centers, the maximum amount of computing resources and the
+number of physical machines are fixed for most of the time.
+They change only during adding newly purchased servers or removal of
 obsolete ones during equipment upgrade.
 
 %%% TODO why is job deployment so important
 
-Jobs in a data center vary from one another.
-Jobs may have different characteristic, resource requirements, time 
+Jobs in a data center may vary from one another.
+They may have different characteristic, resource requirements, time
 constraints, and priority.
 For example, scientific computation requires large computing resources,
-while a billing sub-system need to generate the credit-card bill for 
+while a billing sub-system need to generate the credit-card bills for
 each user every month.
 Also, newly arrival emergency jobs may require large amount of resource
-in a short time.
-How to allocate jobs in a heterogeneous environment in order to meet 
-different requirements becomes an important issue.
+in a short period.
+How to allocate resources for jobs in a heterogeneous environment and
+meet different requirements becomes an important issue.
 
-In this paper, we proposed a cloud resource management framework to 
-dynamically adjust the number of computation nodes for every job in the
-system.
-This framework make decisions according to some specified policies --
+In this paper, we proposed a cloud resource management framework to
+adjust the number of computation nodes for every job in the system
+dynamically.
+This framework makes decisions according to some specified policies ---
 \emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
 and \emph{deadline-based}.
-The policies take the remaining workload, priority or deadline of each
+These policies take the remaining workload, priority or deadline of each
 job into consideration and generate a scheduling plan.
-Administrators can choose a different policy or specify a customized
-policy for the system in order to fit the their needs.
+Administrators can choose a different policy or specify a customized one
+for the system in order to fit the their needs.
 Moreover, this framework can work as an individual cluster managment
-system, or as extension components of an existent cloud system.
+system or as extension components of an existent cloud system.
 
 The rest of the paper is organized as followed.
-The system architecture is presented in Chapter~\ref{sec:arch} and the
-implementation is discussed in Chapter~\ref{sec:arch}.
-Chapter~\ref{sec:policy} introduce the four policies we implement for 
+The system architecture is presented in Chapter~\ref{chap:arch} and the
+implementation is discussed in Chapter~\ref{chap:arch}.
+Chapter~\ref{chap:policy} introduce the four policies we implement for
 different types of jobs.
-The experimental results are in Chapter~\ref{sec:exp}.
-Chapter~\ref{sec:conclusion} is the conclusion.
+The experimental results are in Chapter~\ref{chap:exp}.
+Chapter~\ref{chap:conclusion} is the conclusion.

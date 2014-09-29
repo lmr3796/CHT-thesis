@@ -1,4 +1,4 @@
-\chapter{Scheduling Policies}\label{sec:policy}
+\chapter{Scheduling Policies}\label{chap:policy}
 
 In this chapter, we introduce the four policies in our system ---
 \emph{priority-based}, \emph{proportion-based}, \emph{workload-based}
@@ -16,22 +16,21 @@ balanced tasks; the more balanced the tasks, the better the system
 schedules.
 
 
-\section{Priority-based Policy}	%%% [DS] revise the first paragraph
+\section{Priority-based Policy}
 
 %%% Introduce Priority-based
-\emph{Priority-based} distributes workloads according to job priority. 
+Priority-based policy distributes workloads according to job priority. 
 We first sort all jobs in the system according to their priority in 
 descending order.
-Starts from the job with the highest priority, we assign $x$ workers to
-the job, where $x = max(number of idle worker, number of tasks in the 
-job)$.
-The job is removed from the list.
-The process is repeated until there are no idle workers or unassigned 
-jobs.
+Next, starting from the job with the highest priority, we assign $x$
+workers to the job, where $x$ is the maximum of 1) number of idle worker
+and 2) number of tasks in the job.
+The process is repeated until there are no idle workers or all the jobs
+are assigned with sufficient workers.
 The idea behind this policy is to make the job with highest priority 
 runs as fast as possible.
 However, this assignment might cause \emph{starvation} to jobs with 
-low priority
+low priority.
 
 %%% How we avoid starvation from happening
 To avoid \emph{starvation}, we preserve a portion for low priority jobs.
@@ -50,15 +49,15 @@ The complete algorithm is shown as algorithm~\ref{algo:priority-based}.
   \label{algo:priority-based}
 \end{algorithm}
 
-\section{Proportion-based Policy}	 %%% [DS] revised
+\section{Proportion-based Policy}
 
-The main concern of \emph{Proportion-based} policy is the workload
+The main concern of the proportion-based policy is the workload
 proportion of a job to all the others.
-In contrast to \emph{priority-based}, this policy does not take job 
-priorities into consideration unless the priority of a task is strongly 
+In contrast to priority-based policy, this policy does not take job
+priorities into consideration unless the priority of a task is strongly
 related to its workload.
-The \emph{Decision maker} first summing all the workloads from each job, 
-then compute the ratio of the individual job.
+It first sums all the workloads from each job, then compute the workload
+ratio of the individual job.
 The number of workers a job is assigned equals to the number of all 
 workers multiplies it ratio.
 This algorithm, as shown in algorithm~\ref{algo:proportion-based}, is
@@ -66,21 +65,16 @@ also known as \emph{fair share
 scheduling}~\cite{ite:fair-share-scheduling} that workers a job should
 be allocated is in proportion to its workload proportion to all jobs. 
 
-\emph{Proportion-based} is a suitable solution for streaming jobs or
-jobs with dependencies.
+Proportion-based is a suitable solution for streaming jobs or jobs with
+dependencies.
 For streaming jobs with vary input rate, the number of workers needed is
 highly related to its input rate, thus workload.
 As for jobs with dependencies, a job may need the output from other 
 jobs as input.
-Therefore, we should assign more workers to the predecessor in the 
+Therefore, we should assign more workers to the predecessor in the
 beginning, and reduce the number of workers according to time.
 On the other hand, the number of worker of a successor will be 
 increasing since the workload from the predecessor increased.
-
-% TODO For streaming jobs, workloads may varies: For streaming jobs
-% dependent on others, if they don't have anything to process, its
-% workload is low so no workers needed, but as results come out, we
-% should give it servers.
 
 \begin{algorithm}[htbp]
   \input{snippets/policies/proportion-based-policy}
@@ -89,14 +83,14 @@ increasing since the workload from the predecessor increased.
 \end{algorithm}
 
 
-\section{Workload-based Policy}       %%% [DS] revised
+\section{Workload-based Policy}
 
 %%% [DS] The only different is worker heterogeneity?
 %%% What is "workload requirement of $J_m$"
 
 Similar to the \emph{proportion-based} policy, the \emph{workload-based}
 policy takes the workload of jobs as scheduling metric.
-However, \emph{workload-based} takes worker heterogeneity, i.e. each
+However, workload-based takes worker heterogeneity, i.e. each
 worker may have different computing ability, into consideration.
 This policy tries to finish every job by assigning jobs to the most
 suitable workers, i.e. workers with higher throughput.
@@ -120,7 +114,7 @@ workers according to their throughput $th_m$ to $J_m$.
 Then assign the top $k$ workers that can satisfy the workload
 requirement of $J_m$, and remove assigned workers from the list.
 The job is also removed from the list waiting for assignment.
-Repeat this process until there are no idle worker or un-assigned job.
+Repeat this process until there are no idle worker or unassigned job.
 The complete algorithm is shown as algorithm ~\ref{algo:workload-based}.
 
 \begin{algorithm}[htbp]
@@ -130,7 +124,7 @@ The complete algorithm is shown as algorithm ~\ref{algo:workload-based}.
 \end{algorithm}
 
 
-\section{Deadline-based Policy}	%%% [DS] revised
+\section{Deadline-based Policy}
 
 \emph{Deadline-based} policy tries to finish every jobs before their 
 soft deadline.
@@ -191,3 +185,17 @@ The complete algorithm is shown as algorithm ~\ref{algo:deadline-based}.
   \label{algo:deadline-based}
 \end{algorithm}
 
+\section{Spare Resource Allocating}
+
+Originally, scheduling policies should consider preserving resource for
+possible emergency jobs like workload-based or deadline-based policy.
+With the adaptive adjustment in section\ref{sec:adaptive}, we can
+aggressively allocate the spare resource as much as possible.
+There are 2 ways to do so, allocate them by priority or by closest
+deadline.
+For jobs still requires worker to process, sort them by the
+criteria (priority or deadline), and allocate the rest workers one by
+one until workers are used up or every job has obtained enough workers.
+This is the additional optimization we did on the policies that
+preserves resource in advance for emergency jobs like workload-based or
+deadline-based policy.

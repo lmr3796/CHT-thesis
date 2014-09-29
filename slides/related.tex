@@ -1,7 +1,31 @@
 \section{Related Work}
+\subsection{Real-time System}
+\begin{frame}
+  \frametitle{Related Work --- Real-time Systems and EDF}
+  Real-time system (RTS) is a different scheme of operating system
+  design focused on serving real-time applications.
+  \begin{itemize}
+    \item Mission oriented.
+    \item Jobs are provided with {\emph{hard}} deadlines that cannot be violated.
+    \item If the system cannot guarantee to finish a submitted job
+      before its deadline, it rejects it.
+  \end{itemize}
+
+  Earliest Deadline First algorithm was proved to be an optimal
+  scheduling algorithm on preemptive uniprocessors
+  \footnote[frame]{\tiny\fullcite{cite:pinedo2012scheduling}}.
+  \begin{itemize}
+    \item By optimal we mean: If a set of jobs can be scheduled in a way that all the jobs
+      can finish before deadline, EDF is able to schedule them.
+    \item Takes only deadline into consideration.
+  \end{itemize}
+\end{frame}
 \subsection{Parallel Real-time Job}
 \begin{frame}
-  \frametitle{Related Work --- Parallel Real-time Job}
+  \frametitle{Related Work --- Parallel Real-time Job (PRJ) Scheduling}
+  PRJs are jobs in parallel real-time systems, where jobs can be run in
+  parallel.  Different frameworks and algorithms are proposed for
+  different constraints.
   \begin{itemize}
     \item Reliability-Driven method by Qin et al.
       \footnote[frame]{\tiny\fullcite{cite:qin-reliability-driven}}
