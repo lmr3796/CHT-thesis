@@ -1,0 +1,4 @@
+0	"Priority-based"	0
+1	"Deadline-based (fill by priroity)"	0
+2	"Deadline-based (fill by deadline)"	0.128763
+3	"Earliest Deadline First"	0.545165

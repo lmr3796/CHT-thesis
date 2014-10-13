@@ -1,8 +1,9 @@
-.PHONY: clean
-figures: hetero.eps homo.eps
-homo.eps: homo.dat
-	./plot-homo.gpi
-hetero.eps: hetero.dat
-	./plot-hetero.gpi
+.PHONY: figures clean
+EPS_FIGURES=hetero-penalty.eps homo-penalty.eps hetero-violation.eps homo-violation.eps
+
+figures: $(EPS_FIGURES)
+
+$(EPS_FIGURES): %.eps: %.dat
+	./plot-$(<:.dat=).gpi
 clean:
-	rm -f homo.eps hetero.eps
+	\rm $(EPS_FIGURES)

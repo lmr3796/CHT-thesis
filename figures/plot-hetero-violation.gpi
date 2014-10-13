@@ -1,0 +1,15 @@
+#!/usr/bin/env gnuplot
+
+set boxwidth 0.5
+set style fill solid
+set xlabel "Policy"
+set ylabel "Average Violation Rate"
+unset key
+set xtics rotate by -10 left offset -4,0
+set xtics font ", 12" 
+set yrange [0:1]
+set terminal postscript eps enhanced color
+set output "hetero-violation.eps"
+plot "hetero-violation.dat" using 1:3:xtic(2) with boxes, "hetero-violation.dat" using 1:($3+0.1):3 with labels
+
+
