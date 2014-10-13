@@ -31,13 +31,19 @@ both priority and deadline into consideration.
 Our experiment shows that
 \begin{enumerate}
   \item Earliest Deadline First algorithm, an optimal solution in
-    real-time systems, still gives the best performance.
+    real-time systems, still gives the best performance on deadline miss
+    penalty.
   \item Blending the deadline-based policy with EDF by allocating the
     spare resource to jobs with earliest deadlines improves its
-    performance and almost make the performance reach the level of EDF.
+    performance on deadline miss penalty and almost make the performance
+    reach the level of EDF.
+  \item Compared with EDF, deadline-based policy with spare resource
+    filled by deadline outperformed a lot on meeting priority
+    constraints with only about one-forth of average priority violation
+    rate.
+  \item There is a trade off between this priority and deadline
+    constraints.  A policy laying more emphasis on meeting priority
+    constraints performs worse on meeting deadline constraints.
 \end{enumerate}
-Although still not outperforming EDF, deadline-based policy with spare
-resource filled by deadline gives a nice balance between priority and
-deadline constraints.
-It takes priority into consideration and give high priority jobs enough
-resource first.
+We think that deadline-based policy with spare resource filled by
+deadline gives a very nice balance between priority and deadline constraints.

@@ -133,13 +133,16 @@ respectively from a same job, the sleeping time will be the same.
 In contrast, in heterogeneous environment, workers may have different
 performance.
 
-\subsection{Experiment Result}
+\subsection{Experiment Results}
 
-We evaluate the scheduling policies using two measures --- priority
+We evaluated the scheduling policies with two measures --- priority
 violation rate and deadline miss penalty.
-The measures are two
-The target we compared with is the Earliest Deadline First (EDF)
-algorithm, an optimal solution in real-time systems.
+These measures stands for two very diverse aspect of measuring
+performance of scheduling policies.
+We will introduce them later respectively.
+The target we compared with is the Earliest Deadline
+First (EDF) algorithm, an optimal scheduling policy in real-time systems
+under preemptive uni-processors.
 
 \subsubsection{Priority Violation Rate}
 
@@ -151,8 +154,7 @@ starve.
 High priority ones are expected to always gain more resource than low
 priority ones.
 In public clusters, a cluster management system may resource to low
-priority jobs rather than high ones due to different reasons such as
-fairness or resource utilization.
+priority jobs rather than high ones due to different reasons such as fairness or resource utilization.
 However, in enterprise clusters, priority is a very serious constraint
 to satisfy.
 
@@ -197,9 +199,9 @@ homogeneous and heterogeneous environment settings.
 
 \subsubsection{Deadline Miss Penalty}
 
-Another aspect to measure the performance in a system that takes (soft)
-deadlines into consideration is how many jobs did not meet their
-deadlines and how long did they missed.
+Another aspect of measuring the performance of scheduling policies in a
+system that takes (soft) deadlines into consideration is how many jobs
+did not meet their deadlines and how long did they missed.
 When measuring the level of the deadline missing among submitted jobs,
 not only the number of jobs missed deadline, but also their priority
 should be considered.
@@ -260,4 +262,17 @@ allocating spare resource with EDF, the deadline based policy has 2
 magnitudes of improvement on performance compared with filling spare
 resource by priority, and the performance on the deadline miss penalty
 is quite close to EDF.
+
+\subsubsection{Trade Off between the Two Measures}
+
+In
+figure~\ref{fig:homo-violation}, \ref{fig:hetero-violation}, \ref{fig:homo-penalty}
+and \ref{fig:homo-penalty}, the policies more close to the right lay
+more emphasis on deadline constraints, while the ones more close to the
+left take priority more seriously.
+We found that there is a trend that the right hand side ones performs
+worse than left hand side ones (higher violation rate) on priority
+violation measure, but performs well on another measure.
+This somehow indicates that there is a trade off between these two
+measures.
 
