@@ -55,6 +55,7 @@ greater than the blue line, implying the systems ability to adapt to
 failure events.
 
 \section{Trace-based Simulation}
+
 We conducted a trace-based sleep simulation to demonstrate the
 efficiency of our system.
 Whenever a worker receives a task, it simply sleeps a period of time
@@ -64,7 +65,7 @@ than the number of CPUs on a single server makes extremely little impact
 to the performance.
 
 Since we could not obtain traces with deadline, we decided to use traces
-in {\em standard workload format}~\cite{cite:swf}.
+in \emph{standard workload format}~\cite{cite:swf}.
 The trace we use is the SDSC-Par96 log, containing 32135 jobs.
 This log contains a years worth of accounting records for the 416-node
 Intel Paragon located at the San Diego Supercompter Center (SDSC).
@@ -134,17 +135,85 @@ performance.
 
 \subsection{Experiment Result}
 
+We evaluate the scheduling policies using two measures --- priority
+violation rate and deadline miss penalty.
+The measures are two
 The target we compared with is the Earliest Deadline First (EDF)
 algorithm, an optimal solution in real-time systems.
+
+\subsubsection{Priority Violation Rate}
+
+In enterprise private clusters, jobs may comes in with different
+priority from different users sharing the same clusters.
+When the cluster resource is insufficient to satisfy all the jobs in the
+system, some jobs must be sacrificed and get less resource or even
+starve.
+High priority ones are expected to always gain more resource than low
+priority ones.
+In public clusters, a cluster management system may resource to low
+priority jobs rather than high ones due to different reasons such as
+fairness or resource utilization.
+However, in enterprise clusters, priority is a very serious constraint
+to satisfy.
+
+In order to show how well a scheduling policy meets priority constraint,
+we define a measure called \emph{priority violation rate}.
+It is defined as $$\frac{\textrm{\#violated jobs in the
+system}}{\textrm{\#jobs still in the system}}$$ and a violated job is a
+job $j$ which is not scheduled with any worker while there is still at
+least one job which has lower priority than $j$ but scheduled with one
+or more workers.
+Figure~\ref{fig:homo-violation} and~\ref{fig:hetero-violation} show the
+average priority violation rate during each conducted simulation of
+different scheduling policies.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/homo-violation.eps}
+  \caption{Average Priority Violation Rate under Homogeneous Environment}
+  \label{fig:homo-violation}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/hetero-violation.eps}
+  \caption{Average Priority Violation Rate under Heterogeneous Environment}
+  \label{fig:hetero-violation}
+\end{figure}
+
+As we can see, under either homogeneous or heterogeneous environment
+setting, the average violation rate of priority based policy and
+deadline-based policy with spare resource filled by priority is 0, which
+means there is no any priority violations.
+High priority jobs are always scheduled before --- at least together
+with --- low priority ones under these two policies.
+In contrast to the previous two, deadline-based with spare resource
+filled by deadline and EDF do not guarantee to always schedule high
+priority jobs before low priority ones.
+However, since EDF does not take priority into consideration, its
+average violation rate is much higher (4 times as much) than
+deadline-based with spare resource filled by deadline under both
+homogeneous and heterogeneous environment settings.
+
+\subsubsection{Deadline Miss Penalty}
+
+Another aspect to measure the performance in a system that takes (soft)
+deadlines into consideration is how many jobs did not meet their
+deadlines and how long did they missed.
+When measuring the level of the deadline missing among submitted jobs,
+not only the number of jobs missed deadline, but also their priority
+should be considered.
+Failing to meet deadlines of high priority jobs should be penalize than
+failing on low priority ones.
 We used $\sum_{j \in Jobs} P_j * M_j$ as our penalty measure, where $j$
 is a job of all submitted jobs, $P_j$ is the priority of $j$ and $M_j$
 is the deadline missed of $j$ in seconds; we define $M_j = 0$ if a $j$
 is finished before its deadline.
 This measure takes both priority and deadline into consideration.
-The lower the penalty score, the better the performance.
-
-Experiment results are shown in figure~\ref{fig:homo-exp}
-and~\ref{fig:hetero-exp}.
+The lower the penalty score, the better the performance of the
+scheduling algorithm.
+The results are shown in figure~\ref{fig:homo-penalty}
+and~\ref{fig:hetero-penalty}.
 The shown result of each scheduling policy is the average of 5 sampled
 workloads.
 All of the policies used identical sample set as input benchmark.
@@ -152,18 +221,18 @@ All of the policies used identical sample set as input benchmark.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/homo-penalty.eps}
-  \caption{Homogeneous Environment Setting}
-  \label{fig:homo-exp}
+  \caption{Deadline Miss Penalty under Homogeneous Environment}
+  \label{fig:homo-penalty}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/hetero-penalty.eps}
-  \caption{Heterogeneous Environment Setting}
-  \label{fig:hetero-exp}
+  \caption{Deadline Miss Penalty under Heterogeneous Environment}
+  \label{fig:hetero-penalty}
 \end{figure}
 
-As we can see, EDF still gives the best performance, whether applied
+As we can see, EDF gives the best performance on this, either applied
 under homogeneous or heterogeneous environment.
 Priority-based policy and deadline-based policy with spare resource
 filled by priority did not perform well --- their penalty scores are 3
@@ -189,5 +258,6 @@ attaches more importance to priority, so it slightly underperforms EDF.
 On the other hand, as we blended with the powerful EDF algorithm by
 allocating spare resource with EDF, the deadline based policy has 2
 magnitudes of improvement on performance compared with filling spare
-resource by priority, and the performance is quite close to EDF.
+resource by priority, and the performance on the deadline miss penalty
+is quite close to EDF.
 
