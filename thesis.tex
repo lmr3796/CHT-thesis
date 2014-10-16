@@ -1,15 +1,20 @@
 \RequirePackage{tikz} % Must add this, I just don't know why...
 \documentclass{ntuthesis}
 
+% Put required libraries into library.tex
+\input{library}
+\usepackage{pdfpages}
+
 % Using the tex-text mapping for ligatures etc.
 \defaultfontfeatures{Mapping=tex-text}
 
 % Set the default fonts
 \setmainfont{Times New Roman}
+%\setromanfont{Times New Roman}
 \setCJKmainfont{標楷體}
+\setCJKfamilyfont{kaiv}[Script=CJK,RawFeature=vertical]{標楷體}
+%\setmonofont{Courier New}
 
-% Put required libraries into library.tex
-\input{library}
 
 % Define styles
 \input{style}
@@ -22,8 +27,15 @@
 \frontmatter
 
 \makecover
+\makespine
+\cleardoublepage
+\setcounter{page}{1}
 
-\makecertification
+%\makecertification
+\hspace{-4em}
+\includegraphics[]{figures/defense-pass.pdf}
+
+
 
 \input{acknowledgements}
 \input{abstract}
