@@ -26,8 +26,19 @@
 
 % Required packages
 \RequirePackage[top=3cm,left=3cm,bottom=2cm,right=3cm]{geometry}
+\RequirePackage{fontspec}
 \RequirePackage{xeCJK}
+\RequirePackage{CJKfntef}
 \RequirePackage{setspace}
+
+\setmainfont{Times New Roman}
+%\setromanfont{Times New Roman}
+\setCJKmainfont{標楷體}
+\setCJKfamilyfont{kaiv}[Script=CJK,RawFeature=vertical]{標楷體}
+%\setmonofont{Courier New}
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
 
 % Declarations
 \DeclareRobustCommand{\university}[2]{\gdef\@universityen{#1}\gdef\@universityzh{#2}}
@@ -130,20 +141,30 @@
   \global\myCJK@filltwosides@false}
 
 
-\DeclareRobustCommand{\CJKmove}[1]{\raisebox{.35em}{#1}}
-\DeclareRobustCommand{\makespine}{
-  \noindent\rotatebox{-90}{
-    \CJKfamily{sidepagefont}
-    \begin{tabular}{m{3.5cm}m{0.1cm}m{2cm}m{0.1cm}m{10cm}m{1cm}m{2.5cm}m{0.1cm}m{1.5cm}}
-      \fontsize{8}{6}\selectfont
-      \begin{myCJKfilltwosides}{3cm}\CJKmove{\@universityzh}\end{myCJKfilltwosides}\newline
-      \begin{myCJKfilltwosides}{3cm}\CJKmove{\@institutezh}\end{myCJKfilltwosides} & &
-      \CJKmove{\@typezh\@classzh} & &
-      {\fontsize{14}{14}\selectfont\CJKmove{\@titlezh}} & &
-      {\fontsize{14}{14}\selectfont\CJKmove{\@authorzh{} 撰}} & &
-      \raisebox{-0.25em}{\rotatebox{90}{\@yearzh{}} \rotatebox{90}{\hspace{0.25em}\@monthzh{}}}
+%\DeclareRobustCommand{\CJKmove}[1]{\raisebox{.35em}{#1}}
+  \def\CJKmovesymbol#1{\raise.35em\hbox{#1}}
+  \def\CJKmove{\let\CJKsymbol\CJKmovesymbol\let\CJKpunctsymbol\CJKsymbol}
+\DeclareRobustCommand{\makespine}{{
+	\fontsize{12}{12}\selectfont
+	\noindent\rotatebox{-90}{
+		\CJKfamily{kaiv}
+		\begin{tabular}{m{5cm}m{0.1cm}m{2cm}m{0.1cm}m{10cm}m{1cm}m{2.5cm}m{0.1cm}m{1.5cm}}
+		      \fontsize{12}{12}\selectfont
+		      \raisebox{-0.1em}{
+		      \begin{myCJKfilltwosides}{3cm}
+			      \makebox[4.7cm][s]{\CJKmove{\@universityzh}}\\
+			      \makebox[4.7cm][s]{\CJKmove{\@institutezh}}
+	      \end{myCJKfilltwosides}} &
+		      &
+		      \CJKmove{\@typezh\@classzh} &
+		      &
+		      {\fontsize{14}{14}\selectfont\CJKmove{\@titlezh{}}} & &
+		      {\fontsize{14}{14}\selectfont\CJKmove{\@authorzh{$\;\;$} 撰}} & &
+		      \raisebox{-0.25em}{\rotatebox{90}{\@yearzh{}} \rotatebox{90}{\hspace{0.5em}\@monthzh{}}}
     \end{tabular}}
-}
+    \thispagestyle{empty}
+    \newpage
+}}
 
 \DeclareRobustCommand{\makecertification}{
   \if@openright\cleardoublepage\else\clearpage\fi
