@@ -6,4 +6,4 @@ figures: $(EPS_FIGURES)
 $(EPS_FIGURES): %.eps: %.dat
 	./plot-$(<:.dat=).gpi
 clean:
-	\rm $(EPS_FIGURES)
+	\rm -f $(EPS_FIGURES)
